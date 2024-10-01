@@ -1,0 +1,14 @@
+# Ignore target folder (Spring Boot)
+/back/target/
+
+# Ignore Maven wrapper binaries
+/back/.mvn/wrapper/maven-wrapper.jar
+
+# Ignore node_modules and dist folders (Angular)
+/web/node_modules/
+/web/dist/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
