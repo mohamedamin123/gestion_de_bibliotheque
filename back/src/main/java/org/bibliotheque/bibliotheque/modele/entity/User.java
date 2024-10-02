@@ -1,5 +1,8 @@
 package org.bibliotheque.bibliotheque.modele.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @SuperBuilder
-//@MappedSuperclass
+@MappedSuperclass
 public abstract class User {
 
     @NotNull
@@ -28,7 +33,9 @@ public abstract class User {
     private String prenom;
 
     @Size(min = 1, max = 2, message = "Vous devez fournir entre 1 et 2 numéros de téléphone")
+    @ElementCollection
     private List<String> tel;  // Liste de numéros de téléphone
+
     @NotNull
     @Email
     private String email;
@@ -37,16 +44,17 @@ public abstract class User {
     private String mot_de_passe;
 
 
-//    @CreationTimestamp
-//    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-//    @Column(name = "updated_at")
-//    @UpdateTimestamp
+    @Column(name = "updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-//    @Column(name = "deleted_at")
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
 
 
 }
