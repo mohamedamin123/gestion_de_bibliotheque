@@ -110,13 +110,22 @@
 		</dependency>
 
 		<!--/Security-->
-
+		<!--servlet-->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.1</version> <!-- Use an appropriate version -->
 			<scope>provided</scope>
 		</dependency>
+		<!--/servlet-->
+
+		<!--email-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!--/email-->
+
 
 	</dependencies>
 

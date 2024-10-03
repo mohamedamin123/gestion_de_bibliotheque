@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/login").permitAll() // Allow login requests
                         .requestMatchers("/members/member/save").permitAll() // Allow member save requests
+                        .requestMatchers("/util/**").permitAll() // Allow member save requests
+
                         .requestMatchers("/members/member/**").hasRole("MEMBER") // Ensure role is prefixed
                         .requestMatchers("/bibliothecaires/bibliothecaire/**").hasAnyRole("MEMBER", "BIBLIOTHECAIRE") // Roles for bibliothecaires
                         .requestMatchers("/authers/auther/**").hasRole("AUTHER") // Role AUTHER for /authers/auther/**

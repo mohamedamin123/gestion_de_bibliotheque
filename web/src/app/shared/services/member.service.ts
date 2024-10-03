@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Member } from '../models/member';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
 
 
-  private apiUrl = 'http://localhost:8082/members/member'; // Remplacez par votre URL d'API
+  private apiUrl = environment.apiUrl+'members/member'; // Remplacez par votre URL d'API
 
   constructor(private http: HttpClient) { }
 
