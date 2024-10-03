@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClientModule } from './client/client.module';
 import { ConnexionModule } from './connexion/connexion.module';
-import { AdminModule } from './admin/admin.module';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-
-
+import { SharedModule } from './shared/shared.module';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http'; // Import provideHttpClient
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes), 
-
-    ClientModule,
+    RouterModule.forRoot(routes),
     ConnexionModule,
-    AdminModule
+    SharedModule,
+    HttpClientModule
+  ],
+  providers: [
   ]
 })
 export class AppModule { }

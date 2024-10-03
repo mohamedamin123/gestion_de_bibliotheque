@@ -13,7 +13,6 @@ import java.util.Optional;
 public interface LivreRepo extends JpaRepository<Livre,Integer> {
     Optional<Livre> findLivreByIdLivre(Integer id);
 
-
     List<Livre> findLivreByTitre(String titre);
 
 

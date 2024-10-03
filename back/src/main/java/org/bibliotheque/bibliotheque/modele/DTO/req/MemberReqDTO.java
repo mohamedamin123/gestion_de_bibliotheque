@@ -8,20 +8,20 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @SuperBuilder
-
 public class MemberReqDTO extends UserReqDTO {
 
-
     private Integer idMember;
-
-
     private LocalDate dateDeNaissance;
-
-
     private LocalDate dateInscription;
 
-
+    // Constructor that always sets the role to "Member"
+    public MemberReqDTO(Integer idMember, LocalDate dateDeNaissance, LocalDate dateInscription) {
+        super();
+        super.setRole("MEMBER");  // Initialize role as "Member"
+        this.idMember = idMember;
+        this.dateDeNaissance = dateDeNaissance;
+        this.dateInscription = dateInscription;
+    }
 }

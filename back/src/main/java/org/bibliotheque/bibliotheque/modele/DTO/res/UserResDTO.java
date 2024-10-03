@@ -19,7 +19,8 @@ public abstract class UserResDTO {
     private String prenom;
     private List<String> tel;  // Liste de numéros de téléphone
     private String email;
-    private String mot_de_passe;
+    private String password;
+    private Boolean statut;
 
 
 

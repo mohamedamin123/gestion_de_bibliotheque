@@ -7,6 +7,7 @@ import { RegisterModule } from './register/register.module';
 import { VerifyModule } from './verify/verify.module';
 import { NewPasswordModule } from './new-password/new-password.module';
 import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
     RegisterModule,
     VerifyModule,
     NewPasswordModule,
-    ForgotPasswordModule
-  ]
+    ForgotPasswordModule,
+    HttpClientModule
+  ],
 })
 export class ConnexionModule { }

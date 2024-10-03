@@ -41,7 +41,11 @@ public abstract class User {
     private String email;
     @NotNull
     @NotBlank(message = "Le mot de passe ne doit pas être vide")
-    private String mot_de_passe;
+    private String password;
+
+    private Boolean statut;
+
+    private String role;
 
 
     @CreationTimestamp

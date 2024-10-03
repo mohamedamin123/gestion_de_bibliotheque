@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @SuperBuilder
 
@@ -18,4 +19,10 @@ public class BibliothecaireReqDTO extends UserReqDTO {
     private String matricule;
 
 
+    public BibliothecaireReqDTO(Integer idBibliothecaire, String matricule) {
+        super();
+        super.setRole("BIBLIOTHECAIRE");  // Initialize role as "Member"
+        this.idBibliothecaire = idBibliothecaire;
+        this.matricule = matricule;
+    }
 }
