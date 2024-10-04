@@ -17,7 +17,10 @@ public interface MemberService {
 
     MemberResDTO update(MemberReqDTO req);
 
-    List<MemberResDTO> findAll();
+     MemberResDTO updatePassword(MemberReqDTO req);
+
+
+        List<MemberResDTO> findAll();
 
      Optional<MemberResDTO> findById(int id) ;
 
@@ -27,8 +30,11 @@ public interface MemberService {
 
     List<MemberResDTO> findByPrenomOrNom(String prenom, String nom);
 
+     boolean verifyPassword(String rawPassword, String encodedPassword) ;
 
-    void delete(MemberReqDTO req);
+
+
+        void delete(MemberReqDTO req);
 
     void deleteById(int id);
 

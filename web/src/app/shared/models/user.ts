@@ -4,19 +4,28 @@ export class User {
   private _tel: string[];
   private _email: string;
   private _password: string;
+  private _statut: boolean;
+  private _role: string;
+
 
   constructor(
     nom: string = '',
     prenom: string = '',
     tel: string[] = [],
     email: string = '',
-    password: string = '' // Changed from 'motDePasse' to 'password'
+    password: string = '' ,
+    role: string = '' ,
+    statut: boolean = true // Changed from 'motDePasse' to 'password'
+
   ) {
     this._nom = nom;
     this._prenom = prenom;
     this._tel = tel;
     this._email = email;
     this._password = password; // Changed to 'password'
+    this._statut=statut;
+    this._role = role; // Changed to 'password'
+
   }
 
   // Getters and setters
@@ -58,5 +67,21 @@ export class User {
 
   set password(value: string) { // Changed from 'mot_de_passe' to 'password'
     this._password = value;
+  }
+
+  get role(): string {
+    return this._role;
+  }
+
+  set role(value: string) { // Changed from 'mot_de_passe' to 'password'
+    this._role = value;
+  }
+
+  get statut(): boolean {
+    return this._statut;
+  }
+
+  set statut(value: boolean) { // Changed from 'mot_de_passe' to 'password'
+    this._statut = value;
   }
 }

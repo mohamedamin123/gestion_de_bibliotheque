@@ -74,6 +74,23 @@ public class MemberServiceImpl implements MemberService
     }
 
     @Override
+    public MemberResDTO updatePassword(MemberReqDTO req) {
+        Member updated = mapper.toEntity(req);
+        Optional<Member> existingMemberOptional = this.repository.findMemberByEmail(updated.getEmail());
+
+        if (existingMemberOptional.isPresent()) {
+            Member existingMember = existingMemberOptional.get();
+            existingMember.setPassword(this.passwordEncoder.encode(req.getPassword()));
+            existingMember.setUpdatedAt(LocalDateTime.now());
+            existingMember.setDeletedAt(null);
+            existingMember.setStatut(true);
+            Member savedMember = repository.save(existingMember);
+            return mapper.toRespDTO(savedMember);
+        }
+        return null;
+    }
+
+    @Override
     public List<MemberResDTO> findAll() {
         List<Member> users = this.repository.findAll();
         return mapper.toAllRespDTO(users);
@@ -141,6 +158,9 @@ public class MemberServiceImpl implements MemberService
 
         return new UtulisateurDetail(user);
     }
-
+    @Override
+    public boolean verifyPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 
 }

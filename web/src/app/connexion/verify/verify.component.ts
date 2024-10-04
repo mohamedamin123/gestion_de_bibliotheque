@@ -15,6 +15,7 @@ export class VerifyComponent {
   member: Member | null = null;
   verificationCode: string | null = null; // Store the verification code
   codeError: string = "";
+  email: string="";
 
   // Create an object to hold the individual digits of the verification code
   code: { [key in 'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6']: string } = {
@@ -32,9 +33,15 @@ export class VerifyComponent {
     if (navigation && navigation.extras.state) {
       this.member = navigation.extras.state['member'] || null;
       this.verificationCode = navigation.extras.state['verificationCode'] || null; // Get the verification code
+      this.email = navigation.extras.state['email'] || null;
+      console.log(this.verificationCode);
+    // Check if verificationCode is missing or null after refresh
+    if (!this.verificationCode) {
+      this.router.navigate(['/login']);  // Redirect to login page
     }
-    console.log("code " + this.verificationCode); // Check if the code is retrieved
+    }
   }
+
 
   onInput(input: HTMLInputElement, field: 'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6') {
     input.value = input.value.replace(/[^0-9]/g, '');
@@ -55,34 +62,59 @@ export class VerifyComponent {
       }
     }
   }
-
   continue() {
-    const codeValue = Object.values(this.code).join('');
+    const codeValue = Object.values(this.code).join('');  // Combine the code fields into a single string
+
+    // Check if the entered code is less than 6 digits
     if (codeValue.length < 6) {
       this.codeError = "Le code doit contenir 6 chiffres";
-    } else {
-      // Verify the entered code with the code sent via email
-      if (this.verificationCode && codeValue === this.verificationCode) {
-        console.log('Verification successful, member:', this.member);
-        this.codeError = "";
+      return; // Stop further execution
+    }
 
-        if (this.member) {
-          // If verification succeeds, save the member via the member service
-          this.memberService.saveMember(this.member).subscribe({
-            next: (response) => {
-              console.log('Member registered successfully', response);
-              this.router.navigate(['/login']); // Redirect to login page or another route
-            },
-            error: (error) => {
-              console.error('Error saving member', error);
-            }
-          });
-        } else {
-          console.error('No member data available for verification');
-        }
+    // Check if verification code exists
+    if (this.verificationCode) {
+      // Case 1: Both `member` and `verificationCode` are not null
+      if (this.member && codeValue === this.verificationCode) {
+        this.codeError = ""; // Clear any previous errors
+
+        // Save the member details via the member service
+        this.memberService.saveMember(this.member).subscribe({
+          next: (response) => {
+            console.log('Membre enregistré avec succès', response);
+            this.router.navigate(['/login']);  // Redirect to login page
+          },
+          error: (error) => {
+            console.error('Erreur lors de l\'enregistrement du membre', error);
+          }
+        });
+
+      // Case 2: `member` is null but `verificationCode` is correct
+      } else if (!this.member && codeValue === this.verificationCode && this.email) {
+
+                // Save the member details via the member service
+                this.memberService.findMemberByEmail(this.email).subscribe({
+                  next: (response) => {
+                    this.router.navigate(['/nouveau_mot_de_passe'], {
+                      state: {member :response }
+                    });
+                  },
+                  error: (error) => {
+                    console.error('Erreur lors de l\'enregistrement du membre', error);
+                  }
+                });
+
+
+      // Case 3: Code mismatch or other cases
       } else {
-        this.codeError = "Le code est incorrect"; // Show error message if the code does not match
+        this.codeError = "Le code est incorrect";  // Incorrect verification code
+
       }
+
+    } else {
+      // If verificationCode is null or undefined (unexpected case)
+      this.codeError = "Code de vérification manquant";  // Handle as an error
+      console.error("Aucun code de vérification disponible pour la comparaison");
     }
   }
+
 }

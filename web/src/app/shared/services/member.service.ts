@@ -19,8 +19,28 @@ export class MemberService {
   }
 
   // Méthode pour obtenir un utilisateur par son ID
-  findMemberById(id: number): Observable<Member> {
-    return this.http.get<Member>(`${this.apiUrl}/${id}`);
+  findMemberById(member: Member): Observable<Member> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+      })
+    };
+    return this.http.get<Member>(`${this.apiUrl}/find-by-id/${member.idMember}`,httpOptions);
+  }
+
+  findMemberByEmail(email: String): Observable<Member> {
+    return this.http.get<Member>(`${this.apiUrl}/find-by-email/${email}`);
+  }
+
+  findMemberByTel(member:Member): Observable<Member> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+      })
+    };
+    return this.http.get<Member>(`${this.apiUrl}/find-by-tel/${member.tel}`,httpOptions);
   }
 
   // Méthode pour créer un nouvel utilisateur
@@ -30,13 +50,34 @@ saveMember(member: Member): Observable<Member> {
 }
 
   // Méthode pour mettre à jour un utilisateur
-  updateMember(Member: Member): Observable<Member> {
-    return this.http.put<Member>(`${this.apiUrl}/${Member.idMember}`, Member);
+  updateMember(member: Member): Observable<Member> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+      })
+    };
+    return this.http.put<Member>(`${this.apiUrl}/update`, member,httpOptions);
+  }
+
+  updateMemberPassword(member: Member): Observable<Member> {
+
+    return this.http.put<Member>(`${this.apiUrl}/update-password`, member);
   }
 
   // Méthode pour supprimer un utilisateur
-  deleteMember(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteMember(member: Member): Observable<void> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+      })
+    };
+    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${member.idMember}`,httpOptions);
+  }
+
+  login(email: string, password: string): Observable<Member> {
+    return this.http.post<Member>(`${this.apiUrl}/login`, { email, password });
   }
 }
 

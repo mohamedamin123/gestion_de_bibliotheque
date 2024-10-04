@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bibliotheque.bibliotheque.modele.DTO.req.MemberReqDTO;
 import org.bibliotheque.bibliotheque.modele.DTO.res.MemberResDTO;
+import org.bibliotheque.bibliotheque.securite.LoginViewModel;
 import org.bibliotheque.bibliotheque.service.intrf.MemberService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/members/member")
 @RequiredArgsConstructor
+
 @Slf4j
 public class MemberController {
 
@@ -38,7 +42,7 @@ public class MemberController {
         return this.service.findByEmail(email);
     }
 
-    @GetMapping(path = "/find-by-email/{tel}")
+    @GetMapping(path = "/find-by-tel/{tel}")
     public Optional<MemberResDTO> findMemberByTel(@PathVariable(name = "tel")  List<String> tel)
     {
         return this.service.findByTel(tel);
@@ -57,6 +61,24 @@ public class MemberController {
     public void updateMember(@RequestBody MemberReqDTO user)
     {
         this.service.update(user);
+    }
+
+    @PutMapping(path = "/update-password")
+
+    public void updatePasswordMember(@RequestBody MemberReqDTO user)
+    {
+        this.service.updatePassword(user);
+    }
+
+    @PostMapping("/login")
+    public MemberResDTO login(@RequestBody LoginViewModel loginRequest) {
+        Optional<MemberResDTO> userOpt = service.findByEmail(loginRequest.getEmail());
+        if (userOpt.isPresent()) {
+            MemberResDTO user = userOpt.get();
+            if (service.verifyPassword(loginRequest.getPassword(), user.getPassword()))
+                return user;
+        }
+        return null;
     }
 
 //----------------------------------------------------------------------------------------------------------------delete

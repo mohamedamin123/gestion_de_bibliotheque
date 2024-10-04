@@ -20,6 +20,8 @@ public abstract class UserResDTO {
     private List<String> tel;  // Liste de numéros de téléphone
     private String email;
     private String password;
+    private String role;
+
     private Boolean statut;
 
 

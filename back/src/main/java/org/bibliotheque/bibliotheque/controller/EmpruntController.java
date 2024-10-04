@@ -15,6 +15,7 @@ import java.util.Optional;
 @RequestMapping("/emprunts/emprunt")
 @RequiredArgsConstructor
 @Slf4j
+
 public class EmpruntController {
 
     private final EmpruntService service;

@@ -14,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/bibliothecaires/bibliothecaire")
 @RequiredArgsConstructor
 @Slf4j
+
 public class BibliothecaireController {
 
     private final BibliothecaireService service;
@@ -38,7 +39,7 @@ public class BibliothecaireController {
         return this.service.findByEmail(email);
     }
 
-    @GetMapping(path = "/find-by-email/{tel}")
+    @GetMapping(path = "/find-by-tel/{tel}")
     public Optional<BibliothecaireResDTO> findBibliothecaireByTel(@PathVariable(name = "tel")  List<String> tel)
     {
         return this.service.findByTel(tel);

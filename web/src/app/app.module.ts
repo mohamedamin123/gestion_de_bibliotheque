@@ -4,7 +4,10 @@ import { ConnexionModule } from './connexion/connexion.module';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http'; // Import provideHttpClient
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { MemberModule } from './member/member.module';
+import { AutherModule } from './auther/auther.module';
+import { BibliothecaireModule } from './bibliothecaire/bibliothecaire.module'; // Import provideHttpClient
 
 @NgModule({
   declarations: [],
@@ -13,7 +16,10 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http'; // I
     RouterModule.forRoot(routes),
     ConnexionModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    MemberModule,
+    AutherModule,
+    BibliothecaireModule,
   ],
   providers: [
   ]

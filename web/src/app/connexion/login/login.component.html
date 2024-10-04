@@ -1,6 +1,5 @@
 <div class="container">
   <section>
-
     <h2 class="text-center mb-4">Se connecter</h2>
 
     <div class="text-center mb-4 d-flex justify-content-center align-items-center">
@@ -23,8 +22,6 @@
         </div>
       </div>
 
-
-
       <!-- Password input -->
       <div class="form-outline mb-4">
         <input
@@ -41,24 +38,30 @@
         </div>
       </div>
 
+      <!-- Error message for member not found -->
+      <div *ngIf="errorMessage" class="text-danger mb-3">
+        {{ errorMessage }}
+      </div>
+
       <div class="row mb-4">
         <div class="col text-center">
-            <!-- Simple link -->
-            <a routerLink="/oublier" class="text-primary">Mot de passe oublié ?</a>
+          <a routerLink="/oublier" class="text-primary">Mot de passe oublié ?</a>
         </div>
-    </div>
+      </div>
 
       <!-- Submit button -->
       <button type="submit" class="btn btn-primary btn-block mb-4" [disabled]="loginForm.invalid">Se connecter</button>
 
       <!-- Register buttons -->
       <div class="text-center">
-        <p>Pas encore membre ? <a routerLink="/register" class="text-primary">Inscrivez-vous</a></p>
+        <p>Pas encore membre ?</p>
+        <a routerLink="/register" class="text-primary">Inscrivez-vous</a>
+        <!--
         <p>ou inscrivez-vous avec :</p>
         <button type="button" class="btn btn-google mb-4" data-mdb-button-init data-mdb-ripple-init>
           <i class="fab fa-google"></i> Connexion avec Google
         </button>
-
+        -->
       </div>
     </form>
   </section>

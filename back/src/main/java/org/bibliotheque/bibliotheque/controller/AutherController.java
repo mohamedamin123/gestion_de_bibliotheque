@@ -14,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/authers/auther")
 @RequiredArgsConstructor
 @Slf4j
+
 public class AutherController {
 
     private final AutherService service;
@@ -38,7 +39,7 @@ public class AutherController {
         return this.service.findByEmail(email);
     }
 
-    @GetMapping(path = "/find-by-email/{tel}")
+    @GetMapping(path = "/find-by-tel/{tel}")
     public Optional<AutherResDTO> findAutherByTel(@PathVariable(name = "tel")  List<String> tel)
     {
         return this.service.findByTel(tel);

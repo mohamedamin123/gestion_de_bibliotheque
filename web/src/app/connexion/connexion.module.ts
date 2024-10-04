@@ -8,6 +8,7 @@ import { VerifyModule } from './verify/verify.module';
 import { NewPasswordModule } from './new-password/new-password.module';
 import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { BloqueModule } from './bloque/bloque.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
     VerifyModule,
     NewPasswordModule,
     ForgotPasswordModule,
-    HttpClientModule
+    HttpClientModule,
+    BloqueModule
   ],
 })
 export class ConnexionModule { }
