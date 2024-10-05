@@ -12,7 +12,7 @@ export class LoginService {
   private member: Member | null = null;
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
-    // Load credentials from local storage if available
+    // Load credentials from session storage if available
     this.loadCredentials();
   }
 
@@ -21,11 +21,11 @@ export class LoginService {
     this.password = password;
     this.member = member;
 
-    // Store credentials in local storage if running in the browser
+    // Store credentials in session storage if running in the browser
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
-      localStorage.setItem('member', JSON.stringify(member));
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('password', password);
+      sessionStorage.setItem('member', JSON.stringify(member));
     }
   }
 
@@ -46,20 +46,20 @@ export class LoginService {
     this.password = null;
     this.member = null;
 
-    // Remove credentials from local storage if running in the browser
+    // Remove credentials from session storage if running in the browser
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('email');
-      localStorage.removeItem('password');
-      localStorage.removeItem('member');
+      sessionStorage.removeItem('email');
+      sessionStorage.removeItem('password');
+      sessionStorage.removeItem('member');
     }
   }
 
   private loadCredentials(): void {
-    // Only load from local storage if running in the browser
+    // Only load from session storage if running in the browser
     if (isPlatformBrowser(this.platformId)) {
-      this.email = localStorage.getItem('email');
-      this.password = localStorage.getItem('password');
-      const memberData = localStorage.getItem('member');
+      this.email = sessionStorage.getItem('email');
+      this.password = sessionStorage.getItem('password');
+      const memberData = sessionStorage.getItem('member');
       this.member = memberData ? JSON.parse(memberData) : null;
     }
   }

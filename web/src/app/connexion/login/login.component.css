@@ -1,62 +1,85 @@
-h2 {
-  margin: 10px;
+* {
+  font-family:'Times New Roman', Times, serif;
+
 }
 
 
 .login-container {
-  max-width: 400px;
+  max-width: 95%;
   margin: 50px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.input-group {
-  margin-bottom: 15px;
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #333;
+  font-family:'Times New Roman', Times, serif;
 }
 
 input {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button {
   width: 100%;
-  height: 100%;
-
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #6a5acd; /* Violet plus attrayant */
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #5a4bbd;
 }
 
 button[disabled] {
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-.error-message {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-}
-.btn-google {
-  background-color: #db4437; /* Google Red */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  width: 20%;
-  font-size: 16px;
-  padding: 10px;
+.text-primary {
+  color: #007bff;
 }
 
-.btn-google:hover {
-  background-color: #c23321; /* Darker Google Red */
+.text-primary:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.text-danger {
+  color: #e3342f;
+  font-size: 0.9rem;
+}
+
+/* Style personnalisé pour le fond en bas */
+body::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-size: cover;
+  z-index: -1;
+}
+a{
+  color: #007bff;
+  font-weight: bold;
 }

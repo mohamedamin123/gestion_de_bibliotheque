@@ -1,12 +1,11 @@
-<section class="vh gradient-custom">
-  <div class="container py-5">
+<div class="login-container">
+  <section>
     <div class="row d-flex justify-content-center align-items-center ">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card-body p-5 text-center">
-            <div class="mb-md-5 mt-md-1 pb-5">
-              <h2 class="fw-bold mb-2">Confirmer votre compte</h2>
+            <div class="">
+              <h2 class="fw-bold title">Confirmer votre compte</h2>
               <p class="text-white-50">Veuillez saisir le code qui a été envoyé dans votre email</p><br>
-              <img src="images/security.png" alt="security" width="250" height="250" >
+              <img src="images/security.png" alt="security" width="170" height="170" >
               <div class="pin-input-container mt-4">
                 <input [(ngModel)]="code.a1" type="text" class="pin-input" maxlength="1" (input)="onInput(input1, 'a1')" #input1>
                 <input [(ngModel)]="code.a2" type="text" class="pin-input" maxlength="1" (input)="onInput(input2, 'a2')" #input2>
@@ -21,16 +20,15 @@
 
               <div class="border-bottom mx-0 mt-3"></div>
               <div>
-                <p class="mt-5 mb-0">Vous n'avez pas de compte ?</p>
+                <p class="mt-2 mb-0">Vous n'avez pas de compte ?</p>
                 <a routerLink="/register" class="text-50 fw-bold">Créer un nouveau compte</a>
               </div>
               <div>
-                <p class="mt-5 mb-0">Vous avez déjà un compte ?</p>
+                <p class="mt-2 mb-0">Vous avez déjà un compte ?</p>
                 <a routerLink="/login" class="text-50 fw-bold">Se connecter</a>
               </div>
             </div>
           </div>
-      </div>
     </div>
-  </div>
 </section>
+</div>

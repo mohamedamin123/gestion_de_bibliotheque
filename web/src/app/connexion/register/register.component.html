@@ -1,65 +1,82 @@
 <div class="container">
   <section>
-    <h2 class="text-center mb-4">S'inscrire</h2>
+    <h2 class="text-center mb-3 title">S'inscrire</h2>
 
-    <div class="text-center mb-4 d-flex justify-content-center align-items-center">
+    <div class="text-center mb-3 d-flex justify-content-center align-items-center">
       <img src="images/icon.png" alt="Site Icon" width="150" height="150" />
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-      <!-- Nom input -->
-      <div class="form-outline mb-4">
-        <input
-          type="text"
-          formControlName="nom"
-          class="form-control"
-          placeholder="Entrez votre nom"
-          required
-        />
-        <div *ngIf="loginForm.get('nom')?.invalid && (loginForm.get('nom')?.touched || loginForm.get('nom')?.dirty)" class="text-danger">
-          Le nom est requis.
+      <!-- Row for Nom and Prenom inputs -->
+      <div class="row mb-4">
+        <!-- Nom input -->
+
+
+        <!-- Prenom input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="text"
+              formControlName="prenom"
+              class="form-control"
+              placeholder="Entrez votre prénom"
+              required
+            />
+            <div *ngIf="loginForm.get('prenom')?.invalid && (loginForm.get('prenom')?.touched || loginForm.get('prenom')?.dirty)" class="text-danger">
+              Le prénom est requis.
+            </div>
+          </div>
         </div>
+
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="text"
+              formControlName="nom"
+              class="form-control"
+              placeholder="Entrez votre nom"
+              required
+            />
+            <div *ngIf="loginForm.get('nom')?.invalid && (loginForm.get('nom')?.touched || loginForm.get('nom')?.dirty)" class="text-danger">
+              Le nom est requis.
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Prenom input -->
-      <div class="form-outline mb-4">
-        <input
-          type="text"
-          formControlName="prenom"
-          class="form-control"
-          placeholder="Entrez votre prénom"
-          required
-        />
-        <div *ngIf="loginForm.get('prenom')?.invalid && (loginForm.get('prenom')?.touched || loginForm.get('prenom')?.dirty)" class="text-danger">
-          Le prénom est requis.
+      <!-- Row for Telephone 1 and Telephone 2 inputs -->
+      <div class="row mb-4">
+        <!-- Telephone 1 input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="tel"
+              formControlName="telephone1"
+              class="form-control"
+              placeholder="Entrez votre téléphone 1"
+              required
+            />
+            <div *ngIf="loginForm.get('telephone1')?.invalid && (loginForm.get('telephone1')?.touched || loginForm.get('telephone1')?.dirty)" class="text-danger">
+              Le numéro de téléphone est requis (10-12 chiffres).
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Telephone 1 input -->
-      <div class="form-outline mb-4">
-        <input
-          type="tel"
-          formControlName="telephone1"
-          class="form-control"
-          placeholder="Entrez votre téléphone 1"
-          required
-        />
-        <div *ngIf="loginForm.get('telephone1')?.invalid && (loginForm.get('telephone1')?.touched || loginForm.get('telephone1')?.dirty)" class="text-danger">
-          Le numéro de téléphone est requis (10-12 chiffres).
-        </div>
-      </div>
-
-      <!-- Telephone 2 input (Optional) -->
-      <div class="form-outline mb-4">
-        <input
-          type="tel"
-          formControlName="telephone2"
-          class="form-control"
-          placeholder="Entrez votre téléphone 2 (optionnel)"
-        />
-        <div *ngIf="loginForm.get('telephone2')?.invalid && (loginForm.get('telephone2')?.touched || loginForm.get('telephone2')?.dirty)" class="text-danger">
-          Le numéro de téléphone doit contenir entre 10 et 12 chiffres.
+        <!-- Telephone 2 input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="tel"
+              formControlName="telephone2"
+              class="form-control"
+              placeholder="Entrez votre téléphone 2 (optionnel)"
+            />
+            <div *ngIf="loginForm.get('telephone2')?.invalid && (loginForm.get('telephone2')?.touched || loginForm.get('telephone2')?.dirty)" class="text-danger">
+              Le numéro de téléphone doit contenir entre 10 et 12 chiffres.
+            </div>
+          </div>
         </div>
       </div>
 
