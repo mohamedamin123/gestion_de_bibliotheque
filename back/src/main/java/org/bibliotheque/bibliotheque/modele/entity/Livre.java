@@ -3,6 +3,8 @@ package org.bibliotheque.bibliotheque.modele.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,8 +35,15 @@ public class Livre {
     private String titre;
 
     @NotNull
+    @NotBlank(message = "Le description ne doit pas être vide")
+    private String description;
+
+    @NotNull
     private int nbrPage;  // Since it's an int, no need for @NotBlank.
 
+    @Min(value = 0, message = "Le nombre d'étoiles ne peut pas être inférieur à 0")
+    @Max(value = 5, message = "Le nombre d'étoiles ne peut pas être supérieur à 5")
+    private int star;  // The rating must be between 0 and 5.
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -46,7 +55,7 @@ public class Livre {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "auther_id")  // Ensure the correct spelling if "author" was intended.
+    @Column(name = "auther_id")
     private Integer idAuther;
 
     // Relationship with Auther

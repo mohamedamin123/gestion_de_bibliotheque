@@ -20,6 +20,10 @@ public class LivreReqDTO {
 
     private int nbrPage;
 
+    private String description;
+
+    private int star;
+
     private Integer idAuther;
 
 }
