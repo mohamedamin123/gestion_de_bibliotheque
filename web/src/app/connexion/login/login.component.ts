@@ -42,7 +42,7 @@ export class LoginComponent {
       const email = this.loginForm.get('email')?.value.trim();
       const password = this.loginForm.get('password')?.value.trim();
 
-      this.memberService.login(email,password).subscribe({
+      this.loginService.login(email,password).subscribe({
         next: (response) => {
           if(response) {
             this.loginService.setCredentials(email, password, response);

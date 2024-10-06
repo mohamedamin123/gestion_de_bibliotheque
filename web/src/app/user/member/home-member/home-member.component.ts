@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { RoundPipe } from '../../round.pipe';
-import { LoginService } from '../../shared/services/login.service';
-import { EmpruntService } from '../../shared/services/emprunter.service';
-import { ReservationService } from '../../shared/services/reservation.service';
-import { Emprunt } from '../../shared/models/emprunt';
+import { RoundPipe } from '../../../round.pipe';
+import { LoginService } from '../../../shared/services/login.service';
+import { EmpruntService } from '../../../shared/services/emprunter.service';
+import { ReservationService } from '../../../shared/services/reservation.service';
+import { Emprunt } from '../../../shared/models/emprunt';
+import { HeaderComponent } from "../../header.component";
 
 @Component({
   selector: 'app-home-member',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, ReactiveFormsModule, CommonModule, FormsModule, RoundPipe],
+  imports: [RouterLink, RouterOutlet, ReactiveFormsModule, CommonModule, FormsModule, RoundPipe, HeaderComponent],
   templateUrl: './home-member.component.html',
   styleUrls: ['./home-member.component.css']
 })
@@ -24,14 +25,15 @@ export class HomeMemberComponent implements OnInit {
   filteredItems: any[] = []; // Filtered items
   loginService: LoginService;
   router: Router;
-  emprunt:EmpruntService;
-  reserver:ReservationService;
-  constructor(loginService: LoginService, router: Router,emprunt:EmpruntService,reserver:ReservationService ) {
+  emprunt: EmpruntService;
+  reserver: ReservationService;
+  
+  constructor(loginService: LoginService, router: Router, emprunt: EmpruntService, reserver: ReservationService) {
     this.loginService = loginService;
     this.router = router;
     this.name = this.loginService.name; // Set the member's name if logged in
-    this.emprunt=emprunt;
-    this.reserver=reserver;
+    this.emprunt = emprunt;
+    this.reserver = reserver;
 
     // Check if the user is authenticated, if not redirect to the login page
     if (!this.loginService.getEmail() || !this.loginService.name) {
@@ -53,7 +55,7 @@ export class HomeMemberComponent implements OnInit {
 
   items = [
     {
-      idLivre:1,
+      idLivre: 1,
       image: 'images/user.png',
       title: 'Titre 1',
       description: 'Description 1',
@@ -63,7 +65,7 @@ export class HomeMemberComponent implements OnInit {
       hidden: false
     },
     {
-      idLivre:2,
+      idLivre: 2,
       image: 'images/user.png',
       title: 'Titre 2',
       description: 'Description 2',
@@ -73,7 +75,7 @@ export class HomeMemberComponent implements OnInit {
       hidden: false
     },
     {
-      idLivre:3,
+      idLivre: 3,
       image: 'images/user.png',
       title: 'Titre 3',
       description: 'Description 3',
@@ -109,21 +111,21 @@ export class HomeMemberComponent implements OnInit {
 
   changeLivre(item: any) {
 
-    if(item.status==="disponible") {
-        console.log("emprunter");
-        const emp=new Emprunt(this.loginService.getMember()?.idMember,item.idLivre);
-        this.emprunt.saveEmprunt(emp).subscribe(
-          response => {
-            console.log("save emprunt")
-            // Redirect or show a success message
-          },
-          error => {
-            console.error('Error updating profile', error);
-            // Handle the error case
-          }
-        );
+    if (item.status === "disponible") {
+      console.log("emprunter");
+      const emp = new Emprunt(this.loginService.getMember()?.idMember, item.idLivre);
+      this.emprunt.saveEmprunt(emp).subscribe(
+        response => {
+          console.log("save emprunt")
+          // Redirect or show a success message
+        },
+        error => {
+          console.error('Error updating profile', error);
+          // Handle the error case
+        }
+      );
 
-    }else {
+    } else {
       console.log("reserve");
 
     }
@@ -142,8 +144,4 @@ export class HomeMemberComponent implements OnInit {
     }
   }
 
-  logout() {
-    this.loginService.clearCredentials();
-    this.router.navigateByUrl('/login', { replaceUrl: true }); // Replaces current state in history
-  }
 }

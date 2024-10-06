@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 
 public class BibliothecaireResDTO extends UserResDTO {
+    private Integer idBibliothecaire;
 
     private String matricule;
 

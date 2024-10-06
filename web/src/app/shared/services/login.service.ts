@@ -2,11 +2,17 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Member } from '../models/member';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+
+  private apiUrl = environment.apiUrl; // Remplacez par votre URL d'API
+
+
   private email: string | null = null;
   private password: string | null = null;
   private member: Member | null = null;
@@ -76,5 +82,9 @@ export class LoginService {
       const memberData = sessionStorage.getItem('member');
       this.member = memberData ? JSON.parse(memberData) : null;
     }
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}login`, { email, password });
   }
 }

@@ -59,7 +59,7 @@ public class AutherServiceImpl implements AutherService
             existingAuther.setNationalite(updated.getNationalite());
             existingAuther.setUpdatedAt(LocalDateTime.now());
             existingAuther.setDeletedAt(null);
-            existingAuther.setStatut(true);
+            existingAuther.setStatut(updated.getStatut());
             Auther savedAuther = repository.save(existingAuther);
             return mapper.toRespDTO(savedAuther);
         }
@@ -121,10 +121,11 @@ public class AutherServiceImpl implements AutherService
 
     @Override
     public void deleteById(int id) {
-        Auther emp = this.repository.findById(id).get();
-        emp.setDeletedAt(LocalDateTime.now());
-        emp.setStatut(false);
-        repository.save(emp);
+//        Auther emp = this.repository.findById(id).get();
+//        emp.setDeletedAt(LocalDateTime.now());
+//        emp.setStatut(false);
+//        repository.save(emp);
+        repository.deleteById(id);
     }
 
 
@@ -134,5 +135,9 @@ public class AutherServiceImpl implements AutherService
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec l'email: " + username));
 
         return new UtulisateurDetail(user);
+    }
+    @Override
+    public boolean verifyPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

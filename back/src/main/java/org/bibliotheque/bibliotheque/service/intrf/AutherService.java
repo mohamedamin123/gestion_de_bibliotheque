@@ -22,6 +22,7 @@ public interface AutherService {
     Optional<AutherResDTO> findByEmail(String email);
 
     Optional<AutherResDTO> findByTel(List<String> email);
+    boolean verifyPassword(String rawPassword, String encodedPassword) ;
 
     List<AutherResDTO> findByPrenomOrNom(String prenom, String nom);
 

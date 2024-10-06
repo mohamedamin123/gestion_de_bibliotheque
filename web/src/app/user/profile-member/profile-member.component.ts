@@ -6,6 +6,7 @@ import { Member } from '../../shared/models/member';
 import { MemberService } from '../../shared/services/member.service';
 import { LoginService } from '../../shared/services/login.service';
 import { CommonModule } from '@angular/common';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-profile-member',
@@ -13,9 +14,10 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet],
   templateUrl: './profile-member.component.html',
   styleUrls: ['./profile-member.component.css']
-})
+}) 
 export class ProfileMemberComponent implements OnInit {
   profileForm: FormGroup;
+  memberinitial: User | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -40,14 +42,14 @@ export class ProfileMemberComponent implements OnInit {
   }
   private loadMemberData() {
     // Load the member data from the service
-    const member = this.loginSerive.getMember(); // Assuming it returns a Member object
+    const memberinitial = this.loginSerive.getMember(); // Assuming it returns a Member object
     this.profileForm.patchValue({
-      nom: member?.nom,
-      prenom: member?.prenom,
-      telephone1: member?.tel[0] || '', // Assuming tel is an array
-      telephone2: member?.tel[1] || '', // Optional, handle if only one number exists
-      dateDeNaissance: member?.dateDeNaissance,
-      email: member?.email
+      nom: memberinitial?.nom,
+      prenom: memberinitial?.prenom,
+      telephone1: memberinitial?.tel[0] || '', // Assuming tel is an array
+      telephone2: memberinitial?.tel[1] || '', // Optional, handle if only one number exists
+      dateDeNaissance: memberinitial?.dateDeNaissance,
+      email: memberinitial?.email
     });
   }
 
@@ -67,19 +69,30 @@ export class ProfileMemberComponent implements OnInit {
         updatedMember.tel.push(updatedMember['telephone2']);
       }
 
+      if((this.loginSerive.getMember()?.role)=="MEMBER"){
+        this.memberService.updateMember(updatedMember).subscribe(
+          response => {
+            console.log('Profile updated successfully', response);
+            this.router.navigate(["home-member"])
+            this.loginSerive.setMember(response);
+            // Redirect or show a success message
+          },
+          error => {
+            console.error('Error updating profile', error);
+            // Handle the error case
+          }
+        );
+      } else if(this.loginSerive.getMember()?.role=="AUTHER") {
+
+
+      } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+
+      } else {
+        this.router.navigate(["login"]);
+      }
+
       // Call the service to update the member
-      this.memberService.updateMember(updatedMember).subscribe(
-        response => {
-          console.log('Profile updated successfully', response);
-          this.router.navigate(["home-member"])
-          this.loginSerive.setMember(response);
-          // Redirect or show a success message
-        },
-        error => {
-          console.error('Error updating profile', error);
-          // Handle the error case
-        }
-      );
+
     } else {
       console.log('Form is invalid', this.profileForm.errors);
     }
@@ -94,7 +107,7 @@ export class ProfileMemberComponent implements OnInit {
       }
     });
   }
-  retour(){
+  retour() {
     this.router.navigate(["home-member"])
   }
 }

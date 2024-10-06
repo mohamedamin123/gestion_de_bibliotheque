@@ -57,10 +57,10 @@ public class BibliothecaireServiceImpl implements BibliothecaireService
             existingBibliothecaire.setTel(updated.getTel());
             existingBibliothecaire.setEmail(updated.getEmail());
             existingBibliothecaire.setMatricule(updated.getMatricule());
-
+            existingBibliothecaire.setStatut(updated.getStatut());
             existingBibliothecaire.setUpdatedAt(LocalDateTime.now());
             existingBibliothecaire.setDeletedAt(null);
-            existingBibliothecaire.setStatut(true);
+
             Bibliothecaire savedBibliothecaire = repository.save(existingBibliothecaire);
             return mapper.toRespDTO(savedBibliothecaire);
         }
@@ -124,10 +124,11 @@ public class BibliothecaireServiceImpl implements BibliothecaireService
 
     @Override
     public void deleteById(int id) {
-        Bibliothecaire emp = this.repository.findById(id).get();
-        emp.setDeletedAt(LocalDateTime.now());
-        emp.setStatut(false);
-        repository.save(emp);
+//        Bibliothecaire emp = this.repository.findById(id).get();
+//        emp.setDeletedAt(LocalDateTime.now());
+//        emp.setStatut(false);
+//        repository.save(emp);
+        repository.deleteById(id);
     }
 
     @Override
@@ -137,6 +138,9 @@ public class BibliothecaireServiceImpl implements BibliothecaireService
 
         return new UtulisateurDetail(user);
     }
-
+    @Override
+    public boolean verifyPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 
 }

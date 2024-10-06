@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { MemberModule } from './member/member.module';
-import { AutherModule } from './auther/auther.module';
-import { BibliothecaireModule } from './bibliothecaire/bibliothecaire.module'; // Import provideHttpClient
+import { MemberModule } from './user/member/member.module';
+import { AutherModule } from './user/auther/auther.module';
+import { BibliothecaireModule } from './user/bibliothecaire/bibliothecaire.module'; // Import provideHttpClient
 import { RoundPipe } from './round.pipe';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,8 @@ import { RoundPipe } from './round.pipe';
     ConnexionModule,
     SharedModule,
     HttpClientModule,
-    MemberModule,
-    AutherModule,
-    BibliothecaireModule,
-    RoundPipe
+    RoundPipe,
+    UserModule,
 
   ],
   providers: [

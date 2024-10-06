@@ -1,0 +1,177 @@
+<div class="container">
+  <section>
+    <h2 class="text-center mb-3 title">Profil</h2>
+
+    <div class="text-center mb-3 d-flex justify-content-center align-items-center">
+      <img src="images/icon.png" alt="Site Icon" width="150" height="150" />
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+      <!-- Row for Nom and Prenom inputs -->
+      <div class="row mb-4">
+        <!-- Nom input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="text"
+              formControlName="nom"
+              class="form-control"
+              placeholder="Entrez votre nom"
+              required
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+            />
+            <div *ngIf="profileForm.get('nom')?.invalid && (profileForm.get('nom')?.touched || profileForm.get('nom')?.dirty)" class="text-danger">
+              Le nom est requis.
+            </div>
+          </div>
+        </div>
+
+        <!-- Prenom input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="text"
+              formControlName="prenom"
+              class="form-control"
+              placeholder="Entrez votre prénom"
+              required
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+            />
+            <div *ngIf="profileForm.get('prenom')?.invalid && (profileForm.get('prenom')?.touched || profileForm.get('prenom')?.dirty)" class="text-danger">
+              Le prénom est requis.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row for Telephone 1 and Telephone 2 inputs -->
+      <div class="row mb-4">
+        <!-- Telephone 1 input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="tel"
+              formControlName="telephone1"
+              class="form-control"
+              placeholder="Entrez votre téléphone 1"
+              required
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+            />
+            <div *ngIf="profileForm.get('telephone1')?.invalid && (profileForm.get('telephone1')?.touched || profileForm.get('telephone1')?.dirty)" class="text-danger">
+              Le numéro de téléphone est requis (8 chiffres).
+            </div>
+          </div>
+        </div>
+
+        <!-- Telephone 2 input -->
+        <div class="col-md-6">
+          <div class="form-outline">
+            <input
+              type="tel"
+              formControlName="telephone2"
+              class="form-control"
+              placeholder="Entrez votre téléphone 2 (optionnel)"
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+            />
+            <div *ngIf="profileForm.get('telephone2')?.invalid && (profileForm.get('telephone2')?.touched || profileForm.get('telephone2')?.dirty)" class="text-danger">
+              Le numéro de téléphone doit contenir entre 8 chiffres.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date de Naissance input -->
+      <div class="form-outline mb-4">
+        <input
+          type="date"
+          formControlName="dateDeNaissance"
+          class="form-control"
+          placeholder="Entrez votre date de naissance"
+          required
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+        />
+        <div *ngIf="profileForm.get('dateDeNaissance')?.invalid && (profileForm.get('dateDeNaissance')?.touched || profileForm.get('dateDeNaissance')?.dirty)" class="text-danger">
+          La date de naissance est requise.
+        </div>
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input
+          type="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="Entrez votre email"
+          required
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+        />
+        <div *ngIf="profileForm.get('email')?.invalid && (profileForm.get('email')?.touched || profileForm.get('email')?.dirty)" class="text-danger">
+          <div *ngIf="profileForm.get('email')?.errors?.['required']">L'email est requis.</div>
+          <div *ngIf="profileForm.get('email')?.errors?.['email']">Veuillez entrer une adresse e-mail valide.</div>
+        </div>
+        <div *ngIf="profileForm.controls['email'].hasError('emailExists')">
+          <span class="text-danger">L'email existe déjà</span>
+        </div>
+      </div>
+
+      <!-- Date d'inscription input (visible only if user type is not Author) -->
+      <div *ngIf="user?.role !== 'AUTHER'" class="form-outline mb-4">
+        <input
+          type="date"
+          formControlName="dateDinscription"
+          class="form-control"
+          placeholder="Entrez votre date d'inscription"
+          required
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+        />
+        <div *ngIf="profileForm.get('dateDinscription')?.invalid && (profileForm.get('dateDinscription')?.touched || profileForm.get('dateDinscription')?.dirty)" class="text-danger">
+          La date d'inscription est requise.
+        </div>
+      </div>
+
+      <!-- Nationalité input (visible only if user type is not Member) -->
+      <div *ngIf="user?.role !== 'MEMBER'" class="form-outline mb-4">
+        <input
+          type="text"
+          formControlName="nationalite"
+          class="form-control"
+          placeholder="Entrez votre nationalité"
+          required
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+
+        />
+        <div *ngIf="profileForm.get('nationalite')?.invalid && (profileForm.get('nationalite')?.touched || profileForm.get('nationalite')?.dirty)" class="text-danger">
+          La nationalité est requise.
+        </div>
+      </div>
+
+      <div class="text-center">
+        <!-- First Button -->
+        <div class="mb-2"> <!-- Add margin-bottom for spacing -->
+          <button (click)="retour()" type="button" class="btn btn-danger">Retour</button>
+        </div>
+
+        <!-- Second Button -->
+        <div class="mb-2"> <!-- Add margin-bottom for spacing -->
+          <button
+            [disabled]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+            (click)="ajouter()"
+            type="button"
+            class="btn btn-primary">
+            Ajouter
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+  </section>
+</div>

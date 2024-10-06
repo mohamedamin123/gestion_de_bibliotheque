@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 
 public class AutherResDTO extends UserResDTO {
+    private Integer idAuther;
 
     private String nationalite;
 

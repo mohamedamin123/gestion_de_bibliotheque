@@ -1,63 +1,64 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Member } from '../models/member';
 import { environment } from '../../environments/environment';
+import { Bibliothecaire } from '../models/bibliothecaire';
 import { LoginService } from './login.service';
+
 @Injectable({
   providedIn: 'root'
 })
-export class MemberService {
+export class BibliothecaireService {
 
 
-  private apiUrl = environment.apiUrl+'members/member'; // Remplacez par votre URL d'API
+  private apiUrl = environment.apiUrl+'bibliothecaires/bibliothecaire'; // Remplacez par votre URL d'API
 
   constructor(private http: HttpClient,private loginService:LoginService) { }
 
   // Méthode pour obtenir tous les utilisateurs
-  findAll(): Observable<Member[]> {
+  findAll(): Observable<Bibliothecaire[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Member[]>(`${this.apiUrl}/find-all`,httpOptions);
+    return this.http.get<Bibliothecaire[]>(`${this.apiUrl}/find-all`,httpOptions);
   }
 
   // Méthode pour obtenir un utilisateur par son ID
-  findMemberById(member: Member): Observable<Member> {
+  findBibliothecaireById(Bibliothecaire: Bibliothecaire): Observable<Bibliothecaire> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Member>(`${this.apiUrl}/find-by-id/${member.idMember}`,httpOptions);
+    return this.http.get<Bibliothecaire>(`${this.apiUrl}/find-by-id/${Bibliothecaire.idBibliothecaire}`,httpOptions);
   }
 
-  findMemberByEmail(email: String): Observable<Member> {
-    return this.http.get<Member>(`${this.apiUrl}/find-by-email/${email}`);
+  findBibliothecaireByEmail(email: String): Observable<Bibliothecaire> {
+    return this.http.get<Bibliothecaire>(`${this.apiUrl}/find-by-email/${email}`);
   }
 
-  findMemberByTel(member:Member): Observable<Member> {
+  findBibliothecaireByTel(Bibliothecaire:Bibliothecaire): Observable<Bibliothecaire> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Member>(`${this.apiUrl}/find-by-tel/${member.tel}`,httpOptions);
+    return this.http.get<Bibliothecaire>(`${this.apiUrl}/find-by-tel/${Bibliothecaire.tel}`,httpOptions);
   }
 
   // Méthode pour créer un nouvel utilisateur
 // Méthode pour créer un nouvel utilisateur
-saveMember(member: Member): Observable<Member> {
-  return this.http.post<Member>(`${this.apiUrl}/save`, member);
+saveBibliothecaire(Bibliothecaire: Bibliothecaire): Observable<Bibliothecaire> {
+  return this.http.post<Bibliothecaire>(`${this.apiUrl}/save`, Bibliothecaire);
 }
 
   // Méthode pour mettre à jour un utilisateur
-  updateMember(member: Member): Observable<Member> {
+  updateBibliothecaire(Bibliothecaire: Bibliothecaire): Observable<Bibliothecaire> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -66,16 +67,16 @@ saveMember(member: Member): Observable<Member> {
     };
     console.log(this.loginService.getEmail());
     console.log(this.loginService.getPassword());
-    return this.http.put<Member>(`${this.apiUrl}/update`, member,httpOptions);
+    return this.http.put<Bibliothecaire>(`${this.apiUrl}/update`, Bibliothecaire,httpOptions);
   }
 
-  updateMemberPassword(member: Member): Observable<Member> {
+  updateBibliothecairePassword(Bibliothecaire: Bibliothecaire): Observable<Bibliothecaire> {
 
-    return this.http.put<Member>(`${this.apiUrl}/update-password`, member);
+    return this.http.put<Bibliothecaire>(`${this.apiUrl}/update-password`, Bibliothecaire);
   }
 
   // Méthode pour supprimer un utilisateur
-  deleteMember(member: Member): Observable<void> {
+  deleteBibliothecaire(Bibliothecaire: Bibliothecaire): Observable<void> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -84,9 +85,8 @@ saveMember(member: Member): Observable<Member> {
     };
 
 
-    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${member.idMember}`,httpOptions);
+    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Bibliothecaire.idBibliothecaire}`,httpOptions);
   }
-
 
 }
 

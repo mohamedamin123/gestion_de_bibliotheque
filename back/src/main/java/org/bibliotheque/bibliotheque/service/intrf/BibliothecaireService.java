@@ -21,6 +21,7 @@ public interface BibliothecaireService {
      Optional<BibliothecaireResDTO> findById(int id) ;
 
     Optional<BibliothecaireResDTO> findByEmail(String email);
+    boolean verifyPassword(String rawPassword, String encodedPassword) ;
 
     Optional<BibliothecaireResDTO> findByTel(List<String> email);
 

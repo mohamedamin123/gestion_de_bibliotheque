@@ -70,16 +70,7 @@ public class MemberController {
         this.service.updatePassword(user);
     }
 
-    @PostMapping("/login")
-    public MemberResDTO login(@RequestBody LoginViewModel loginRequest) {
-        Optional<MemberResDTO> userOpt = service.findByEmail(loginRequest.getEmail());
-        if (userOpt.isPresent()) {
-            MemberResDTO user = userOpt.get();
-            if (service.verifyPassword(loginRequest.getPassword(), user.getPassword()))
-                return user;
-        }
-        return null;
-    }
+
 
 //----------------------------------------------------------------------------------------------------------------delete
 

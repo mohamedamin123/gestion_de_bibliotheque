@@ -12,11 +12,13 @@ export class Member extends User {
     tel: string[] = [],
     email: string = '',
     motDePasse: string = '',
+    statut: boolean,
+    role:string,
     idMember?: number,
     dateDeNaissance?: Date,
     dateInscription?: Date
   ) {
-    super(nom, prenom, tel, email, motDePasse);
+    super(nom, prenom, tel, email, motDePasse,role,statut);
     this._idMember = idMember;
     this._dateDeNaissance = dateDeNaissance;
     this._dateInscription = dateInscription;

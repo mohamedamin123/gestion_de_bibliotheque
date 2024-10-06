@@ -63,10 +63,10 @@ public class MemberServiceImpl implements MemberService
             existingMember.setEmail(updated.getEmail());
             existingMember.setDateDeNaissance(updated.getDateDeNaissance());
             existingMember.setDateInscription(updated.getDateInscription());
+            existingMember.setStatut(updated.getStatut());
 
             existingMember.setUpdatedAt(LocalDateTime.now());
             existingMember.setDeletedAt(null);
-            existingMember.setStatut(true);
             Member savedMember = repository.save(existingMember);
             return mapper.toRespDTO(savedMember);
         }
@@ -145,10 +145,11 @@ public class MemberServiceImpl implements MemberService
 
     @Override
     public void deleteById(int id) {
-        Member emp = this.repository.findById(id).get();
-        emp.setDeletedAt(LocalDateTime.now());
-        emp.setStatut(false);
-        repository.save(emp);
+//        Member emp = this.repository.findById(id).get();
+//        emp.setDeletedAt(LocalDateTime.now());
+//        emp.setStatut(false);
+//        repository.save(emp);
+        repository.deleteById(id);
     }
 
     @Override
