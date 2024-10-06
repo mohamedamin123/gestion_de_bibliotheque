@@ -37,8 +37,8 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
+      const email = this.loginForm.get('email')?.value.trim();
+      const password = this.loginForm.get('password')?.value.trim();
 
       this.memberService.login(email,password).subscribe({
         next: (response) => {

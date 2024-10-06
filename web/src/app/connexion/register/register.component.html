@@ -59,7 +59,7 @@
               required
             />
             <div *ngIf="loginForm.get('telephone1')?.invalid && (loginForm.get('telephone1')?.touched || loginForm.get('telephone1')?.dirty)" class="text-danger">
-              Le numéro de téléphone est requis (10-12 chiffres).
+              Le numéro de téléphone est requis (8 chiffres).
             </div>
           </div>
         </div>
@@ -107,6 +107,10 @@
           <div *ngIf="loginForm.get('email')?.errors?.['required']">L'email est requis.</div>
           <div *ngIf="loginForm.get('email')?.errors?.['email']">Veuillez entrer une adresse e-mail valide.</div>
         </div>
+        <div *ngIf="loginForm.controls['email'].hasError('emailExists')">
+          <span class="text-danger">Email already exists</span>
+        </div>
+
       </div>
 
       <!-- Password input -->

@@ -5,16 +5,18 @@ import { MemberRoutingModule } from './member-routing.module';
 import { HomeMemberModule } from './home-member/home-member.module';
 import { ProfileMemberModule } from './profile-member/profile-member.module';
 import { ConsulterMemberModule } from './consulter-member/consulter-member.module';
+import { RoundPipe } from '../round.pipe';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     MemberRoutingModule,
     HomeMemberModule,
     ProfileMemberModule,
-    ConsulterMemberModule
+    ConsulterMemberModule,
   ]
 })
 export class MemberModule { }

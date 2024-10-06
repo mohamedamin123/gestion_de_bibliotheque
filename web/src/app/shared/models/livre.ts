@@ -1,52 +1,73 @@
 export class Livre {
-  private idLivre?: number;
-  private titre: string;
-  private nbrPage: number;
-  private idAuther?: number;
+  private _idLivre?: number;
+  private _titre: string;
+  private _nbrPage: number;
+  private _description: string;
+  private _star: number;
+  private _idAuther?: number;
 
   constructor(
-      titre: string,
-      nbrPage: number,
-      idAuther?: number,
-      idLivre?: number
+    titre: string,
+    nbrPage: number,
+    description: string,
+    star: number,
+    idAuther?: number,
+    idLivre?: number
   ) {
-      this.titre = titre;
-      this.nbrPage = nbrPage;
-      this.idAuther = idAuther;
-      this.idLivre = idLivre;
+    this._titre = titre;
+    this._nbrPage = nbrPage;
+    this._description = description;
+    this._star = star;
+    this._idAuther = idAuther;
+    this._idLivre = idLivre;
   }
 
   // Getters and Setters
-  getIdLivre(): number | undefined {
-      return this.idLivre;
+  get idLivre(): number | undefined {
+    return this._idLivre;
   }
 
-  setIdLivre(idLivre: number): void {
-      this.idLivre = idLivre;
+  set idLivre(idLivre: number) {
+    this._idLivre = idLivre;
   }
 
-  getTitre(): string {
-      return this.titre;
+  get titre(): string {
+    return this._titre;
   }
 
-  setTitre(titre: string): void {
-      this.titre = titre;
+  set titre(titre: string) {
+    this._titre = titre;
   }
 
-  getNbrPage(): number {
-      return this.nbrPage;
+  get nbrPage(): number {
+    return this._nbrPage;
   }
 
-  setNbrPage(nbrPage: number): void {
-      this.nbrPage = nbrPage;
+  set nbrPage(nbrPage: number) {
+    this._nbrPage = nbrPage;
   }
 
-
-  getIdAuther(): number | undefined {
-      return this.idAuther;
+  get description(): string {
+    return this._description;
   }
 
-  setIdAuther(idAuther: number): void {
-      this.idAuther = idAuther;
+  set description(description: string) {
+    this._description = description;
+  }
+
+  get star(): number {
+    return this._star;
+  }
+
+  set star(star: number) {
+    this._star = star;
+  }
+
+  get idAuther(): number | undefined {
+    return this._idAuther;
+  }
+
+  set idAuther(idAuther: number) {
+    this._idAuther = idAuther;
   }
 }

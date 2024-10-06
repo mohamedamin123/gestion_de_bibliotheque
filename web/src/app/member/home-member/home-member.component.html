@@ -1,1 +1,66 @@
-<p>home-member works!</p>
+<!-- Navbar -->
+<nav class="navbar navbar-expand navbar-light navBar-catagories" style="background-color: #0099ff; max-height: 120px">
+  <div class="col-auto" *ngFor="let item of categories">
+    <a class="navbar-brand categories nav-link" (click)="onClick(item)"
+      [ngClass]="{'active': selectedItem === item.name}">
+      <div class="icon-container">
+        <img [src]="item.icon" alt="" height="50px" width="50px" /><br>
+        {{ item.name }}
+      </div>
+    </a>
+  </div>
+</nav>
+
+<!-- Search input group -->
+<div class="input-group">
+  <div class="form-outline search" >
+    <input id="search-input" type="search" class="form-control" placeholder="Recherche" [(ngModel)]="searchQuery" (input)="filterItems()" />
+  </div>
+  <!-- Optional: You can keep the search button if needed -->
+  <!-- <button id="search-button" type="button" class="btn btn-primary searchButton">
+    <i class="fas fa-search"></i>
+  </button> -->
+</div>
+
+<!-- List of items -->
+<div class="liste">
+  <div class="livre" *ngFor="let item of filteredItems">
+    <div class="card">
+      <!-- Card content -->
+      <div class="card-content" [ngClass]="{'hidden': item.hidden}">
+        <img [src]="item.image" class="card-img-top" alt="{{ item.title }}" />
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <div class="card-text d-flex justify-content-between align-items-center">
+            <small class="text-muted">
+              Pages: {{ item.nbrPage }} |
+              Etoiles:
+              <ng-container *ngFor="let star of [].constructor(item.nbrStar | round)">
+                <i class="fas fa-star"></i>
+              </ng-container>
+              <ng-container *ngFor="let star of [].constructor(5 - (item.nbrStar | round))">
+                <i class="far fa-star"></i>
+              </ng-container>
+            </small>
+            <small class="text-muted">
+              Statut: {{ item.status }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="description" [ngClass]="{'hidden': item.hidden}">
+        {{ item.description }}
+      </p>
+
+      <!-- Toggle button -->
+      <button class="btn btn-primary" (click)="toggleDetails(item)">
+        {{ item.hidden ? 'Afficher les détails' : 'Cacher les détails' }}
+      </button>
+      <button class="btn btn-danger" (click)="changeLivre(item)">
+        {{ item.status === 'disponible' ? 'Emprunter' : 'Réserver' }}
+      </button>
+    </div>
+  </div>
+</div>

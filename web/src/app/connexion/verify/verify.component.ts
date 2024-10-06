@@ -42,26 +42,35 @@ export class VerifyComponent {
     }
   }
 
-
-  onInput(input: HTMLInputElement, field: 'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6') {
+  onInput(input: HTMLInputElement, field: 'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6', event: Event) {
+    // Allow only numeric input
     input.value = input.value.replace(/[^0-9]/g, '');
+
+    // Update the code object dynamically
+    this.code[field] = input.value;
+
+    // Move to the next field if there's input
     if (input.value) {
       const nextInput = input.nextElementSibling as HTMLInputElement;
       if (nextInput) {
-        nextInput.focus(); // Move to the next field if there's input
+        nextInput.focus();
       }
     }
-    this.code[field] = input.value; // Update the code object dynamically
   }
 
-  onBackspace(event: KeyboardEvent, input: HTMLInputElement) {
+  onKeyDown(event: KeyboardEvent, input: HTMLInputElement, field: 'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6') {
     if (event.key === 'Backspace' && !input.value) {
+      // Move to the previous field if input is empty and backspace is pressed
       const previousInput = input.previousElementSibling as HTMLInputElement;
       if (previousInput) {
-        previousInput.focus(); // Move to the previous field if backspace is pressed
+        previousInput.focus(); // Focus on the previous input field
       }
     }
   }
+
+
+
+
   continue() {
     const codeValue = Object.values(this.code).join('');  // Combine the code fields into a single string
 

@@ -5,8 +5,8 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Member } from '../../shared/models/member';
 import { MemberService } from '../../shared/services/member.service';
 import { SendEmailService } from '../../shared/services/send-email.service';
+import { Observable, map, catchError, of } from 'rxjs';
 
-// Define the structure for the email data
 export interface Email {
   to: string;
   subject?: string;
@@ -23,18 +23,17 @@ export interface Email {
 })
 export class RegisterComponent {
   loginForm: FormGroup;
-   verificationCode = this.generateCode(); // Générer le code une fois et le stocker dans une variable
+  verificationCode = this.generateCode();
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private memberService: MemberService,
-    private sendEmailService: SendEmailService // Inject the email service
+    private sendEmailService: SendEmailService
   ) {
     this.loginForm = this.fb.group({
-
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
+      nom: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-z]+$/)]],
+      prenom: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-z]+$/)]],
       telephone1: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
       telephone2: ['', Validators.pattern(/^[0-9]{8}$/)], // Optional
       dateDeNaissance: ['', Validators.required],
@@ -52,11 +51,9 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const newMember: Member = this.loginForm.value;
+      this.trimFormValues(); // Call the trim method before processing the form
 
-      // Capitalize the first letter of nom and prenom
-      newMember.nom = this.capitalizeFirstLetter(newMember.nom);
-      newMember.prenom = this.capitalizeFirstLetter(newMember.prenom);
+      const newMember: Member = this.loginForm.value;
 
       // Collect the phone numbers into an array
       newMember.tel = [];
@@ -67,56 +64,70 @@ export class RegisterComponent {
         newMember.tel.push(newMember['telephone2']);
       }
 
-      // Prepare the email object
-
       const email: Email = {
         to: newMember.email,
-        code: this.verificationCode, // Utiliser le code généré
+        code: this.verificationCode,
         subject: "Confirm your email",
-        body: "Cher utilisateur,\n Merci de vous être inscrit sur notre plateforme. Afin de valider votre compte et vous permettre de profiter de tous nos services, nous vous demandons de confirmer votre adresse e-mail en utilisant le code de confirmation suivant :\n" +
-              "\n" + this.verificationCode // Utiliser la variable de code ici
+        body: `Cher utilisateur,\n Merci de vous être inscrit sur notre plateforme. Afin de valider votre compte et vous permettre de profiter de tous nos services, nous vous demandons de confirmer votre adresse e-mail en utilisant le code de confirmation suivant :\n\n${this.verificationCode}`
       };
 
-
-      // Send the email with the verification code
-      this.sendEmailService.sendEmail(email).subscribe(
-        response => {
-          console.log('Verification email sent successfully', response);
-          // Assuming the verification code is part of the response (adjust based on your API response)
-          this.verificationCode = response.code; // Get the verification code from the response
-
-          // Clear the telephone fields in the form (optional)
-          this.loginForm.patchValue({
-            telephone1: '',
-            telephone2: ''
+      this.valideEmailExiste(email.to).subscribe((emailAvailable: boolean) => {
+        if (emailAvailable) {
+          this.router.navigate(['/verify'], {
+            state: { member: newMember, verificationCode: this.verificationCode }
           });
-
-          // Navigate to the VerifyComponent and pass the member object and the verification code as state
-
-        },
-        error => {
-          console.error('Error sending email', error);
-          // Optionally handle email sending error
+          this.sendEmailService.sendEmail(email).subscribe(
+            response => {
+              console.log('Verification email sent successfully', response);
+              this.loginForm.patchValue({
+                telephone1: '',
+                telephone2: ''
+              });
+            },
+            error => {
+              console.error('Error sending email', error);
+            }
+          );
+        } else {
+          this.loginForm.controls['email'].setErrors({ emailExists: true });
+          console.log('Email already exists');
         }
-      );
-      this.router.navigate(['/verify'], {
-        state: { member: newMember, verificationCode: this.verificationCode }
       });
     } else {
       console.log('Form is invalid', this.loginForm.errors);
-      // Optionally show an error message to the user
     }
   }
 
-  // Helper method to capitalize the first letter of a string
-  private capitalizeFirstLetter(value: string): string {
-    if (!value) return ''; // Return empty string if value is falsy
-    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+  // Method to trim whitespace from form values
+  private trimFormValues() {
+    Object.keys(this.loginForm.controls).forEach(key => {
+      const control = this.loginForm.get(key);
+      if (control && typeof control.value === 'string') {
+        control.setValue(control.value.trim());
+      }
+    });
   }
 
-  // Generate a random code between 100000 and 999999
   private generateCode(): string {
-    const code = Math.floor(Math.random() * 900000) + 100000; // Génère un nombre aléatoire entre 100000 et 999999
+    const code = Math.floor(Math.random() * 900000) + 100000; // Generates a random number between 100000 and 999999
     return code.toString();
+  }
+
+  private valideEmailExiste(email: string): Observable<boolean> {
+    return this.memberService.findMemberByEmail(email).pipe(
+      map(response => {
+        if (response) {
+          console.log('Email already exists:', response);
+          return false;
+        } else {
+          console.log('Email is available:', email);
+          return true;
+        }
+      }),
+      catchError(error => {
+        console.error('Error occurred while checking email:', error);
+        return of(false); // Return false in case of an error
+      })
+    );
   }
 }

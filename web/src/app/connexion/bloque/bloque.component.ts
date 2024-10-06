@@ -25,6 +25,9 @@ export class BloqueComponent {
   )
   {
     this.userCourant=loginService.getMember();
+    if(this.userCourant?.statut==true)
+      this.router.navigate(['/login']); // Navigate to home or any other route
+
     if(this.userCourant==null )
       this.router.navigate(['/login']); // Navigate to home or any other route
 
