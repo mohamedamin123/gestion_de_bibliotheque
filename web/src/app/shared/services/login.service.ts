@@ -41,6 +41,20 @@ export class LoginService {
     return this.member;
   }
 
+  // Updated setter for member to save to storage
+  setMember(member: Member): void {
+    this.member = member;
+
+    // Store member in session storage if running in the browser
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('member', JSON.stringify(member));
+    }
+  }
+
+  get name(): string | null {
+    return this.member?.prenom + " " + this.member?.nom;
+  }
+
   clearCredentials(): void {
     this.email = null;
     this.password = null;

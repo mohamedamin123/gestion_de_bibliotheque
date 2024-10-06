@@ -1,3 +1,25 @@
+.app-name {
+  flex: 1; /* This will make it take the available space on the left */
+}
+
+.icon-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.user-name {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+
+
+
+
 
 .categories{
   margin: 17px;
@@ -11,6 +33,8 @@ a {
   color: white;
   font-style: italic;
   font-weight: bold;
+  text-decoration: none; /* Removes underline from the link */
+  
 }
 
 a:hover {

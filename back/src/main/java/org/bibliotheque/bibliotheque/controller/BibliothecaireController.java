@@ -49,15 +49,15 @@ public class BibliothecaireController {
 //------------------------------------------------------------------------------------------------------------------save
 
     @PostMapping(path = "/save")
-    public void saveBibliothecaire(@RequestBody BibliothecaireReqDTO user)
+    public BibliothecaireResDTO saveBibliothecaire(@RequestBody BibliothecaireReqDTO user)
     {
-        this.service.save(user);
+       return this.service.save(user);
     }
 
     @PutMapping(path = "/update")
-    public void updateBibliothecaire(@RequestBody BibliothecaireReqDTO user)
+    public BibliothecaireResDTO updateBibliothecaire(@RequestBody BibliothecaireReqDTO user)
     {
-        this.service.update(user);
+       return this.service.update(user);
     }
 
 //----------------------------------------------------------------------------------------------------------------delete

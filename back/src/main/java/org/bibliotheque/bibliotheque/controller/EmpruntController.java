@@ -70,15 +70,15 @@ public class EmpruntController {
 //------------------------------------------------------------------------------------------------------------------save
 
     @PostMapping(path = "/save")
-    public void saveEmprunt(@RequestBody EmpruntReqDTO user)
+    public EmpruntResDTO saveEmprunt(@RequestBody EmpruntReqDTO user)
     {
-        this.service.save(user);
+       return this.service.save(user);
     }
 
     @PutMapping(path = "/update")
-    public void updateEmprunt(@RequestBody EmpruntReqDTO user)
+    public EmpruntResDTO updateEmprunt(@RequestBody EmpruntReqDTO user)
     {
-        this.service.update(user);
+       return this.service.update(user);
     }
 
 //----------------------------------------------------------------------------------------------------------------delete

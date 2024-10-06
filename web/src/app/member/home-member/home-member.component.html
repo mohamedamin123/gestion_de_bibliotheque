@@ -1,3 +1,33 @@
+<header>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0099ffa1; max-height: 120px">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+      <!-- Left: App name -->
+      <div class="app-name">
+        <b class="navbar-brand">Gestion de bibliotheque</b>
+      </div>
+
+      <!-- Center: Icon image -->
+      <div class="icon-center">
+        <img src="images/icon.png" alt="App Icon" height="50px" width="50px">
+      </div>
+
+      <div class="user-name d-flex align-items-center">
+        <!-- User icon -->
+        <img src="images/user.png" alt="User Icon" height="30" width="30" style="margin-right: 10px;">
+        <!-- User name -->
+        <span><a routerLink="/profile-member">{{name}}</a></span>
+        <img src="images/logout.png" alt="Logout Icon" height="30" width="30" style="margin-left: 10px;" (click)="logout()">
+
+      </div>
+
+
+    </div>
+  </nav>
+</header>
+
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand navbar-light navBar-catagories" style="background-color: #0099ff; max-height: 120px">
   <div class="col-auto" *ngFor="let item of categories">

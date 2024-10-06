@@ -6,19 +6,16 @@ export class Emprunt {
   private livreId?: number;
 
   constructor(
-      dateEmprunt: Date,
-      dateRetour: Date,
       memberId?: number,
       livreId?: number,
-      idEmprunt?: number,
 
   ) {
-      this.dateEmprunt = dateEmprunt;
-      this.dateRetour = dateRetour;
+    this.dateEmprunt = new Date(); // Current date
+    // Set dateRetour to 10 days from today
+    this.dateRetour = new Date(); // Current date
+    this.dateRetour.setDate(this.dateRetour.getDate() + 10); // 10 days later
       this.memberId = memberId;
       this.livreId = livreId;
-      this.idEmprunt = idEmprunt;
-
   }
 
   // Getters and Setters

@@ -11,4 +11,9 @@ import { ProfileMemberRoutingModule } from './profile-member-routing.module';
     ProfileMemberRoutingModule
   ]
 })
-export class ProfileMemberModule { }
+export class ProfileMemberModule {
+
+
+
+
+}

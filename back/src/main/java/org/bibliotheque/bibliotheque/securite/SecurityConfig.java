@@ -1,6 +1,5 @@
 package org.bibliotheque.bibliotheque.securite;
 
-
 import lombok.RequiredArgsConstructor;
 import org.bibliotheque.bibliotheque.service.impl.AutherServiceImpl;
 import org.bibliotheque.bibliotheque.service.impl.BibliothecaireServiceImpl;
@@ -13,7 +12,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource; // Keep this import for CORS configuration
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -37,45 +38,53 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/login").permitAll() // Allow login requests
-                        .requestMatchers("/members/member/save").permitAll() // Allow member save requests
-                        .requestMatchers("/members/member/find-by-email/**").permitAll() // Allow member save requests
-                        .requestMatchers("/members/member/update-password").permitAll() // Allow member save requests
-                        .requestMatchers("/members/member/login").permitAll() // Allow member save requests
-
-
-                        .requestMatchers("/util/**").permitAll() // Allow member save requests
-
-                        .requestMatchers("/members/member/**").hasRole("MEMBER") // Ensure role is prefixed
-                        .requestMatchers("/bibliothecaires/bibliothecaire/**").hasAnyRole("MEMBER", "BIBLIOTHECAIRE") // Roles for bibliothecaires
-                        .requestMatchers("/authers/auther/**").hasRole("AUTHER") // Role AUTHER for /authers/auther/**
-                        .anyRequest().authenticated() // Require authentication for all other requests
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers("/members/member/save").permitAll()
+                        .requestMatchers("/members/member/find-by-email/**").permitAll()
+                        .requestMatchers("/members/member/update-password").permitAll()
+                        .requestMatchers("/members/member/login").permitAll()
+                        .requestMatchers("/util/**").permitAll()
+                        .requestMatchers("/members/member/**").hasRole("MEMBER")
+                        .requestMatchers("/bibliothecaires/bibliothecaire/**").hasAnyRole("MEMBER", "BIBLIOTHECAIRE")
+                        .requestMatchers("/authers/auther/**").hasRole("AUTHER")
+                        .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults()) // Use HTTP Basic Authentication
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF protection for REST API
+                .httpBasic(withDefaults())
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for demonstration
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless sessions
-                );
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())); // Configure CORS
 
         return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedOriginPattern("*"); // Allow all origins (update this for production)
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
             System.out.println("Attempting to load user: " + username);
-
             UserDetails user = null;
 
             try {
                 user = autherService.loadUserByUsername(username);
                 if (user != null) {
-
                     return user;
                 }
             } catch (Exception e) {
-
+                // Handle exception if necessary
             }
 
             try {
@@ -84,12 +93,12 @@ public class SecurityConfig {
                     return user;
                 }
             } catch (Exception e) {
+                // Handle exception if necessary
             }
 
             try {
                 user = memberService.loadUserByUsername(username);
                 if (user != null) {
-
                     return user;
                 }
             } catch (Exception e) {
@@ -100,8 +109,6 @@ public class SecurityConfig {
             throw new UsernameNotFoundException("User not found");
         };
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

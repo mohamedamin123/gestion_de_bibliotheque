@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Member } from '../models/member';
 import { environment } from '../../environments/environment';
+import { LoginService } from './login.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,11 +12,17 @@ export class MemberService {
 
   private apiUrl = environment.apiUrl+'members/member'; // Remplacez par votre URL d'API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private loginService:LoginService) { }
 
   // Méthode pour obtenir tous les utilisateurs
   findMembers(): Observable<Member[]> {
-    return this.http.get<Member[]>(this.apiUrl);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
+      })
+    };
+    return this.http.get<Member[]>(this.apiUrl,httpOptions);
   }
 
   // Méthode pour obtenir un utilisateur par son ID
@@ -23,7 +30,7 @@ export class MemberService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+        'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
     return this.http.get<Member>(`${this.apiUrl}/find-by-id/${member.idMember}`,httpOptions);
@@ -37,7 +44,7 @@ export class MemberService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+        'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
     return this.http.get<Member>(`${this.apiUrl}/find-by-tel/${member.tel}`,httpOptions);
@@ -54,9 +61,11 @@ saveMember(member: Member): Observable<Member> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+        'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
+    console.log(this.loginService.getEmail());
+    console.log(this.loginService.getPassword());
     return this.http.put<Member>(`${this.apiUrl}/update`, member,httpOptions);
   }
 
@@ -70,9 +79,11 @@ saveMember(member: Member): Observable<Member> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(member.email+ ':' + member.password)
+        'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
+
+
     return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${member.idMember}`,httpOptions);
   }
 

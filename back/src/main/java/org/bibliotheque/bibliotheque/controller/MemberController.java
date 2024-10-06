@@ -52,15 +52,15 @@ public class MemberController {
 //------------------------------------------------------------------------------------------------------------------save
 
     @PostMapping(path = "/save")
-    public void saveMember(@RequestBody MemberReqDTO user)
+    public MemberResDTO saveMember(@RequestBody MemberReqDTO user)
     {
-        this.service.save(user);
+        return this.service.save(user);
     }
 
     @PutMapping(path = "/update")
-    public void updateMember(@RequestBody MemberReqDTO user)
+    public MemberResDTO updateMember(@RequestBody MemberReqDTO user)
     {
-        this.service.update(user);
+       return this.service.update(user);
     }
 
     @PutMapping(path = "/update-password")

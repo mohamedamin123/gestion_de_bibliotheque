@@ -8,13 +8,10 @@ export class Reservation {
       dateReservation: Date,
       memberId?: number,
       livreId?: number,
-      idReservation?: number,
-
   ) {
       this.dateReservation = dateReservation;
       this.memberId = memberId;
       this.livreId = livreId;
-      this.idReservation = idReservation;
   }
 
   // Getters and Setters

@@ -22,6 +22,8 @@ export class LoginComponent {
     private loginService: LoginService,
     private memberService: MemberService
   ) {
+    this.loginService.clearCredentials();
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
