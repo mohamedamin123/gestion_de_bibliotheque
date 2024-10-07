@@ -3,10 +3,7 @@ package org.bibliotheque.bibliotheque.modele.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,6 +33,10 @@ public abstract class User {
     @Size(min = 1, max = 2, message = "Vous devez fournir entre 1 et 2 numéros de téléphone")
     @ElementCollection
     private List<String> tel;  // Liste de numéros de téléphone
+
+    @Past(message = "La date de naissance doit être dans le passé")
+    @Column(name = "date_de_naissance")
+    private LocalDate dateDeNaissance;
 
     @NotNull
     @Email

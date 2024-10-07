@@ -6,6 +6,7 @@ export class User {
   private _password: string;
   private _statut: boolean;
   private _role: string;
+  private _dateDeNaissance?: Date;
 
 
   constructor(
@@ -15,6 +16,8 @@ export class User {
     email: string = '',
     password: string = '' ,
     role: string = '' ,
+    dateDeNaissance?: Date,
+
     statut: boolean = true // Changed from 'motDePasse' to 'password'
 
   ) {
@@ -25,6 +28,8 @@ export class User {
     this._password = password; // Changed to 'password'
     this._statut=statut;
     this._role = role; // Changed to 'password'
+    this._dateDeNaissance = dateDeNaissance;
+
 
   }
 
@@ -83,5 +88,12 @@ export class User {
 
   set statut(value: boolean) { // Changed from 'mot_de_passe' to 'password'
     this._statut = value;
+  }
+  get dateDeNaissance(): Date | undefined {
+    return this._dateDeNaissance;
+  }
+
+  set dateDeNaissance(value: Date | undefined) {
+    this._dateDeNaissance = value;
   }
 }

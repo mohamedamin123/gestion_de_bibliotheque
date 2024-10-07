@@ -59,6 +59,8 @@ public class AutherServiceImpl implements AutherService
             existingAuther.setNationalite(updated.getNationalite());
             existingAuther.setUpdatedAt(LocalDateTime.now());
             existingAuther.setDeletedAt(null);
+            existingAuther.setDateDeNaissance(updated.getDateDeNaissance());
+
             existingAuther.setStatut(updated.getStatut());
             Auther savedAuther = repository.save(existingAuther);
             return mapper.toRespDTO(savedAuther);

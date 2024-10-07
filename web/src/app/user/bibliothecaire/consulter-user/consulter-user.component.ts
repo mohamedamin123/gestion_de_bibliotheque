@@ -21,6 +21,7 @@ export class ConsulterUserComponent implements OnInit{
 [x: string]: any;
   user: any; // Changed variable name to 'user'
   profileForm: FormGroup;
+  userCourant:User | null=null;
   memberinitial: User | undefined;
 
   constructor(
@@ -31,11 +32,10 @@ export class ConsulterUserComponent implements OnInit{
     private loginSerive: LoginService,
 
   ) {
+    this.userCourant=this.loginSerive.getMember();
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.user = navigation.extras.state['auther'] || navigation.extras.state['member'];
-      this.readData(this.user); // Call the method to read/display the data
-
     }
 
     this.profileForm = this.fb.group({
@@ -45,15 +45,23 @@ export class ConsulterUserComponent implements OnInit{
       telephone2: ['', Validators.pattern(/^[0-9]{8}$/)], // Optional
       dateDeNaissance: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      dateDinscription: ['', Validators.required], // Add this line
+      dateDinscription: [''], // Made this field optional
       nationalite: ['', Validators.required], // Add this line
-
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('(?=.*[0-9])(?=.*[!@#$%^&*+-]).*'),
+        ],
+      ],
 
     });
   }
 
   ngOnInit() {
     this.loadMemberData();
+    console.log(this.user?.role);
   }
   private loadMemberData() {
     // Ensure member and auther are defined
@@ -75,7 +83,7 @@ export class ConsulterUserComponent implements OnInit{
             dateDinscription: this.user.dateInscription || ''
           });
         } else {
-          //disable readonly
+          //configuration de user auther
         }
         break;
 
@@ -108,15 +116,29 @@ export class ConsulterUserComponent implements OnInit{
       this.trimFormValues(); // Call the trim method before processing the form
 
       const updatedMember: Member = { ...this.profileForm.value };
+      const saveAuther: Auther = { ...this.profileForm.value };
+
 
       // Collect the phone numbers into an array
       updatedMember.tel = [];
-      if (updatedMember['telephone1']) {
-        updatedMember.tel.push(updatedMember['telephone1']);
+      saveAuther.tel = [];
+
+      if((this.loginSerive.getMember()?.role)=="MEMBER") {
+        if (updatedMember['telephone1']) {
+          updatedMember.tel.push(updatedMember['telephone1']);
+        }
+        if (updatedMember['telephone2']) {
+          updatedMember.tel.push(updatedMember['telephone2']);
+        }
+      } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+        if (saveAuther.tel[0]) {
+          saveAuther.tel.push(updatedMember['telephone1']);
+        }
+        if (saveAuther.tel[1]) {
+          saveAuther.tel.push(updatedMember['telephone2']);
+        }
       }
-      if (updatedMember['telephone2']) {
-        updatedMember.tel.push(updatedMember['telephone2']);
-      }
+
 
       if((this.loginSerive.getMember()?.role)=="MEMBER"){
         this.memberService.updateMember(updatedMember).subscribe(
@@ -135,6 +157,17 @@ export class ConsulterUserComponent implements OnInit{
 
 
       } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+        this.autherService.saveAuther(saveAuther).subscribe(
+          response => {
+            console.log('Profile updated successfully', response);
+            this.router.navigate(["liste-auther"])
+            // Redirect or show a success message
+          },
+          error => {
+            console.error('Error updating profile', error);
+            // Handle the error case
+          }
+        );
 
       } else {
         this.router.navigate(["login"]);
@@ -160,18 +193,52 @@ export class ConsulterUserComponent implements OnInit{
     // Implement logic to display the user's data
     console.log("user : "+user.nom);
   }
-
   retour() {
-    if(this.user.role="MEMBER")
-      this.router.navigate(["liste-member"])
-    else if(this.user.role="AUTHER")
-      this.router.navigate(["liste-auther"])
+    if (this.user && this.user.role) {
+      if (this.user.role === "MEMBER") {
+        this.router.navigate(["liste-member"]);
+      } else if (this.user.role === "AUTHER") {
+        this.router.navigate(["liste-auther"]);
+      }
+    } else if(this.userCourant?.role=="BIBLIOTHECAIRE"){
+      this.router.navigate(["liste-auther"]);
 
+    } else {
+      console.error('Utilisateur non défini ou rôle non trouvé.');
+      // Vous pouvez rediriger vers une page par défaut ou afficher un message d'erreur
+      this.router.navigate(["login"]);
+    }
   }
 
   ajouter() {
-    
+    if (this.profileForm.valid || this.profileForm.get('dateDinscription')?.value === '') { // Check if form is valid or dateDinscription is empty
+      const newAuther: Auther = { ...this.profileForm.value };
+      newAuther.tel = [];
+      const telephone1 = this.profileForm.get('telephone1')?.value;
+      const telephone2 = this.profileForm.get('telephone2')?.value;
+
+      if (telephone1) {
+        newAuther.tel.push(telephone1);
+      }
+      if (telephone2) {
+        newAuther.tel.push(telephone2);
+      }
+
+      this.autherService.saveAuther(newAuther).subscribe(
+        response => {
+          console.log('Auteur ajouté avec succès', response);
+          this.router.navigate(["liste-auther"]);
+        },
+        error => {
+          console.error('Erreur lors de l\'ajout de l\'auteur', error);
+        }
+      );
+    } else {
+      console.log('Formulaire invalide', this.profileForm.errors);
+    }
   }
+
+
 
 
 }

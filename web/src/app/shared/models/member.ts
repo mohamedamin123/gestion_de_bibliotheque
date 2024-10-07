@@ -3,7 +3,6 @@ import { User } from './user';
 export class Member extends User {
   [x: string]: any;
   private _idMember?: number;
-  private _dateDeNaissance?: Date;
   private _dateInscription?: Date;
 
   constructor(
@@ -18,9 +17,8 @@ export class Member extends User {
     dateDeNaissance?: Date,
     dateInscription?: Date
   ) {
-    super(nom, prenom, tel, email, motDePasse,role,statut);
+    super(nom, prenom, tel, email, motDePasse,role,dateDeNaissance,statut);
     this._idMember = idMember;
-    this._dateDeNaissance = dateDeNaissance;
     this._dateInscription = dateInscription;
   }
 
@@ -33,13 +31,7 @@ export class Member extends User {
     this._idMember = value;
   }
 
-  get dateDeNaissance(): Date | undefined {
-    return this._dateDeNaissance;
-  }
 
-  set dateDeNaissance(value: Date | undefined) {
-    this._dateDeNaissance = value;
-  }
 
   get dateInscription(): Date | undefined {
     return this._dateInscription;

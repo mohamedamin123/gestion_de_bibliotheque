@@ -1,0 +1,201 @@
+
+
+
+
+
+.categories{
+  margin: 17px;
+  padding-top: 0px;
+}
+
+.navBar-catagories{
+  background-color: rgb(246, 246, 246);
+}
+a {
+  color: white;
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: none; /* Removes underline from the link */
+
+}
+
+a:hover {
+  color: greenyellow;
+}
+
+a:active,
+a.active {
+  color: red;
+}
+
+
+.icon-container {
+  align-items: center;            /* Centre les éléments horizontalement */
+  text-align: center;
+}
+
+.nav-link:hover {
+  color: greenyellow; /* Change color on hover */
+}
+
+.nav-link:active,
+.nav-link.active {
+  color: red; /* Change color when active */
+}
+/* Style for the search bar */
+.input-group {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 700px; /* Adjusts the maximum width of the search bar */
+}
+
+.form-outline.search {
+  flex: 1; /* Makes the input expand to fill available space */
+  position: relative;
+}
+
+#search-input {
+  padding: 10px 20px;
+  border: 2px solid #0099ff;
+  border-radius: 30px ;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+}
+
+#search-input:focus {
+  border-color: #0077cc;
+  box-shadow: 0 0 5px rgba(0, 153, 255, 0.5);
+}
+
+#search-button {
+  padding: 10px 20px;
+  background-color: #0099ff;
+  border: 2px solid #0099ff;
+  border-radius: 0 30px 30px 0;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#search-button:hover {
+  background-color: #0077cc;
+}
+
+#search-button i {
+  font-size: 18px;
+}
+
+.icon-container img {
+  margin-bottom: 5px;
+  border-radius: 50%;
+  border: 2px solid #0099ff;
+}
+
+.searchButton {
+  transition: background-color 0.3s ease-in-out;
+}
+
+
+
+.admin-icon-container {
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center items horizontally */
+  border: 2px black solid;
+  max-width: 500px; /* Set a maximum width for each item */
+  margin: 30px; /* Reduced margin to fit 3 items */
+}
+
+
+
+
+
+.liste {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.livre {
+  flex: 1 1 calc(33.333% - 20px); /* Adjust to 3 cards per row */
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  width: 500px;
+  height: 200px;
+  object-fit:contain; /* Maintain aspect ratio */
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+}
+
+.btn {
+  background-color: #0099ff; /* Match the navbar color */
+  border: none;
+}
+
+.btn-danger {
+  background-color: red; /* Match the navbar color */
+  border: none;
+  margin-top: 10px;
+}
+
+
+
+.card-content {
+  max-height: 500px;
+  opacity: 1;
+  transform: scale(1);
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out, transform 0.5s ease-out;
+  overflow: hidden;
+}
+
+.description {
+  max-height: 0;
+  opacity: 0;
+  transform: scale(0.9); /* Effet zoom arrière */
+  transition: max-height 0.5s ease-in, opacity 0.5s ease-in, transform 0.5s ease-in;
+  overflow: hidden;
+}
+
+.hidden {
+  max-height: 0;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.description.hidden {
+  max-height: 500px;
+  opacity: 1;
+  transform: scale(1);
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out, transform 0.5s ease-out;
+}

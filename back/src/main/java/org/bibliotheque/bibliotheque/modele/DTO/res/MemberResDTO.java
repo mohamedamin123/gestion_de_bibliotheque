@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public class MemberResDTO extends UserResDTO {
 
     private Integer idMember;
-    private LocalDate dateDeNaissance;
     private LocalDate dateInscription;
 
 

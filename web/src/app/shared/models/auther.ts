@@ -10,10 +10,13 @@ export class Auther extends User {
     tel: string[] = [],
     email: string = '',
     motDePasse: string = '',
+    statut: boolean,
+    role:string,
     idAuther?: number,
+    dateDeNaissance?: Date,
     nationalite: string = ''
   ) {
-    super(nom, prenom, tel, email, motDePasse);
+    super(nom, prenom, tel, email, motDePasse,role,dateDeNaissance,statut);
     this._idAuther = idAuther;
     this._nationalite = nationalite;
   }

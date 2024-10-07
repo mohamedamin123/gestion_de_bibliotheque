@@ -7,6 +7,8 @@ import { MemberService } from '../../shared/services/member.service';
 import { LoginService } from '../../shared/services/login.service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../shared/models/user';
+import { Auther } from '../../shared/models/auther';
+import { AutherService } from '../../shared/services/auther.service';
 
 @Component({
   selector: 'app-profile-member',
@@ -14,7 +16,7 @@ import { User } from '../../shared/models/user';
   imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet],
   templateUrl: './profile-member.component.html',
   styleUrls: ['./profile-member.component.css']
-}) 
+})
 export class ProfileMemberComponent implements OnInit {
   profileForm: FormGroup;
   memberinitial: User | undefined;
@@ -23,6 +25,8 @@ export class ProfileMemberComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private memberService: MemberService,
+    private autherService: AutherService,
+
     private loginSerive: LoginService,
 
   ) {
@@ -59,15 +63,31 @@ export class ProfileMemberComponent implements OnInit {
       this.trimFormValues(); // Call the trim method before processing the form
 
       const updatedMember: Member = { ...this.profileForm.value };
+      const saveAuther: Auther = { ...this.profileForm.value };
+
+      saveAuther.statut=true;
+      updatedMember.statut=true;
+
+
 
       // Collect the phone numbers into an array
       updatedMember.tel = [];
-      if (updatedMember['telephone1']) {
-        updatedMember.tel.push(updatedMember['telephone1']);
+      saveAuther.tel = [];
+
+      if((this.loginSerive.getMember()?.role)=="MEMBER") {
+        if (updatedMember['telephone1']) {
+          updatedMember.tel.push(updatedMember['telephone1']);
+        }
+        if (updatedMember['telephone2']) {
+          updatedMember.tel.push(updatedMember['telephone2']);
+        }
+      } else if((this.loginSerive.getMember()?.role)=="AUTHER") {
+          saveAuther.tel.push(updatedMember['telephone1']);
+          saveAuther.tel.push(updatedMember['telephone2']);
+
+        saveAuther.nationalite=this.loginSerive.getMember().nationalite;
       }
-      if (updatedMember['telephone2']) {
-        updatedMember.tel.push(updatedMember['telephone2']);
-      }
+
 
       if((this.loginSerive.getMember()?.role)=="MEMBER"){
         this.memberService.updateMember(updatedMember).subscribe(
@@ -84,8 +104,21 @@ export class ProfileMemberComponent implements OnInit {
         );
       } else if(this.loginSerive.getMember()?.role=="AUTHER") {
 
+        this.autherService.updateAuther(saveAuther).subscribe(
+          response => {
+            console.log('Profile updated successfully', response);
+            this.router.navigate(["home-auther"])
+            this.loginSerive.setMember(response);
 
+            // Redirect or show a success message
+          },
+          error => {
+            console.error('Error updating profile', error);
+            // Handle the error case
+          }
+        );
       } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+
 
       } else {
         this.router.navigate(["login"]);
@@ -108,6 +141,18 @@ export class ProfileMemberComponent implements OnInit {
     });
   }
   retour() {
-    this.router.navigate(["home-member"])
+    if(this.loginSerive.getMember()?.role=="MEMBER") {
+      this.router.navigate(["home-member"])
+
+    }else if(this.loginSerive.getMember()?.role=="AUTHER") {
+      this.router.navigate(["home-auther"])
+
+    } else if(this.loginSerive.getMember()?.role=="BIBLIOTHECAIRE") {
+      this.router.navigate(["home-bibliothecaire"])
+
+    }else {
+      this.router.navigate(["login"]);
+
+    }
   }
 }

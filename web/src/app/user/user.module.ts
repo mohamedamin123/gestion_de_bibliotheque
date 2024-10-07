@@ -10,6 +10,8 @@ import { ListeMemberModule } from './bibliothecaire/liste-member/liste-member.mo
 import { ListeLivreModule } from './bibliothecaire/liste-livre/liste-livre.module';
 import { ListeAutherModule } from './bibliothecaire/liste-auther/liste-auther.module';
 import { ConsulterUserModule } from './bibliothecaire/consulter-user/consulter-user.module';
+import { HomeAdminModule } from './auther/home-admin/home-admin.module';
+import { HomeAutherModule } from './auther/home-auther/home-auther.module';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { ConsulterUserModule } from './bibliothecaire/consulter-user/consulter-u
     ListeMemberModule,
     ListeLivreModule,
     ListeAutherModule,
-    ConsulterUserModule
+    ConsulterUserModule,
+    HomeAdminModule,
+    HomeAutherModule
   ]
 })
 export class UserModule { }

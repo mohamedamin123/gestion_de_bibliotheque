@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public abstract class UserReqDTO {
     private List<String> tel;  // Liste de numéros de téléphone
     private String email;
     private String password;
+    private LocalDate dateDeNaissance;
 
     private Boolean statut;
 

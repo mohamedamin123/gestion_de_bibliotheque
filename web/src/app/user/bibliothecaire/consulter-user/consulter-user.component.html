@@ -122,7 +122,7 @@
       </div>
 
       <!-- Date d'inscription input (visible only if user type is not Author) -->
-      <div *ngIf="user?.role !== 'AUTHER'" class="form-outline mb-4">
+      <div *ngIf="user?.role === 'MEMBER'" class="form-outline mb-4">
         <input
           type="date"
           formControlName="dateDinscription"
@@ -132,9 +132,10 @@
 [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
 
         />
-        <div *ngIf="profileForm.get('dateDinscription')?.invalid && (profileForm.get('dateDinscription')?.touched || profileForm.get('dateDinscription')?.dirty)" class="text-danger">
+        <div *ngIf="(profileForm.get('dateDinscription')?.invalid && (profileForm.get('dateDinscription')?.touched || profileForm.get('dateDinscription')?.dirty))"  class="text-danger">
           La date d'inscription est requise.
         </div>
+
       </div>
 
       <!-- Nationalité input (visible only if user type is not Member) -->
@@ -152,6 +153,21 @@
           La nationalité est requise.
         </div>
       </div>
+
+      <div *ngIf="user === undefined || user === null" class="form-outline mb-4">
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="Entrez votre password"
+          required
+          [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+        />
+        <div *ngIf="profileForm.get('password')?.invalid && (profileForm.get('password')?.touched || profileForm.get('password')?.dirty)" class="text-danger">
+          Le password est requis.
+        </div>
+      </div>
+
 
       <div class="text-center">
         <!-- First Button -->

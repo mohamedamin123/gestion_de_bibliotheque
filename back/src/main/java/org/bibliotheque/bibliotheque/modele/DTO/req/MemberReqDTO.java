@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class MemberReqDTO extends UserReqDTO {
 
     private Integer idMember;
-    private LocalDate dateDeNaissance;
     private LocalDate dateInscription;
 
     // Constructor that always sets the role to "Member"
@@ -21,7 +20,6 @@ public class MemberReqDTO extends UserReqDTO {
         super();
         super.setRole("MEMBER");  // Initialize role as "Member"
         this.idMember = idMember;
-        this.dateDeNaissance = dateDeNaissance;
         this.dateInscription = dateInscription;
     }
 }

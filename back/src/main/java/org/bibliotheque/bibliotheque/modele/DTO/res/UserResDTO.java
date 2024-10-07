@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,7 +22,7 @@ public abstract class UserResDTO {
     private String email;
     private String password;
     private String role;
-
+    private LocalDate dateDeNaissance;
     private Boolean statut;
 
 

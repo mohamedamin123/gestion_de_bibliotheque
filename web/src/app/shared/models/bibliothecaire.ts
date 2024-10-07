@@ -10,10 +10,13 @@ export class Bibliothecaire extends User {
     tel: string[] = [],
     email: string = '',
     motDePasse: string = '',
+    statut: boolean,
+    role:string,
     idBibliothecaire?: number,
+    dateDeNaissance?: Date,
     matricule: string = ''
   ) {
-    super(nom, prenom, tel, email, motDePasse);
+    super(nom, prenom, tel, email, motDePasse,role,dateDeNaissance,statut);
     this._idBibliothecaire = idBibliothecaire;
     this._matricule = matricule;
   }

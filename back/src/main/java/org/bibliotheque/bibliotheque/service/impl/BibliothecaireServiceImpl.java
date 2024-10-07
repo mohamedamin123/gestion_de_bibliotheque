@@ -58,6 +58,8 @@ public class BibliothecaireServiceImpl implements BibliothecaireService
             existingBibliothecaire.setEmail(updated.getEmail());
             existingBibliothecaire.setMatricule(updated.getMatricule());
             existingBibliothecaire.setStatut(updated.getStatut());
+            existingBibliothecaire.setDateDeNaissance(updated.getDateDeNaissance());
+
             existingBibliothecaire.setUpdatedAt(LocalDateTime.now());
             existingBibliothecaire.setDeletedAt(null);
 

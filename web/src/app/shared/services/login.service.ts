@@ -15,7 +15,7 @@ export class LoginService {
 
   private email: string | null = null;
   private password: string | null = null;
-  private member: Member | null = null;
+  private member: any | null = null;
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
     // Load credentials from session storage if available
@@ -43,12 +43,12 @@ export class LoginService {
     return this.password;
   }
 
-  getMember(): Member | null {
+  getMember(): any | null {
     return this.member;
   }
 
   // Updated setter for member to save to storage
-  setMember(member: Member): void {
+  setMember(member: any): void {
     this.member = member;
 
     // Store member in session storage if running in the browser

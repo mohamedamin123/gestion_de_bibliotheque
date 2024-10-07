@@ -55,7 +55,13 @@ export class AutherService {
   // Méthode pour créer un nouvel utilisateur
 // Méthode pour créer un nouvel utilisateur
 saveAuther(Auther: Auther): Observable<Auther> {
-  return this.http.post<Auther>(`${this.apiUrl}/save`, Auther);
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
+    })
+  };
+  return this.http.post<Auther>(`${this.apiUrl}/save`, Auther,httpOptions);
 }
 
   // Méthode pour mettre à jour un utilisateur

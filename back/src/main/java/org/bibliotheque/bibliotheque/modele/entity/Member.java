@@ -25,9 +25,7 @@ public class Member extends User {
     @Column(name = "id_member")
     private Integer idMember;
 
-    @Past(message = "La date de naissance doit être dans le passé")
-    @Column(name = "date_de_naissance")
-    private LocalDate dateDeNaissance;
+
 
     @CreationTimestamp
     @Column(name = "date_inscription", updatable = false)

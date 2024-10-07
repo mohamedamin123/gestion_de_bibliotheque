@@ -12,6 +12,7 @@ import { ListeMemberComponent } from './user/bibliothecaire/liste-member/liste-m
 import { ListeLivreComponent } from './user/bibliothecaire/liste-livre/liste-livre.component';
 import { ListeAutherComponent } from './user/bibliothecaire/liste-auther/liste-auther.component';
 import { ConsulterUserComponent } from './user/bibliothecaire/consulter-user/consulter-user.component';
+import { HomeAutherComponent } from './user/auther/home-auther/home-auther.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -32,6 +33,9 @@ export const routes: Routes = [
   { path: 'liste-livre', component: ListeLivreComponent },
   { path: 'liste-auther', component: ListeAutherComponent },
   { path: 'consulter-user', component: ConsulterUserComponent },
+  //AUTHER
+  { path: 'home-auther', component: HomeAutherComponent },
+
 
 
 

@@ -143,4 +143,9 @@ etat: any;
   retour() {
     this.router.navigate(["home-bibliothecaire"])
   }
+
+  save () {
+    this.router.navigate(['consulter-user']);
+
+  }
 }

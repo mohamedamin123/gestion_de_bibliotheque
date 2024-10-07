@@ -49,15 +49,15 @@ public class AutherController {
 //------------------------------------------------------------------------------------------------------------------save
 
     @PostMapping(path = "/save")
-    public void saveAuther(@RequestBody AutherReqDTO user)
+    public AutherResDTO saveAuther(@RequestBody AutherReqDTO user)
     {
-        this.service.save(user);
+       return this.service.save(user);
     }
 
     @PutMapping(path = "/update")
-    public void updateAuther(@RequestBody AutherReqDTO user)
+    public AutherResDTO updateAuther(@RequestBody AutherReqDTO user)
     {
-        this.service.update(user);
+        return this.service.update(user);
     }
 
 //----------------------------------------------------------------------------------------------------------------delete
