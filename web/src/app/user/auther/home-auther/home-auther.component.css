@@ -19,15 +19,6 @@ a {
 
 }
 
-a:hover {
-  color: greenyellow;
-}
-
-a:active,
-a.active {
-  color: red;
-}
-
 
 .icon-container {
   align-items: center;            /* Centre les éléments horizontalement */

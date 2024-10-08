@@ -19,6 +19,7 @@ public class AutherReqDTO extends UserReqDTO {
         super.setRole("AUTHER");  // Initialize role as "Member"
         this.idAuther = idAuther;
         this.nationalite = nationalite;
+        this.setStatut(super.getStatut());
     }
 
 

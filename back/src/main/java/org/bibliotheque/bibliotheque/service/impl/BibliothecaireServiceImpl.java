@@ -48,6 +48,7 @@ public class BibliothecaireServiceImpl implements BibliothecaireService
     public BibliothecaireResDTO update(BibliothecaireReqDTO req) {
         Bibliothecaire updated = mapper.toEntity(req);
         Optional<Bibliothecaire> existingBibliothecaireOptional = this.repository.findBibliothecaireByEmail(updated.getEmail());
+        System.out.println(req.getStatut());
 
         if (existingBibliothecaireOptional.isPresent()) {
             Bibliothecaire existingBibliothecaire = existingBibliothecaireOptional.get();

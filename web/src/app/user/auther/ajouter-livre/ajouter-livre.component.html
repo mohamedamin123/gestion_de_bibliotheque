@@ -1,0 +1,37 @@
+<app-header></app-header>
+<form #livreForm="ngForm">
+  <div class="m-4">
+    <div class="form-group">
+      <label for="titre">Titre</label>
+      <input type="text" class="form-control" id="titre" placeholder="Titre" required [(ngModel)]="titre" name="titre" #titreInput="ngModel">
+      <div *ngIf="titreInput.invalid && titreInput.touched" class="text-danger">Titre is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" placeholder="Description" rows="10" cols="50" required [(ngModel)]="description" name="description" #descriptionInput="ngModel"></textarea>
+      <div *ngIf="descriptionInput.invalid && descriptionInput.touched" class="text-danger">Description is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="nombreDePages">Nombre de Pages</label>
+      <input type="number" class="form-control" id="nombreDePages" placeholder="Nombre de pages" required [(ngModel)]="nombreDePages" name="nombreDePages" #nombreDePagesInput="ngModel">
+      <div *ngIf="nombreDePagesInput.invalid && nombreDePagesInput.touched" class="text-danger">Nombre de pages is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="nomAuteur">Nom de l'Auteur</label>
+      <input type="text" class="form-control" id="nomAuteur" placeholder="Nom" [(ngModel)]="nomAuteur" name="nomAuteur" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
+      <div *ngIf="selectedImage" class="mt-2">
+        <img [src]="selectedImage" alt="Selected Image" width="100">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4" [disabled]="livreForm.invalid" (click)="ajouter()">Ajouter</button>
+  </div>
+</form>

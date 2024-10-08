@@ -4,12 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Member } from '../../../shared/models/member'; // Model
 import { MemberService } from '../../../shared/services/member.service'; // Service for API requests
-import { LoginService } from '../../../shared/services/login.service'; // Service for authentication
+import { LoginService } from '../../../shared/services/login.service';
+import { HeaderComponent } from "../../header.component"; // Service for authentication
 
 @Component({
   selector: 'app-liste-member',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet, FormsModule, HeaderComponent],
   templateUrl: './liste-member.component.html',
   styleUrl: './liste-member.component.css'
 })
@@ -96,7 +97,7 @@ export class ListeMemberComponent {
 
   consulterUser(member: Member) {
     this.router.navigate(['/consulter-user'], { state: { member } });
-    
+
 
   }
   modifierUser(member: Member) {

@@ -4,13 +4,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Auther } from '../../../shared/models/auther';
 import { LoginService } from '../../../shared/services/login.service';
-import { AutherService } from '../../../shared/services/auther.service';
 import { AsyncSubject } from 'rxjs';
+import { AutherService } from '../../../shared/services/auther.service';
+import { HeaderComponent } from "../../header.component";
 
 @Component({
   selector: 'app-liste-auther',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet, FormsModule, HeaderComponent],
   templateUrl: './liste-auther.component.html',
   styleUrl: './liste-auther.component.css'
 })

@@ -12,6 +12,10 @@ import { ListeAutherModule } from './bibliothecaire/liste-auther/liste-auther.mo
 import { ConsulterUserModule } from './bibliothecaire/consulter-user/consulter-user.module';
 import { HomeAdminModule } from './auther/home-admin/home-admin.module';
 import { HomeAutherModule } from './auther/home-auther/home-auther.module';
+import { AjouterLivreModule } from './auther/ajouter-livre/ajouter-livre.module';
+import { AccepterLivreModule } from './bibliothecaire/accepter-livre/accepter-livre.module';
+import { AdminModule } from './admin/admin.module';
+import { ListeBibliothecaireModule } from './admin/liste-bibliothecaire-/liste-bibliothecaire-.module';
 
 
 @NgModule({
@@ -28,7 +32,11 @@ import { HomeAutherModule } from './auther/home-auther/home-auther.module';
     ListeAutherModule,
     ConsulterUserModule,
     HomeAdminModule,
-    HomeAutherModule
+    HomeAutherModule,
+    AjouterLivreModule,
+    AccepterLivreModule,
+    AdminModule,
+    ListeBibliothecaireModule
   ]
 })
 export class UserModule { }

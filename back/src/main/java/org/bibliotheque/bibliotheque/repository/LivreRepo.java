@@ -15,5 +15,10 @@ public interface LivreRepo extends JpaRepository<Livre,Integer> {
 
     List<Livre> findLivreByTitre(String titre);
 
+    List<Livre> findLivreByIdAuther(Integer id);
+
+    List<Livre> findLivreByStatut(boolean statut);
+
+
 
 }

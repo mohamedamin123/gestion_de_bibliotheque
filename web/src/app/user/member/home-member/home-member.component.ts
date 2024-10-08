@@ -7,7 +7,7 @@ import { LoginService } from '../../../shared/services/login.service';
 import { EmpruntService } from '../../../shared/services/emprunter.service';
 import { ReservationService } from '../../../shared/services/reservation.service';
 import { Emprunt } from '../../../shared/models/emprunt';
-import { HeaderComponent } from "../../header.component"; 
+import { HeaderComponent } from "../../header.component";
 
 @Component({
   selector: 'app-home-member',
@@ -143,5 +143,6 @@ export class HomeMemberComponent implements OnInit {
       this.filteredItems = [...this.items]; // Show all items if search is empty
     }
   }
+  
 
 }

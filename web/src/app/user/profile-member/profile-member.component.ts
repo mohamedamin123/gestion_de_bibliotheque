@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../shared/models/user';
 import { Auther } from '../../shared/models/auther';
 import { AutherService } from '../../shared/services/auther.service';
+import { Bibliothecaire } from '../../shared/models/bibliothecaire';
+import { BibliothecaireService } from '../../shared/services/bibliothecaire.service';
 
 @Component({
   selector: 'app-profile-member',
@@ -26,6 +28,7 @@ export class ProfileMemberComponent implements OnInit {
     private router: Router,
     private memberService: MemberService,
     private autherService: AutherService,
+    private bibliothecaireService: BibliothecaireService,
 
     private loginSerive: LoginService,
 
@@ -64,15 +67,20 @@ export class ProfileMemberComponent implements OnInit {
 
       const updatedMember: Member = { ...this.profileForm.value };
       const saveAuther: Auther = { ...this.profileForm.value };
+      const saveBibliothecaire: Bibliothecaire = { ...this.profileForm.value };
+
 
       saveAuther.statut=true;
       updatedMember.statut=true;
+      saveBibliothecaire.statut=true;
+
 
 
 
       // Collect the phone numbers into an array
       updatedMember.tel = [];
       saveAuther.tel = [];
+      saveBibliothecaire.tel=[];
 
       if((this.loginSerive.getMember()?.role)=="MEMBER") {
         if (updatedMember['telephone1']) {
@@ -83,9 +91,16 @@ export class ProfileMemberComponent implements OnInit {
         }
       } else if((this.loginSerive.getMember()?.role)=="AUTHER") {
           saveAuther.tel.push(updatedMember['telephone1']);
+          if(updatedMember['telephone2'])
           saveAuther.tel.push(updatedMember['telephone2']);
 
         saveAuther.nationalite=this.loginSerive.getMember().nationalite;
+      } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+
+        saveBibliothecaire.tel.push(updatedMember['telephone1']);
+        if(updatedMember['telephone2'])
+          saveBibliothecaire.tel.push(updatedMember['telephone2']);
+        saveBibliothecaire.matricule=this.loginSerive.getMember().matricule;
       }
 
 
@@ -118,7 +133,19 @@ export class ProfileMemberComponent implements OnInit {
           }
         );
       } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+        this.bibliothecaireService.updateBibliothecaire(saveBibliothecaire).subscribe(
+          response => {
+            console.log('Profile updated successfully', response);
+            this.router.navigate(["home-bibliothecaire"])
+            this.loginSerive.setMember(response);
 
+            // Redirect or show a success message
+          },
+          error => {
+            console.error('Error updating profile', error);
+            // Handle the error case
+          }
+        );
 
       } else {
         this.router.navigate(["login"]);

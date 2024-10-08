@@ -13,6 +13,10 @@ import { ListeLivreComponent } from './user/bibliothecaire/liste-livre/liste-liv
 import { ListeAutherComponent } from './user/bibliothecaire/liste-auther/liste-auther.component';
 import { ConsulterUserComponent } from './user/bibliothecaire/consulter-user/consulter-user.component';
 import { HomeAutherComponent } from './user/auther/home-auther/home-auther.component';
+import { AjouterLivreComponent } from './user/auther/ajouter-livre/ajouter-livre.component';
+import { AccepterLivreComponent } from './user/bibliothecaire/accepter-livre/accepter-livre.component';
+import { HomeAdminComponent } from './user/admin/home-admin/home-admin.component';
+import { ListeBibliothecaireComponent } from './user/admin/liste-bibliothecaire/liste-bibliothecaire.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -35,6 +39,11 @@ export const routes: Routes = [
   { path: 'consulter-user', component: ConsulterUserComponent },
   //AUTHER
   { path: 'home-auther', component: HomeAutherComponent },
+  { path: 'ajouter-livre', component: AjouterLivreComponent },
+  { path: 'accepter-livre', component: AccepterLivreComponent },
+  //ADMIN
+  { path: 'home-admin', component: HomeAdminComponent },
+  { path: 'liste-bibliothecaire', component: ListeBibliothecaireComponent },
 
 
 

@@ -44,6 +44,15 @@ public class Livre {
     @Min(value = 0, message = "Le nombre d'étoiles ne peut pas être inférieur à 0")
     @Max(value = 5, message = "Le nombre d'étoiles ne peut pas être supérieur à 5")
     private int star;  // The rating must be between 0 and 5.
+
+    @Lob
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    @NotNull
+    private byte[] image;  // Storing image as a byte array.
+
+    private Boolean statut;
+
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -54,7 +54,13 @@ export class BibliothecaireService {
   // Méthode pour créer un nouvel utilisateur
 // Méthode pour créer un nouvel utilisateur
 saveBibliothecaire(Bibliothecaire: Bibliothecaire): Observable<Bibliothecaire> {
-  return this.http.post<Bibliothecaire>(`${this.apiUrl}/save`, Bibliothecaire);
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
+    })
+  };
+  return this.http.post<Bibliothecaire>(`${this.apiUrl}/save`, Bibliothecaire,httpOptions);
 }
 
   // Méthode pour mettre à jour un utilisateur

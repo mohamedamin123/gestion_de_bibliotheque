@@ -24,5 +24,6 @@ public class BibliothecaireReqDTO extends UserReqDTO {
         super.setRole("BIBLIOTHECAIRE");  // Initialize role as "Member"
         this.idBibliothecaire = idBibliothecaire;
         this.matricule = matricule;
+
     }
 }

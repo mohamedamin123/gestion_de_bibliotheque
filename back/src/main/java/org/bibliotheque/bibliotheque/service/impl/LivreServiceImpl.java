@@ -31,7 +31,6 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public LivreResDTO save(LivreReqDTO req) {
         Livre emp = mapper.toEntity(req);
-        //emp.setPassword(this.passwordEncoder.encode(emp.getPassword()));
         repository.save(emp);
         return mapper.toRespDTO(emp);
     }
@@ -39,16 +38,23 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public LivreResDTO update(LivreReqDTO req) {
         Livre updated = mapper.toEntity(req);
+        System.out.println("id "+req.getIdLivre());
         Optional<Livre> existingLivreOptional = this.repository.findLivreByIdLivre(updated.getIdLivre());
-
         if (existingLivreOptional.isPresent()) {
-            Livre existingLivre = existingLivreOptional.get();
 
+            Livre existingLivre = existingLivreOptional.get();
             existingLivre.setTitre(updated.getTitre());
+            existingLivre.setDescription(updated.getDescription());
             existingLivre.setNbrPage(updated.getNbrPage());
+            existingLivre.setImage(updated.getImage());
+            existingLivre.setStar(updated.getStar());
+            existingLivre.setStatut(updated.getStatut());
             existingLivre.setUpdatedAt(LocalDateTime.now());
             existingLivre.setDeletedAt(null);
+            System.out.println(existingLivre);
             Livre savedLivre = repository.save(existingLivre);
+            System.out.println(savedLivre);
+
             return mapper.toRespDTO(savedLivre);
         }
         return null;
@@ -68,7 +74,20 @@ public class LivreServiceImpl implements LivreService{
                 return Optional.of(AdminResDTO);
             } else {
                 return Optional.empty();
-            }     }
+            }
+    }
+
+    @Override
+    public List<LivreResDTO> findLivreByIdAuther(int id) {
+        List<Livre> users = this.repository.findLivreByIdAuther(id);
+        return mapper.toAllRespDTO(users);
+    }
+
+    @Override
+    public List<LivreResDTO> findLivreByStatut(boolean statut) {
+        List<Livre> users = this.repository.findLivreByStatut(statut);
+        return mapper.toAllRespDTO(users);
+    }
 
     @Override
     public List<LivreResDTO> findByTitre(String titre) {

@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="mt-2 text-center">
   <h1 class="text-align-center mt-2">liste d'auteurs</h1>
 </div>
@@ -41,7 +43,7 @@
         <td>{{ user.nationalite}}</td>
         <td (click)="consulterUser(user)"><a class="btn btn-info">Consulter</a></td>
         <td *ngIf="user.statut === false" (click)="modifierUser(user)">
-          <a class="btn btn-warning">{{ etat }}</a>
+          <a class="btn btn-warning">Activer</a>
         </td>
         <td *ngIf="user.statut === true" (click)="modifierUser(user)">
           <a class="btn btn-warning">Désactiver</a>

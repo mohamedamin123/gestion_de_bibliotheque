@@ -11,7 +11,6 @@ import { LoginService } from './login.service';
 export class AutherService {
 
 
-
   private apiUrl = environment.apiUrl+'authers/auther'; // Remplacez par votre URL d'API
 
   constructor(private http: HttpClient,private loginService:LoginService) { }
@@ -28,14 +27,14 @@ export class AutherService {
   }
 
   // Méthode pour obtenir un utilisateur par son ID
-  findAutherById(Auther: Auther): Observable<Auther> {
+  findAutherById(id: number): Observable<Auther> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Auther>(`${this.apiUrl}/find-by-id/${Auther.idAuther}`,httpOptions);
+    return this.http.get<Auther>(`${this.apiUrl}/find-by-id/${id}`,httpOptions);
   }
 
   findAutherByEmail(email: String): Observable<Auther> {

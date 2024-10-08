@@ -40,20 +40,30 @@ public class LivreController {
     }
 
 
+    @GetMapping(path = "/find-by-id-auther/{id}")
+    public List<LivreResDTO> findLivreByEmail(@PathVariable(name = "id")  int id)
+    {
+        return this.service.findLivreByIdAuther(id);
+    }
 
+    @GetMapping(path = "/find-by-statut/{statut}")
+    public List<LivreResDTO> findLivreByStatut(@PathVariable(name = "statut")  boolean statut)
+    {
+        return this.service.findLivreByStatut(statut);
+    }
 
 //------------------------------------------------------------------------------------------------------------------save
 
     @PostMapping(path = "/save")
-    public void saveLivre(@RequestBody LivreReqDTO user)
+    public LivreResDTO saveLivre(@RequestBody LivreReqDTO user)
     {
-        this.service.save(user);
+       return this.service.save(user);
     }
 
     @PutMapping(path = "/update")
-    public void updateLivre(@RequestBody LivreReqDTO user)
+    public LivreResDTO updateLivre(@RequestBody LivreReqDTO user)
     {
-        this.service.update(user);
+        return this.service.update(user);
     }
 
 //----------------------------------------------------------------------------------------------------------------delete

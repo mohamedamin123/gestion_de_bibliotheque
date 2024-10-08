@@ -3,6 +3,7 @@ package org.bibliotheque.bibliotheque.service.intrf;
 
 import org.bibliotheque.bibliotheque.modele.DTO.req.LivreReqDTO;
 import org.bibliotheque.bibliotheque.modele.DTO.res.LivreResDTO;
+import org.bibliotheque.bibliotheque.modele.entity.Livre;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,11 @@ public interface LivreService {
     List<LivreResDTO> findAll();
 
      Optional<LivreResDTO> findById(int id) ;
+    List<LivreResDTO> findLivreByIdAuther(int id) ;
+
+    List<LivreResDTO> findLivreByStatut(boolean statut);
+
+
 
     List<LivreResDTO> findByTitre(String email);
 

@@ -22,7 +22,6 @@ public abstract class UserReqDTO {
     private String email;
     private String password;
     private LocalDate dateDeNaissance;
-
     private Boolean statut;
 
     private String role;
