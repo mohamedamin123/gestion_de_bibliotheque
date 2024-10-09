@@ -7,6 +7,8 @@ export class Livre {
   private _description: string;
   private _star: number;
   private _image: string;
+  private  _etat: string | undefined;
+
   private _statut:boolean;
 
   private _idAuther?: number;
@@ -17,6 +19,7 @@ export class Livre {
     nbrPage: number,
     description: string,
     image: string,
+
     star: number,
     idAuther?: number,
     idLivre?: number,
@@ -27,11 +30,14 @@ export class Livre {
     this._nbrPage = nbrPage;
     this._description = description;
     this._image = image;
+
     this._star = star;
     this._idAuther = idAuther;
     this._idLivre = idLivre;
     this._statut=statut;
   }
+
+
 
   // Getters and Setters
   get idLivre(): number | undefined {
@@ -64,6 +70,14 @@ export class Livre {
 
   set description(description: string) {
     this._description = description;
+  }
+
+  get etat(): string | undefined{
+    return this._etat;
+  }
+
+  set etat(description: string) {
+    this._etat = description;
   }
 
   get image(): string {

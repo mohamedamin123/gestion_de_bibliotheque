@@ -1,6 +1,7 @@
 package org.bibliotheque.bibliotheque.securite;
 
 
+import org.bibliotheque.bibliotheque.modele.entity.Admin;
 import org.bibliotheque.bibliotheque.modele.entity.Auther;
 import org.bibliotheque.bibliotheque.modele.entity.Bibliothecaire;
 import org.bibliotheque.bibliotheque.modele.entity.Member;
@@ -18,12 +19,15 @@ public class UtulisateurDetail implements UserDetails {
     private final Bibliothecaire bibliothecaire;
 
     private final Member member;
+    private final Admin admin;
+
 
     // Constructeur pour Auther
     public UtulisateurDetail(Auther Auther) {
         this.auther = Auther;
         this.bibliothecaire = null;
         this.member=null;
+        this.admin=null;
     }
 
     // Constructeur pour Bibliothecaire
@@ -31,12 +35,21 @@ public class UtulisateurDetail implements UserDetails {
         this.bibliothecaire = Bibliothecaire;
         this.auther = null;
         this.member=null;
+        this.admin=null;
     }
 
     public UtulisateurDetail(Member Member) {
         this.bibliothecaire = null;
         this.auther = null;
         this.member=Member;
+        this.admin=null;
+    }
+
+    public UtulisateurDetail(Admin admin) {
+        this.bibliothecaire = null;
+        this.auther = null;
+        this.member=null;
+        this.admin=admin;
     }
 
     private String getRole() {
@@ -47,6 +60,9 @@ public class UtulisateurDetail implements UserDetails {
         }
         else if (member != null) {
             return member.getRole();
+        }
+        else if (admin != null) {
+            return admin.getRole();
         }
         return null;
     }
@@ -71,7 +87,10 @@ public class UtulisateurDetail implements UserDetails {
             return bibliothecaire.getPassword();
         } else if (member != null) {
             return member.getPassword();
+        } else if (admin != null) {
+            return admin.getPassword();
         }
+
         return null;
     }
 
@@ -84,6 +103,9 @@ public class UtulisateurDetail implements UserDetails {
         }
         else if (member != null) {
             return member.getEmail();
+        }
+        else if (admin != null) {
+            return admin.getEmail();
         }
         return null;
     }

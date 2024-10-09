@@ -47,24 +47,24 @@ export class ReservationService {
     return this.http.get<Reservation>(`${this.apiUrl}/find-by-date-Reservation/${date}`,httpOptions);
   }
 
-  findByLivreId(Reservation: Reservation): Observable<Reservation> {
+  findByLivreId(id: number): Observable<Reservation []> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Reservation>(`${this.apiUrl}/find-by-livre-id/${Reservation.getLivreId}`,httpOptions);
+    return this.http.get<Reservation []>(`${this.apiUrl}/find-by-livre-id/${id}`,httpOptions);
   }
 
-  findByMemberId(Reservation: Reservation): Observable<Reservation> {
+  findByMemberId(Reservation: Reservation): Observable<Reservation []> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Reservation>(`${this.apiUrl}/find-by-member-id/${Reservation.getMemberId}`,httpOptions);
+    return this.http.get<Reservation []>(`${this.apiUrl}/find-by-member-id/${Reservation.getMemberId}`,httpOptions);
   }
 
 

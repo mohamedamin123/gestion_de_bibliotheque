@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.bibliotheque.bibliotheque.util.enumm.Etat;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +24,9 @@ public class LivreReqDTO {
     private Boolean statut;
 
     private String description;
+
+    private Etat etat;
+
 
     private int star;
     @Lob

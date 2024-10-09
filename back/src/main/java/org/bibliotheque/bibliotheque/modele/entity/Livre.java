@@ -11,10 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.bibliotheque.bibliotheque.util.enumm.Etat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -37,6 +39,10 @@ public class Livre {
     @NotNull
     @NotBlank(message = "Le description ne doit pas être vide")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Etat etat;
 
     @NotNull
     private int nbrPage;  // Since it's an int, no need for @NotBlank.
@@ -83,4 +89,21 @@ public class Livre {
     @OneToMany(mappedBy = "livre", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Emprunt> emprunts;
 
+    @Override
+    public String toString() {
+        return "Livre{" +
+                "idLivre=" + idLivre +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", etat=" + etat +
+                ", nbrPage=" + nbrPage +
+                ", star=" + star +
+                ", image=" + Arrays.toString(image) +
+                ", statut=" + statut +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                ", idAuther=" + idAuther +
+                '}';
+    }
 }

@@ -86,7 +86,8 @@ export class LivreService {
       star: 0,             // Étoile de notation
       idAuther:this.loginService.getMember().idAuther, // Assign the author ID
       image:livre.image,
-      statut:false
+      statut:false,
+      etat:"DISPONIBLE"
       // N'incluez pas idLivre et idAuther si vous ne souhaitez pas les envoyer
     };
 
@@ -111,7 +112,8 @@ export class LivreService {
       star: 0,             // Étoile de notation
       idAuther:this.loginService.getMember().idAuther, // Assign the author ID
       image:livre.image,
-      statut:livre.statut
+      statut:livre.statut,
+      etat:livre.etat
       // N'incluez pas idLivre et idAuther si vous ne souhaitez pas les envoyer
     };
 

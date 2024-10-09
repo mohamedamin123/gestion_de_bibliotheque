@@ -4,6 +4,7 @@ package org.bibliotheque.bibliotheque.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.bibliotheque.bibliotheque.modele.DTO.req.ReservationReqDTO;
 import org.bibliotheque.bibliotheque.modele.DTO.res.ReservationResDTO;
+import org.bibliotheque.bibliotheque.modele.entity.Emprunt;
 import org.bibliotheque.bibliotheque.modele.entity.Reservation;
 import org.bibliotheque.bibliotheque.modele.mapper.ReservationMapper;
 import org.bibliotheque.bibliotheque.repository.ReservationRepo;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Primary
@@ -80,14 +83,21 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationResDTO> findByLivreId(Integer idLivre) {
         List<Reservation> users = this.repository.findReservationByLivreId(idLivre);
-        return mapper.toAllRespDTO(users);
+        List<Reservation> filteredUsers = users.stream()
+                .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
+                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .collect(Collectors.toList());
+        return mapper.toAllRespDTO(filteredUsers);
     }
 
     @Override
     public List<ReservationResDTO> findByMemberId(Integer idEmprunt) {
         List<Reservation> users = this.repository.findReservationByMemberId(idEmprunt);
-        return mapper.toAllRespDTO(users);
-    }
+        List<Reservation> filteredUsers = users.stream()
+                .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
+                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .collect(Collectors.toList());
+        return mapper.toAllRespDTO(filteredUsers);    }
 
     @Override
     public List<ReservationResDTO> findByMemberIdAndLivreId(Integer idMember, Integer idLivre) {

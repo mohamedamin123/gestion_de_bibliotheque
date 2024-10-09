@@ -4,6 +4,7 @@ package org.bibliotheque.bibliotheque.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.bibliotheque.bibliotheque.modele.DTO.req.EmpruntReqDTO;
 import org.bibliotheque.bibliotheque.modele.DTO.res.EmpruntResDTO;
+import org.bibliotheque.bibliotheque.modele.DTO.res.LivreResDTO;
 import org.bibliotheque.bibliotheque.modele.entity.Emprunt;
 import org.bibliotheque.bibliotheque.modele.mapper.EmpruntMapper;
 import org.bibliotheque.bibliotheque.repository.EmpruntRepo;
@@ -12,9 +13,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Primary
@@ -31,11 +31,24 @@ public class EmpruntServiceImpl implements EmpruntService{
 
     @Override
     public EmpruntResDTO save(EmpruntReqDTO req) {
+        // Définit la date d'emprunt à aujourd'hui
+        Date today = new Date();
+        req.setDateEmprunt(today);
+
+        // Calcule la date de retour en ajoutant 21 jours
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DAY_OF_YEAR, 21);
+        Date dateRetour = cal.getTime();
+        req.setDateRetour(dateRetour);
+
+        // Mapper et sauvegarder
         Emprunt emp = mapper.toEntity(req);
-        //emp.setPassword(this.passwordEncoder.encode(emp.getPassword()));
         repository.save(emp);
-        return mapper.toRespDTO(emp);  
+
+        return mapper.toRespDTO(emp);
     }
+
 
     @Override
     public EmpruntResDTO update(EmpruntReqDTO req) {
@@ -86,14 +99,27 @@ public class EmpruntServiceImpl implements EmpruntService{
     @Override
     public List<EmpruntResDTO> findByLivreId(Integer idLivre) {
         List<Emprunt> users = this.repository.findEmpruntByLivreId(idLivre);
-        return mapper.toAllRespDTO(users);
+        // Filter out objects where the 'statut' attribute is null
+        List<Emprunt> filteredUsers = users.stream()
+                .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
+                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .collect(Collectors.toList());
+
+        return mapper.toAllRespDTO(filteredUsers);
     }
 
     @Override
     public List<EmpruntResDTO> findByMemberId(Integer idEmprunt) {
         List<Emprunt> users = this.repository.findEmpruntByMemberId(idEmprunt);
-        return mapper.toAllRespDTO(users);   
+        // Filter out objects where the 'statut' attribute is null
+        List<Emprunt> filteredUsers = users.stream()
+                .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
+                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .collect(Collectors.toList());
+
+        return mapper.toAllRespDTO(filteredUsers);
     }
+
 
     @Override
     public List<EmpruntResDTO> findByMemberIdAndLivreId(Integer idMember, Integer idLivre) {

@@ -8,6 +8,7 @@ import org.bibliotheque.bibliotheque.modele.entity.Livre;
 import org.bibliotheque.bibliotheque.modele.mapper.LivreMapper;
 import org.bibliotheque.bibliotheque.repository.LivreRepo;
 import org.bibliotheque.bibliotheque.service.intrf.LivreService;
+import org.bibliotheque.bibliotheque.util.enumm.Etat;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class LivreServiceImpl implements LivreService{
 
     @Override
     public LivreResDTO save(LivreReqDTO req) {
+        req.setEtat(Etat.DISPONIBLE);
         Livre emp = mapper.toEntity(req);
         repository.save(emp);
         return mapper.toRespDTO(emp);
@@ -37,8 +39,9 @@ public class LivreServiceImpl implements LivreService{
 
     @Override
     public LivreResDTO update(LivreReqDTO req) {
+        System.out.println("id "+req.getEtat());
+
         Livre updated = mapper.toEntity(req);
-        System.out.println("id "+req.getIdLivre());
         Optional<Livre> existingLivreOptional = this.repository.findLivreByIdLivre(updated.getIdLivre());
         if (existingLivreOptional.isPresent()) {
 
@@ -51,6 +54,8 @@ public class LivreServiceImpl implements LivreService{
             existingLivre.setStatut(updated.getStatut());
             existingLivre.setUpdatedAt(LocalDateTime.now());
             existingLivre.setDeletedAt(null);
+            existingLivre.setEtat(updated.getEtat());
+
             System.out.println(existingLivre);
             Livre savedLivre = repository.save(existingLivre);
             System.out.println(savedLivre);

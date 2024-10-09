@@ -6,7 +6,7 @@ import { Member } from '../../../shared/models/member'; // Model
 import { MemberService } from '../../../shared/services/member.service'; // Service for API requests
 import { LoginService } from '../../../shared/services/login.service';
 import { HeaderComponent } from "../../header.component"; // Service for authentication
-
+ 
 @Component({
   selector: 'app-liste-member',
   standalone: true,
@@ -141,10 +141,10 @@ export class ListeMemberComponent {
     }
   }
 
-
-
-
   retour() {
+    if(this.loginService.getMember().role=='BIBLIOTHECAIRE')
     this.router.navigate(["home-bibliothecaire"])
+    else if(this.loginService.getMember().role=='ADMIN')
+      this.router.navigate(["home-admin"])
   }
 }

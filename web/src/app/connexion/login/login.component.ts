@@ -53,10 +53,16 @@ export class LoginComponent {
               }else if(response.role=="AUTHER") {
                 this.router.navigate(['/home-auther']); // Navigate to home or any other route
 
-              }else if(response.role=="BIBLIOTHECAIRE"){
+              }
+              else if(response.role=="BIBLIOTHECAIRE"){
                 this.router.navigate(['/home-bibliothecaire']); // Navigate to home or any other route
 
-              } else {
+              }
+              else if(response.role=="ADMIN"){
+                this.router.navigate(['/home-admin']); // Navigate to home or any other route
+
+              }
+              else {
                 this.router.navigate(['/login']); // Navigate to home or any other route
               }
 

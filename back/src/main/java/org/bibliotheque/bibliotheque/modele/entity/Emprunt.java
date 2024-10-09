@@ -62,4 +62,18 @@ public class Emprunt {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "livre_id",  insertable = false, updatable = false)
     private Livre livre;
+
+    @Override
+    public String toString() {
+        return "Emprunt{" +
+                "idEmprunt=" + idEmprunt +
+                ", dateEmprunt=" + dateEmprunt +
+                ", dateRetour=" + dateRetour +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                ", memberId=" + memberId +
+                ", livreId=" + livreId +
+                '}';
+    }
 }

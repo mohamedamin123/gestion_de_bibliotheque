@@ -36,7 +36,10 @@ export const routes: Routes = [
   { path: 'liste-member', component: ListeMemberComponent },
   { path: 'liste-livre', component: ListeLivreComponent },
   { path: 'liste-auther', component: ListeAutherComponent },
-  { path: 'consulter-user', component: ConsulterUserComponent },
+  { path: 'consulter-user/:role', component: ConsulterUserComponent },
+  { path: 'consulter-user', component: ConsulterUserComponent },      // Route without role
+
+
   //AUTHER
   { path: 'home-auther', component: HomeAutherComponent },
   { path: 'ajouter-livre', component: AjouterLivreComponent },

@@ -1,6 +1,7 @@
 package org.bibliotheque.bibliotheque.securite;
 
 import lombok.RequiredArgsConstructor;
+import org.bibliotheque.bibliotheque.service.impl.AdminServiceImpl;
 import org.bibliotheque.bibliotheque.service.impl.AutherServiceImpl;
 import org.bibliotheque.bibliotheque.service.impl.BibliothecaireServiceImpl;
 import org.bibliotheque.bibliotheque.service.impl.MemberServiceImpl;
@@ -33,6 +34,8 @@ public class SecurityConfig {
     private final MemberServiceImpl memberService;
     private final BibliothecaireServiceImpl bibliothecaireService;
     private final AutherServiceImpl autherService;
+    private final AdminServiceImpl adminService;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,7 +49,12 @@ public class SecurityConfig {
                         .requestMatchers("/util/**").permitAll()
                         .requestMatchers("/members/member/**").hasAnyRole("MEMBER","BIBLIOTHECAIRE","ADMIN")
                         .requestMatchers("/bibliothecaires/bibliothecaire/**").hasAnyRole( "BIBLIOTHECAIRE","ADMIN")
+                        .requestMatchers("/authers/auther/find-by-id/**").hasAnyRole("AUTHER","BIBLIOTHECAIRE","ADMIN","MEMBER")
+
                         .requestMatchers("/authers/auther/**").hasAnyRole("AUTHER","BIBLIOTHECAIRE","ADMIN")
+                        .requestMatchers("/admins/admin/**").hasAnyRole("ADMIN")
+
+
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())
@@ -103,6 +111,15 @@ public class SecurityConfig {
                 }
             } catch (Exception e) {
                 System.out.println("Error in memberService: " + e.getMessage());
+            }
+
+            try {
+                user = adminService.loadUserByUsername(username);
+                if (user != null) {
+                    return user;
+                }
+            } catch (Exception e) {
+                System.out.println("Error in adminService: " + e.getMessage());
             }
 
             System.out.println("User not found");

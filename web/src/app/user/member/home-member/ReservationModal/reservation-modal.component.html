@@ -1,0 +1,22 @@
+<div class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2 class="text-center">Emprunt Details</h2>
+    <div>
+      <label> <b>Nom de livre: </b></label>
+      <input class="form-control"  type="text" [value]="livre?.titre" readonly>
+    </div>
+    <div>
+      <label> <b>Date de emprunt: </b></label>
+      <input class="form-control"  type="text" [value]="reservationDate | date:'shortDate'" readonly>
+    </div>
+    <div>
+      <label> <b>Date de retour:</b></label>
+      <input  class="form-control"  type="text" [value]="returnDate | date:'shortDate'" readonly>
+    </div>
+    <div class="modal-buttons">
+      <button class="btn btn-danger mt-4" (click)="retour()">Retour</button>
+      <button class="btn btn-primary  mt-4" (click)="emprunter()">Emprunter</button>
+    </div>
+  </div>
+</div>

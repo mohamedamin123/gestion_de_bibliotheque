@@ -11,6 +11,8 @@ import { Auther } from '../../shared/models/auther';
 import { AutherService } from '../../shared/services/auther.service';
 import { Bibliothecaire } from '../../shared/models/bibliothecaire';
 import { BibliothecaireService } from '../../shared/services/bibliothecaire.service';
+import { AdminService } from '../../shared/services/admin.service';
+import { Admin } from '../../shared/models/admin';
 
 @Component({
   selector: 'app-profile-member',
@@ -29,13 +31,14 @@ export class ProfileMemberComponent implements OnInit {
     private memberService: MemberService,
     private autherService: AutherService,
     private bibliothecaireService: BibliothecaireService,
+    private adminService: AdminService,
 
     private loginSerive: LoginService,
 
   ) {
     this.profileForm = this.fb.group({
-      nom: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
-      prenom: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
+      nom: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      prenom: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z\s]+$/)]],
       telephone1: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
       telephone2: ['', Validators.pattern(/^[0-9]{8}$/)], // Optional
       dateDeNaissance: ['', Validators.required],
@@ -60,103 +63,105 @@ export class ProfileMemberComponent implements OnInit {
     });
   }
 
-
   onSubmit() {
     if (this.profileForm.valid) {
       this.trimFormValues(); // Call the trim method before processing the form
 
       const updatedMember: Member = { ...this.profileForm.value };
+      const updatedAdmin: Admin = { ...this.profileForm.value };
       const saveAuther: Auther = { ...this.profileForm.value };
       const saveBibliothecaire: Bibliothecaire = { ...this.profileForm.value };
 
+      updatedMember.statut = true;
+      updatedAdmin.statut = true;
+      saveAuther.statut = true;
+      saveBibliothecaire.statut = true;
 
-      saveAuther.statut=true;
-      updatedMember.statut=true;
-      saveBibliothecaire.statut=true;
+      // Ensure that the phone number arrays are initialized
+      updatedMember.tel = updatedMember.tel || [];
+      saveAuther.tel = saveAuther.tel || [];
+      saveBibliothecaire.tel = saveBibliothecaire.tel || [];
+      updatedAdmin.tel = updatedAdmin.tel || [];
 
-
-
-
-      // Collect the phone numbers into an array
-      updatedMember.tel = [];
-      saveAuther.tel = [];
-      saveBibliothecaire.tel=[];
-
-      if((this.loginSerive.getMember()?.role)=="MEMBER") {
+      if (this.loginSerive.getMember()?.role === 'MEMBER') {
         if (updatedMember['telephone1']) {
           updatedMember.tel.push(updatedMember['telephone1']);
         }
         if (updatedMember['telephone2']) {
           updatedMember.tel.push(updatedMember['telephone2']);
         }
-      } else if((this.loginSerive.getMember()?.role)=="AUTHER") {
-          saveAuther.tel.push(updatedMember['telephone1']);
-          if(updatedMember['telephone2'])
+      } else if (this.loginSerive.getMember()?.role === 'AUTHER') {
+        saveAuther.tel.push(updatedMember['telephone1']);
+        if (updatedMember['telephone2']) {
           saveAuther.tel.push(updatedMember['telephone2']);
-
-        saveAuther.nationalite=this.loginSerive.getMember().nationalite;
-      } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
-
+        }
+        saveAuther.nationalite = this.loginSerive.getMember().nationalite;
+      } else if (this.loginSerive.getMember()?.role === 'BIBLIOTHECAIRE') {
         saveBibliothecaire.tel.push(updatedMember['telephone1']);
-        if(updatedMember['telephone2'])
+        if (updatedMember['telephone2']) {
           saveBibliothecaire.tel.push(updatedMember['telephone2']);
-        saveBibliothecaire.matricule=this.loginSerive.getMember().matricule;
+        }
+        saveBibliothecaire.matricule = this.loginSerive.getMember().matricule;
+      } else if (this.loginSerive.getMember()?.role === 'ADMIN') {
+        updatedAdmin.tel.push(updatedMember['telephone1']);
+        if (updatedMember['telephone2']) {
+          updatedAdmin.tel.push(updatedMember['telephone2']);
+        }
       }
 
-
-      if((this.loginSerive.getMember()?.role)=="MEMBER"){
+      // Now proceed with the rest of the logic for updating the member's profile...
+      if (this.loginSerive.getMember()?.role === 'MEMBER') {
         this.memberService.updateMember(updatedMember).subscribe(
           response => {
             console.log('Profile updated successfully', response);
-            this.router.navigate(["home-member"])
+            this.router.navigate(['home-member']);
             this.loginSerive.setMember(response);
-            // Redirect or show a success message
           },
           error => {
             console.error('Error updating profile', error);
-            // Handle the error case
           }
         );
-      } else if(this.loginSerive.getMember()?.role=="AUTHER") {
-
+      } else if (this.loginSerive.getMember()?.role === 'AUTHER') {
         this.autherService.updateAuther(saveAuther).subscribe(
           response => {
             console.log('Profile updated successfully', response);
-            this.router.navigate(["home-auther"])
+            this.router.navigate(['home-auther']);
             this.loginSerive.setMember(response);
-
-            // Redirect or show a success message
           },
           error => {
             console.error('Error updating profile', error);
-            // Handle the error case
           }
         );
-      } else if((this.loginSerive.getMember()?.role)=="BIBLIOTHECAIRE") {
+      } else if (this.loginSerive.getMember()?.role === 'BIBLIOTHECAIRE') {
         this.bibliothecaireService.updateBibliothecaire(saveBibliothecaire).subscribe(
           response => {
             console.log('Profile updated successfully', response);
-            this.router.navigate(["home-bibliothecaire"])
+            this.router.navigate(['home-bibliothecaire']);
             this.loginSerive.setMember(response);
-
-            // Redirect or show a success message
           },
           error => {
             console.error('Error updating profile', error);
-            // Handle the error case
           }
         );
-
+      } else if (this.loginSerive.getMember()?.role === 'ADMIN') {
+        this.adminService.updateAdmin(updatedAdmin).subscribe(
+          response => {
+            console.log('Profile updated successfully', response);
+            this.router.navigate(['home-admin']);
+            this.loginSerive.setMember(response);
+          },
+          error => {
+            console.error('Error updating profile', error);
+          }
+        );
       } else {
-        this.router.navigate(["login"]);
+        this.router.navigate(['login']);
       }
-
-      // Call the service to update the member
-
     } else {
       console.log('Form is invalid', this.profileForm.errors);
     }
   }
+
 
   // Method to trim whitespace from form values
   private trimFormValues() {
@@ -174,10 +179,14 @@ export class ProfileMemberComponent implements OnInit {
     }else if(this.loginSerive.getMember()?.role=="AUTHER") {
       this.router.navigate(["home-auther"])
 
-    } else if(this.loginSerive.getMember()?.role=="BIBLIOTHECAIRE") {
+    }
+    else if(this.loginSerive.getMember()?.role=="BIBLIOTHECAIRE") {
       this.router.navigate(["home-bibliothecaire"])
-
-    }else {
+    }
+    else if(this.loginSerive.getMember()?.role=="ADMIN") {
+      this.router.navigate(["home-admin"])
+    }
+    else {
       this.router.navigate(["login"]);
 
     }

@@ -141,12 +141,16 @@ etat: any;
     }
   }
 
+
   retour() {
+    if(this.loginService.getMember().role=='BIBLIOTHECAIRE')
     this.router.navigate(["home-bibliothecaire"])
+    else if(this.loginService.getMember().role=='ADMIN')
+      this.router.navigate(["home-admin"])
   }
 
   save () {
-    this.router.navigate(['consulter-user']);
+    this.router.navigate(['consulter-user', 'auther']);
 
   }
 }

@@ -60,24 +60,24 @@ export class EmpruntService {
   }
 
 
-  findByLivreId(Emprunt: Emprunt): Observable<Emprunt> {
+  findByLivreId(id: number): Observable<Emprunt []> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Emprunt>(`${this.apiUrl}/find-by-livre-id/${Emprunt.getLivreId}`,httpOptions);
+    return this.http.get<Emprunt []>(`${this.apiUrl}/find-by-livre-id/${id}`,httpOptions);
   }
 
-  findByMemberId(Emprunt: Emprunt): Observable<Emprunt> {
+  findByMemberId(Emprunt: Emprunt): Observable<Emprunt []> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Emprunt>(`${this.apiUrl}/find-by-member-id/${Emprunt.getMemberId}`,httpOptions);
+    return this.http.get<Emprunt []>(`${this.apiUrl}/find-by-member-id/${Emprunt.getMemberId}`,httpOptions);
   }
 
 
@@ -95,14 +95,18 @@ export class EmpruntService {
 
   // Méthode pour créer un nouvel utilisateur
 // Méthode pour créer un nouvel utilisateur
-saveEmprunt(Emprunt: Emprunt): Observable<Emprunt> {
+saveEmprunt(emprunt: Emprunt): Observable<Emprunt> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
     })
   };
-  return this.http.post<Emprunt>(`${this.apiUrl}/save`, Emprunt,httpOptions);
+  const body = {
+    livreId: emprunt.getLivreId(),
+    memberId: emprunt.getMemberId(),
+  };
+  return this.http.post<Emprunt>(`${this.apiUrl}/save`, body,httpOptions);
 }
 
   // Méthode pour mettre à jour un utilisateur

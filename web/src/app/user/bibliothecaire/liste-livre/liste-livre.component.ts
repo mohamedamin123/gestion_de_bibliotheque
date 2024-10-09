@@ -131,12 +131,20 @@ export class ListeLivreComponent {
       }
     }
 
+
     retour() {
-        this.router.navigate(["home-bibliothecaire"]);
+      if(this.loginService.getMember().role=='BIBLIOTHECAIRE')
+      this.router.navigate(["home-bibliothecaire"])
+      else if(this.loginService.getMember().role=='ADMIN')
+        this.router.navigate(["home-admin"])
     }
 
+
     save() {
-        this.router.navigate(['home-bibliothecaire']);
+      if(this.loginService.getMember().role=='BIBLIOTHECAIRE')
+      this.router.navigate(["home-bibliothecaire"])
+      else if(this.loginService.getMember().role=='ADMIN')
+        this.router.navigate(["home-admin"])
     }
 
     getImageSrc(base64String: string | null): string {

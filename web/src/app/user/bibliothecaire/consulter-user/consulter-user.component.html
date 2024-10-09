@@ -19,7 +19,7 @@
               class="form-control"
               placeholder="Entrez votre nom"
               required
-    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
             />
             <div *ngIf="profileForm.get('nom')?.invalid && (profileForm.get('nom')?.touched || profileForm.get('nom')?.dirty)" class="text-danger">
@@ -37,7 +37,7 @@
               class="form-control"
               placeholder="Entrez votre prénom"
               required
-    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
             />
             <div *ngIf="profileForm.get('prenom')?.invalid && (profileForm.get('prenom')?.touched || profileForm.get('prenom')?.dirty)" class="text-danger">
@@ -58,7 +58,7 @@
               class="form-control"
               placeholder="Entrez votre téléphone 1"
               required
-    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
             />
             <div *ngIf="profileForm.get('telephone1')?.invalid && (profileForm.get('telephone1')?.touched || profileForm.get('telephone1')?.dirty)" class="text-danger">
@@ -75,7 +75,7 @@
               formControlName="telephone2"
               class="form-control"
               placeholder="Entrez votre téléphone 2 (optionnel)"
-    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+    [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
             />
             <div *ngIf="profileForm.get('telephone2')?.invalid && (profileForm.get('telephone2')?.touched || profileForm.get('telephone2')?.dirty)" class="text-danger">
@@ -93,7 +93,7 @@
           class="form-control"
           placeholder="Entrez votre date de naissance"
           required
-[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
         />
         <div *ngIf="profileForm.get('dateDeNaissance')?.invalid && (profileForm.get('dateDeNaissance')?.touched || profileForm.get('dateDeNaissance')?.dirty)" class="text-danger">
@@ -109,7 +109,7 @@
           class="form-control"
           placeholder="Entrez votre email"
           required
-[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
         />
         <div *ngIf="profileForm.get('email')?.invalid && (profileForm.get('email')?.touched || profileForm.get('email')?.dirty)" class="text-danger">
@@ -129,7 +129,7 @@
           class="form-control"
           placeholder="Entrez votre date d'inscription"
           required
-[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
         />
         <div *ngIf="(profileForm.get('dateDinscription')?.invalid && (profileForm.get('dateDinscription')?.touched || profileForm.get('dateDinscription')?.dirty))"  class="text-danger">
@@ -139,14 +139,14 @@
       </div>
 
       <!-- Nationalité input (visible only if user type is not Member) -->
-      <div *ngIf="user?.role !== 'MEMBER'" class="form-outline mb-4">
+      <div *ngIf="user?.role === 'AUTHER'" class="form-outline mb-4">
         <input
           type="text"
           formControlName="nationalite"
           class="form-control"
           placeholder="Entrez votre nationalité"
           required
-[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+[readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
 
         />
         <div *ngIf="profileForm.get('nationalite')?.invalid && (profileForm.get('nationalite')?.touched || profileForm.get('nationalite')?.dirty)" class="text-danger">
@@ -161,7 +161,7 @@
           class="form-control"
           placeholder="Entrez votre password"
           required
-          [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER'"
+          [readonly]="user?.role === 'MEMBER' || user?.role === 'AUTHER' || user?.role==='BIBLIOTHECAIRE'"
         />
         <div *ngIf="profileForm.get('password')?.invalid && (profileForm.get('password')?.touched || profileForm.get('password')?.dirty)" class="text-danger">
           Le password est requis.

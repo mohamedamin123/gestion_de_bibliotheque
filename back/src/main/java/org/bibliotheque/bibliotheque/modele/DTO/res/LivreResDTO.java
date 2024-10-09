@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.bibliotheque.bibliotheque.util.enumm.Etat;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,11 +25,14 @@ public class LivreResDTO {
 
     private String description;
 
+    private Etat etat;
+
+
     private int star;
     private Boolean statut;
 
     @Lob
-    private byte[] image;  // Storing image as a byte array.
+    private byte[] image;
 
 
     private Integer idAuther;
