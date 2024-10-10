@@ -8,11 +8,11 @@
     </div>
     <div>
       <label> <b>Date de emprunt: </b></label>
-      <input class="form-control"  type="text" [value]="reservationDate | date:'shortDate'" readonly>
+      <input class="form-control"  type="text" [value]="reservationDate | date:'dd-MM-yyyy'" readonly>
     </div>
     <div>
       <label> <b>Date de retour:</b></label>
-      <input  class="form-control"  type="text" [value]="returnDate | date:'shortDate'" readonly>
+      <input  class="form-control"  type="text" [value]="returnDate | date:'dd-MM-yyyy'" readonly>
     </div>
     <div class="modal-buttons">
       <button class="btn btn-danger mt-4" (click)="retour()">Retour</button>

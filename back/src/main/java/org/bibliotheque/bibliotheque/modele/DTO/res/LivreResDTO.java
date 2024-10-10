@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.bibliotheque.bibliotheque.util.enumm.Etat;
+import org.bibliotheque.bibliotheque.util.enumm.Type;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +27,7 @@ public class LivreResDTO {
     private String description;
 
     private Etat etat;
+    private Type type;
 
 
     private int star;

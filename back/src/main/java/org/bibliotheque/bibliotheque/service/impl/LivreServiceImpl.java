@@ -9,6 +9,7 @@ import org.bibliotheque.bibliotheque.modele.mapper.LivreMapper;
 import org.bibliotheque.bibliotheque.repository.LivreRepo;
 import org.bibliotheque.bibliotheque.service.intrf.LivreService;
 import org.bibliotheque.bibliotheque.util.enumm.Etat;
+import org.bibliotheque.bibliotheque.util.enumm.Type;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +92,12 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public List<LivreResDTO> findLivreByStatut(boolean statut) {
         List<Livre> users = this.repository.findLivreByStatut(statut);
+        return mapper.toAllRespDTO(users);
+    }
+
+    @Override
+    public List<LivreResDTO> findLivreByStatutAndType(Boolean statut, Type type) {
+        List<Livre> users = this.repository.findLivreByStatutAndType(statut,type);
         return mapper.toAllRespDTO(users);
     }
 

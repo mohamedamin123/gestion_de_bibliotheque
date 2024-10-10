@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.bibliotheque.bibliotheque.util.enumm.Etat;
+import org.bibliotheque.bibliotheque.util.enumm.Type;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -58,6 +59,9 @@ public class Livre {
 
     private Boolean statut;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Type type;
 
     @CreationTimestamp
     @Column(name = "created_at")

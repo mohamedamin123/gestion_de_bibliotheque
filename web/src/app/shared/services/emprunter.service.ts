@@ -34,7 +34,7 @@ export class EmpruntService {
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Emprunt>(`${this.apiUrl}/find-by-id/${Emprunt.getIdEmprunt}`,httpOptions);
+    return this.http.get<Emprunt>(`${this.apiUrl}/find-by-id/${Emprunt.idEmprunt}`,httpOptions);
   }
 
 
@@ -70,14 +70,14 @@ export class EmpruntService {
     return this.http.get<Emprunt []>(`${this.apiUrl}/find-by-livre-id/${id}`,httpOptions);
   }
 
-  findByMemberId(Emprunt: Emprunt): Observable<Emprunt []> {
+  findByMemberId(id: number): Observable<Emprunt []> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Emprunt []>(`${this.apiUrl}/find-by-member-id/${Emprunt.getMemberId}`,httpOptions);
+    return this.http.get<Emprunt []>(`${this.apiUrl}/find-by-member-id/${id}`,httpOptions);
   }
 
 
@@ -88,7 +88,7 @@ export class EmpruntService {
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Emprunt>(`${this.apiUrl}/find-by-member-id-and-livre-id/${Emprunt.getMemberId}/${Emprunt.getLivreId}`,httpOptions);
+    return this.http.get<Emprunt>(`${this.apiUrl}/find-by-member-id-and-livre-id/${Emprunt.memberId}/${Emprunt.livreId}`,httpOptions);
   }
 
 
@@ -103,8 +103,8 @@ saveEmprunt(emprunt: Emprunt): Observable<Emprunt> {
     })
   };
   const body = {
-    livreId: emprunt.getLivreId(),
-    memberId: emprunt.getMemberId(),
+    livreId: emprunt.livreId,
+    memberId: emprunt.memberId,
   };
   return this.http.post<Emprunt>(`${this.apiUrl}/save`, body,httpOptions);
 }
@@ -133,7 +133,7 @@ saveEmprunt(emprunt: Emprunt): Observable<Emprunt> {
     };
 
 
-    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Emprunt.getIdEmprunt}`,httpOptions);
+    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Emprunt.idEmprunt}`,httpOptions);
   }
 
 }

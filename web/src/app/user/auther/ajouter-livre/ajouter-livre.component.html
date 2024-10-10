@@ -25,6 +25,23 @@
     </div>
 
     <div class="form-group">
+      <label for="type">Type de livre</label>
+      <input list="types" class="form-control" id="type" placeholder="Sélectionnez un type" [(ngModel)]="type" name="type">
+      <datalist id="types">
+        <option value="EDUCATION">Education</option>
+        <option value="AMOUR_RELATIONS">Amour et relations"</option>
+        <option value="DEVELOPPEMENT_PERSONNEL">Developpement personnel</option>
+        <option value="FAMILLE_PARENTALITE">Famille et parentalite</option>
+        <option value="VOYAGES">Voyages</option>
+        <option value="SANTE_BIEN_ETRE">Sante et bien-etre</option>
+        <option value="ARTS_CREATIVITE">Arts et creativite</option>
+        <option value="SOCIETE_CULTURE">Socete et culture</option>
+      </datalist>
+    </div>
+
+
+
+    <div class="form-group">
       <label for="image">Image</label>
       <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
       <div *ngIf="selectedImage" class="mt-2">

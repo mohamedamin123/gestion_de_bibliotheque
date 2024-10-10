@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bibliotheque.bibliotheque.modele.DTO.req.LivreReqDTO;
 import org.bibliotheque.bibliotheque.modele.DTO.res.LivreResDTO;
 import org.bibliotheque.bibliotheque.service.intrf.LivreService;
+import org.bibliotheque.bibliotheque.util.enumm.Type;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +51,12 @@ public class LivreController {
     public List<LivreResDTO> findLivreByStatut(@PathVariable(name = "statut")  boolean statut)
     {
         return this.service.findLivreByStatut(statut);
+    }
+
+    @GetMapping(path = "/find-by-statut-and-type/{statut}/{type}")
+    public List<LivreResDTO> findLivreByStatutAndType(@PathVariable(name = "statut")  boolean statut,@PathVariable(name = "type") Type type)
+    {
+        return this.service.findLivreByStatutAndType(statut,type);
     }
 
 //------------------------------------------------------------------------------------------------------------------save

@@ -1,61 +1,60 @@
 export class Emprunt {
-  private idEmprunt?: number;
-  private dateEmprunt: Date;
-  private dateRetour: Date;
-  private memberId?: number;
-  private livreId?: number;
+  private _idEmprunt?: number;
+  private _dateEmprunt: Date;
+  private _dateRetour: Date;
+  private _memberId?: number;
+  private _livreId?: number;
 
   constructor(
       memberId?: number,
       livreId?: number,
-
   ) {
-    this.dateEmprunt = new Date(); // Current date
-    // Set dateRetour to 10 days from today
-    this.dateRetour = new Date(); // Current date
-    this.dateRetour.setDate(this.dateRetour.getDate() + 10); // 10 days later
-      this.memberId = memberId;
-      this.livreId = livreId;
+      this._dateEmprunt = new Date(); // Current date
+      // Set dateRetour to 10 days from today
+      this._dateRetour = new Date(); // Current date
+      this._dateRetour.setDate(this._dateRetour.getDate() + 10); // 10 days later
+      this._memberId = memberId;
+      this._livreId = livreId;
   }
 
   // Getters and Setters
-  getIdEmprunt(): number | undefined {
-      return this.idEmprunt;
+  get idEmprunt(): number | undefined {
+      return this._idEmprunt;
   }
 
-  setIdEmprunt(idEmprunt: number): void {
-      this.idEmprunt = idEmprunt;
+  set idEmprunt(idEmprunt: number) {
+      this._idEmprunt = idEmprunt;
   }
 
-  getDateEmprunt(): Date {
-      return this.dateEmprunt;
+  get dateEmprunt(): Date {
+      return this._dateEmprunt;
   }
 
-  setDateEmprunt(dateEmprunt: Date): void {
-      this.dateEmprunt = dateEmprunt;
+  set dateEmprunt(dateEmprunt: Date) {
+      this._dateEmprunt = dateEmprunt;
   }
 
-  getDateRetour(): Date {
-      return this.dateRetour;
+  get dateRetour(): Date {
+      return this._dateRetour;
   }
 
-  setDateRetour(dateRetour: Date): void {
-      this.dateRetour = dateRetour;
+  set dateRetour(dateRetour: Date) {
+      this._dateRetour = dateRetour;
   }
 
-  getMemberId(): number | undefined {
-      return this.memberId;
+  get memberId(): number | undefined {
+      return this._memberId;
   }
 
-  setMemberId(memberId: number): void {
-      this.memberId = memberId;
+  set memberId(memberId: number) {
+      this._memberId = memberId;
   }
 
-  getLivreId(): number | undefined {
-      return this.livreId;
+  get livreId(): number | undefined {
+      return this._livreId;
   }
 
-  setLivreId(livreId: number): void {
-      this.livreId = livreId;
+  set livreId(livreId: number) {
+      this._livreId = livreId;
   }
 }

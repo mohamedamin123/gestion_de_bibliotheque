@@ -3,6 +3,7 @@ package org.bibliotheque.bibliotheque.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.bibliotheque.bibliotheque.modele.DTO.req.ReservationReqDTO;
+import org.bibliotheque.bibliotheque.modele.DTO.res.EmpruntResDTO;
 import org.bibliotheque.bibliotheque.modele.DTO.res.ReservationResDTO;
 import org.bibliotheque.bibliotheque.modele.entity.Emprunt;
 import org.bibliotheque.bibliotheque.modele.entity.Reservation;
@@ -13,10 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,11 +29,33 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final ReservationRepo repository;
 
+    private final EmpruntServiceImpl empruntService;
+
 
     @Override
     public ReservationResDTO save(ReservationReqDTO req) {
+
+        Date dateReservation;
+        Calendar cal = Calendar.getInstance();
+        List<ReservationResDTO> reservations=this.findByLivreId(req.getLivreId());
+        if(!reservations.isEmpty()){
+            ReservationResDTO dernierReservation= reservations.get(reservations.size() - 1);
+            cal.setTime(dernierReservation.getDateReservation());
+            cal.add(Calendar.DAY_OF_YEAR, 22);
+            dateReservation = cal.getTime();
+            req.setDateReservation(dateReservation);
+
+        }else {
+            List<EmpruntResDTO> emprunt=empruntService.findByLivreId(req.getLivreId());
+            if(!emprunt.isEmpty()) {
+                EmpruntResDTO dernierEmprunt = emprunt.get(emprunt.size() - 1);
+                cal.setTime(dernierEmprunt.getDateRetour());
+                cal.add(Calendar.DAY_OF_YEAR, 1);
+                dateReservation = cal.getTime();
+                req.setDateReservation(dateReservation);
+            }
+        }
         Reservation emp = mapper.toEntity(req);
-        //emp.setPassword(this.passwordEncoder.encode(emp.getPassword()));
         repository.save(emp);
         return mapper.toRespDTO(emp);  
     }
@@ -85,7 +105,7 @@ public class ReservationServiceImpl implements ReservationService{
         List<Reservation> users = this.repository.findReservationByLivreId(idLivre);
         List<Reservation> filteredUsers = users.stream()
                 .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
-                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .filter(user -> user.getDeletedAt() == null) // Filter out where 'statut' is null
                 .collect(Collectors.toList());
         return mapper.toAllRespDTO(filteredUsers);
     }
@@ -95,7 +115,7 @@ public class ReservationServiceImpl implements ReservationService{
         List<Reservation> users = this.repository.findReservationByMemberId(idEmprunt);
         List<Reservation> filteredUsers = users.stream()
                 .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
-                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .filter(user -> user.getDeletedAt() == null) // Filter out where 'statut' is null
                 .collect(Collectors.toList());
         return mapper.toAllRespDTO(filteredUsers);    }
 

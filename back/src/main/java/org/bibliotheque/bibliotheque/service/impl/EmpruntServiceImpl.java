@@ -102,7 +102,7 @@ public class EmpruntServiceImpl implements EmpruntService{
         // Filter out objects where the 'statut' attribute is null
         List<Emprunt> filteredUsers = users.stream()
                 .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
-                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .filter(user -> user.getDeletedAt() == null) // Filter out where 'statut' is null
                 .collect(Collectors.toList());
 
         return mapper.toAllRespDTO(filteredUsers);
@@ -114,7 +114,7 @@ public class EmpruntServiceImpl implements EmpruntService{
         // Filter out objects where the 'statut' attribute is null
         List<Emprunt> filteredUsers = users.stream()
                 .filter(Objects::nonNull) // Ensure the Emprunt object itself is not null
-                .filter(user -> user.getDeletedAt() != null) // Filter out where 'statut' is null
+                .filter(user -> user.getDeletedAt() == null) // Filter out where 'statut' is null
                 .collect(Collectors.toList());
 
         return mapper.toAllRespDTO(filteredUsers);

@@ -8,6 +8,8 @@ export class Livre {
   private _star: number;
   private _image: string;
   private  _etat: string | undefined;
+  private  _type: string | undefined;
+
 
   private _statut:boolean;
 
@@ -21,6 +23,7 @@ export class Livre {
     image: string,
 
     star: number,
+    type:string,
     idAuther?: number,
     idLivre?: number,
     statut: boolean=false,
@@ -30,7 +33,7 @@ export class Livre {
     this._nbrPage = nbrPage;
     this._description = description;
     this._image = image;
-
+    this._type=type;
     this._star = star;
     this._idAuther = idAuther;
     this._idLivre = idLivre;
@@ -86,6 +89,15 @@ export class Livre {
 
   set image(image: string) {
     this._image = image;
+  }
+
+
+  get type(): string | undefined {
+    return this._type;
+  }
+
+  set type(image: string) {
+    this._type = image;
   }
 
   get star(): number {

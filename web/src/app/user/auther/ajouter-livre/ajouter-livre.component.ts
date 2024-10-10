@@ -18,6 +18,8 @@ import { Livre } from '../../../shared/models/livre';
 export class AjouterLivreComponent  {
   titre: string = '';
   description: string = '';
+  type: string = '';
+
   nombreDePages: number | null = null;
   nomAuteur: string = 'Auteur par défaut'; // This could be fetched from a service
   selectedFile: File | null = null;
@@ -38,7 +40,7 @@ export class AjouterLivreComponent  {
   }
 
   ajouter() {
-    if (this.titre && this.description && this.nombreDePages && this.nomAuteur && this.selectedFile) {
+    if (this.titre && this.description && this.nombreDePages && this.nomAuteur && this.selectedFile && this.type) {
       const reader = new FileReader();
 
       // Convert the selected file to a base64 string
@@ -56,6 +58,7 @@ export class AjouterLivreComponent  {
           this.description,
           base64Data, // Assign the stripped base64 image
           0, // Initialize star to 0
+          this.type,
           this.loginService.getMember().idAuther // Assign the author ID
         );
 

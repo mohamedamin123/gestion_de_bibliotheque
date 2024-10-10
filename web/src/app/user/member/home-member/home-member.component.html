@@ -16,8 +16,9 @@
 
 <!-- Search input group -->
 <div class="input-group">
-  <div class="form-outline search" >
-    <input id="search-input" type="search" class="form-control" placeholder="Recherche" [(ngModel)]="searchQuery" (input)="filterItems()" />
+  <div class="form-outline search">
+    <input id="search-input" type="search" class="form-control" placeholder="Recherche" [(ngModel)]="searchQuery"
+      (input)="filterItems()" />
   </div>
   <!-- Optional: You can keep the search button if needed -->
   <!-- <button id="search-button" type="button" class="btn btn-primary searchButton">
@@ -26,49 +27,41 @@
 </div>
 <!-- List of items -->
 <div class="liste">
+
+
+
+
   <div class="livre" *ngFor="let item of filteredItems">
-
-
-    <div class="card">
-      <!-- Card content -->
-      <div class="card-content" [ngClass]="{'hidden': item.hidden}">
-        <img [src]="getImageSrc(item.image)" class="card-img-top" alt="{{ item.titre }}" />
-        <div class="card-body">
-          <h5 class="card-title">{{ item.titre }}</h5>
-          <div class="card-text d-flex justify-content-between align-items-center">
-            <small class="text-muted">Pages: {{ item.nbrPage }}</small>
-            <small *ngFor="let author of nomAuther;" class="text-muted">Nom de auther: {{ author }}</small>
+    <div *ngFor="let author of nomAuther">
+      <div class="card">
+        <div class="card-content" [ngClass]="{'hidden': item.hidden}">
+          <img [src]="getImageSrc(item.image)" class="card-img-top" alt="{{ item.titre }}" />
+          <div class="card-body">
+            <h5 class="card-title">{{ item.titre }}</h5>
+            <div class="card-text d-flex justify-content-between align-items-center">
+              <small class="text-muted">Pages: {{ item.nbrPage }}</small>
+              <small class="text-muted">Nom de auther: {{ author }}</small>
+            </div>
           </div>
         </div>
-
+        <p class="description" [ngClass]="{'hidden': item.hidden}">
+          {{ item.description }}
+        </p>
+        <button class="btn btn-primary" (click)="toggleDetails(item)">
+          {{ item.hidden ? 'Cacher les détails' : 'Afficher les détails' }}
+        </button>
+        <button class="btn btn-danger" (click)="changeLivre(item)"
+          [disabled]="isInFilteredEmprunt(item) || isInFilteredReservation(item)">
+          {{ item.etat === 'DISPONIBLE' ? 'Emprunter' : 'Réserver' }}
+        </button>
       </div>
-
-      <!-- Description -->
-      <p class="description" [ngClass]="{'hidden': item.hidden}">
-        {{ item.description }}
-      </p>
-
-      <!-- Toggle button -->
-      <button class="btn btn-primary" (click)="toggleDetails(item)">
-        {{ item.hidden ? 'Cacher les détails' : 'Afficher les détails' }}
-      </button>
-      <button class="btn btn-danger" (click)="changeLivre(item)">
-        {{ item.etat === 'DISPONIBLE' ? 'Emprunter' : 'Réserver' }}
-      </button>
-
-
     </div>
-
-
-
-
-
-
+  </div>
 </div>
 
-<!-- Reservation Modal -->
 
-</div>
+  <!-- Reservation Modal -->
+
 <nav aria-label="Page navigation" class="mt-4">
   <ul class="pagination justify-content-center">
     <li class="page-item" [class.disabled]="currentPage === 1">
@@ -84,18 +77,10 @@
   </ul>
 </nav>
 
-<app-reservation-modal *ngIf="showModal"
-[reservationDate]="reservationDate"
-[returnDate]="returnDate"
-[livre]=selectedLivre
-(emprunterConfirmed)="onEmprunterConfirmed(selectedLivre)"
-(close)="closeModal()">
+<app-reservation-modal *ngIf="showModal" [reservationDate]="reservationDate" [returnDate]="returnDate"
+  [livre]=selectedLivre (emprunterConfirmed)="onEmprunterConfirmed(selectedLivre)" (close)="closeModal()">
 </app-reservation-modal>
 
-<app-reservation-modal2 *ngIf="showModal2"
-[reservationDate]="returnDate"
-[returnDate]="returnDate"
-[livre]=selectedLivre
-(emprunterConfirmed)="onReserverConfirmed(selectedLivre)"
-(close)="closeModal()">
+<app-reservation-modal2 *ngIf="showModal2" [reservationDate]="reservationDate2" [returnDate]="returnDate2"
+  [livre]=selectedLivre (reservationConfirmed)="onReserverConfirmed(selectedLivre)" (close)="closeModal()">
 </app-reservation-modal2>

@@ -34,7 +34,7 @@ export class ReservationService {
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Reservation>(`${this.apiUrl}/find-by-id/${Reservation.getIdReservation}`,httpOptions);
+    return this.http.get<Reservation>(`${this.apiUrl}/find-by-id/${Reservation.idReservation}`,httpOptions);
   }
 
   findReservationByDateReservation(date: Date): Observable<Reservation> {
@@ -57,14 +57,14 @@ export class ReservationService {
     return this.http.get<Reservation []>(`${this.apiUrl}/find-by-livre-id/${id}`,httpOptions);
   }
 
-  findByMemberId(Reservation: Reservation): Observable<Reservation []> {
+  findByMemberId(id: number): Observable<Reservation []> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Reservation []>(`${this.apiUrl}/find-by-member-id/${Reservation.getMemberId}`,httpOptions);
+    return this.http.get<Reservation []>(`${this.apiUrl}/find-by-member-id/${id}`,httpOptions);
   }
 
 
@@ -75,34 +75,43 @@ export class ReservationService {
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Reservation>(`${this.apiUrl}/find-by-member-id-and-livre-id/${Reservation.getMemberId}/${Reservation.getLivreId}`,httpOptions);
+    return this.http.get<Reservation>(`${this.apiUrl}/find-by-member-id-and-livre-id/${Reservation.memberId}/${Reservation.livreId}`,httpOptions);
   }
 
 
 
   // Méthode pour créer un nouvel utilisateur
 // Méthode pour créer un nouvel utilisateur
-saveReservation(Reservation: Reservation): Observable<Reservation> {
+saveReservation(reservation: Reservation): Observable<Reservation> {
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
     })
   };
-  return this.http.post<Reservation>(`${this.apiUrl}/save`, Reservation,httpOptions);
+  const body = {
+    livreId: reservation.livreId,
+    memberId: reservation.memberId,
+  };
+  console.log( reservation.memberId);
+  console.log( reservation.livreId);
+
+  return this.http.post<Reservation>(`${this.apiUrl}/save`, body,httpOptions);
 }
 
   // Méthode pour mettre à jour un utilisateur
-  updateReservation(Reservation: Reservation): Observable<Reservation> {
+  updateReservation(reservation: Reservation): Observable<Reservation> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    console.log(this.loginService.getEmail());
-    console.log(this.loginService.getPassword());
-    return this.http.put<Reservation>(`${this.apiUrl}/update`, Reservation,httpOptions);
+    const body = {
+      livreId: reservation.livreId,
+      memberId: reservation.memberId,
+    };
+    return this.http.put<Reservation>(`${this.apiUrl}/update`, body,httpOptions);
   }
 
 
@@ -116,7 +125,7 @@ saveReservation(Reservation: Reservation): Observable<Reservation> {
     };
 
 
-    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Reservation.getIdReservation}`,httpOptions);
+    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Reservation.idReservation}`,httpOptions);
   }
 
 }

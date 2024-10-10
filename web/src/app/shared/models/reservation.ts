@@ -1,49 +1,49 @@
 export class Reservation {
-  private idReservation?: number;
-  private dateReservation: Date;
-  private memberId?: number;
-  private livreId?: number;
+  private _idReservation?: number;
+  private _dateReservation: Date;
+  private _memberId?: number;
+  private _livreId?: number;
 
   constructor(
-      dateReservation: Date,
       memberId?: number,
       livreId?: number,
+      dateReservation: Date = new Date() // Default to current date if not provided
   ) {
-      this.dateReservation = dateReservation;
-      this.memberId = memberId;
-      this.livreId = livreId;
+      this._memberId = memberId;
+      this._livreId = livreId;
+      this._dateReservation = dateReservation;
   }
 
   // Getters and Setters
-  getIdReservation(): number | undefined {
-      return this.idReservation;
+  get idReservation(): number | undefined {
+      return this._idReservation;
   }
 
-  setIdReservation(idReservation: number): void {
-      this.idReservation = idReservation;
+  set idReservation(idReservation: number) {
+      this._idReservation = idReservation;
   }
 
-  getDateReservation(): Date {
-      return this.dateReservation;
+  get dateReservation(): Date {
+      return this._dateReservation;
   }
 
-  setDateReservation(dateReservation: Date): void {
-      this.dateReservation = dateReservation;
+  set dateReservation(dateReservation: Date) {
+      this._dateReservation = dateReservation;
   }
 
-  getMemberId(): number | undefined {
-      return this.memberId;
+  get memberId(): number | undefined {
+      return this._memberId;
   }
 
-  setMemberId(memberId: number): void {
-      this.memberId = memberId;
+  set memberId(memberId: number | undefined) {
+      this._memberId = memberId;
   }
 
-  getLivreId(): number | undefined {
-      return this.livreId;
+  get livreId(): number | undefined {
+      return this._livreId;
   }
 
-  setLivreId(livreId: number): void {
-      this.livreId = livreId;
+  set livreId(livreId: number | undefined) {
+      this._livreId = livreId;
   }
 }

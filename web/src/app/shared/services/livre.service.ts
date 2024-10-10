@@ -36,6 +36,16 @@ export class LivreService {
     return this.http.get<Livre[]>(`${this.apiUrl}/find-by-statut/${statut}`,httpOptions);
   }
 
+  findAllByStatutAndType(statut :boolean,type:string): Observable<Livre[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
+      })
+    };
+    return this.http.get<Livre[]>(`${this.apiUrl}/find-by-statut-and-type/${statut}/${type}`,httpOptions);
+  }
+
   // Méthode pour obtenir un utilisateur par son ID
   findLivreById(Livre: Livre): Observable<Livre> {
     const httpOptions = {
@@ -87,7 +97,8 @@ export class LivreService {
       idAuther:this.loginService.getMember().idAuther, // Assign the author ID
       image:livre.image,
       statut:false,
-      etat:"DISPONIBLE"
+      etat:"DISPONIBLE",
+      type:livre.type
       // N'incluez pas idLivre et idAuther si vous ne souhaitez pas les envoyer
     };
 
@@ -105,7 +116,7 @@ export class LivreService {
     };
     const body = {
       idLivre: livre.idLivre,          // Titre du livre
-
+      type:livre.type,
       titre: livre.titre,          // Titre du livre
       nbrPage: livre.nbrPage,      // Nombre de pages
       description: livre.description, // Description du livre

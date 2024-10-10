@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.bibliotheque.bibliotheque.util.enumm.Etat;
+import org.bibliotheque.bibliotheque.util.enumm.Type;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +23,7 @@ public class LivreReqDTO {
 
     private int nbrPage;
     private Boolean statut;
+    private Type type;
 
     private String description;
 
