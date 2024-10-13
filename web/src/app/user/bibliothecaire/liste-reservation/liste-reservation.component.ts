@@ -129,26 +129,35 @@ export class ListeReservationComponent {
   totalPages(): number {
     return Math.ceil(this.totalItems / this.pageSize);
   }
-
-filterItems(): void {
-  if (this.searchQuery.trim()) {
-    const query: string = this.searchQuery.toLowerCase().trim();
-    this.filteredItems = this.items.filter(item =>
-      // Check all relevant properties in the item, ensuring they are defined and of type string
-      (item.member?.prenom && item.member.prenom.toLowerCase().includes(query)) ||
-      (item.member?.nom && item.member.nom.toLowerCase().includes(query)) ||
-      (item.livre?.titre && item.livre.titre.toLowerCase().includes(query)) ||
-      (item.livre?.auther?.prenom && item.livre.auther.prenom.toLowerCase().includes(query)) ||
-      (item.livre?.auther?.nom && item.livre.auther.nom.toLowerCase().includes(query)) ||
-      (item.member?.tel && String(item.member.tel).toLowerCase().includes(query)) || // Convert tel to string
-      (item.dateReservation && String(item.dateReservation).toLowerCase().includes(query)) || // Convert dateReservation to string
-      (item.dateEmprunt && String(item.dateEmprunt).toLowerCase().includes(query)) || // Convert dateEmprunt to string
-      (item.dateRetour && String(item.dateRetour).toLowerCase().includes(query)) // Convert dateRetour to string
-    );
-  } else {
-    this.applyPagination(); // Reapply pagination if the search query is empty
+  filterItems(): void {
+    if (this.searchQuery.trim()) {
+      const query: string = this.searchQuery.toLowerCase().trim();
+      this.filteredItems = this.items.filter(item =>
+        // Check all relevant properties in the item, ensuring they are defined and of type string
+        (item.member?.prenom && item.member.prenom.toLowerCase().includes(query)) ||
+        (item.member?.nom && item.member.nom.toLowerCase().includes(query)) ||
+        (item.livre?.titre && item.livre.titre.toLowerCase().includes(query)) ||
+        (item.livre?.auther?.prenom && item.livre.auther.prenom.toLowerCase().includes(query)) ||
+        (item.livre?.auther?.nom && item.livre.auther.nom.toLowerCase().includes(query)) ||
+        (item.member?.tel && String(item.member.tel).toLowerCase().includes(query)) ||
+        (item.dateReservation && this.formatDateForSearch(item.dateReservation).includes(query)) ||
+        (item.dateEmprunt && this.formatDateForSearch(item.dateEmprunt).includes(query)) ||
+        (item.dateRetour && this.formatDateForSearch(item.dateRetour).includes(query))
+      );
+    } else {
+      this.applyPagination(); // Reapply pagination if the search query is empty
+    }
   }
-}
+
+  // Helper function to format Date objects for comparison with search query
+  formatDateForSearch(date: Date): string {
+    const d = new Date(date); // Ensure it's a Date object
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
 
 
 

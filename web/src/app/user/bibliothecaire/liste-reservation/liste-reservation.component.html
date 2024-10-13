@@ -33,25 +33,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of filteredItems; let i = index"
-          [ngClass]="{'deleted-row': user.deletedAt}">
+      <tr *ngFor="let user of filteredItems; let i = index" [ngClass]="{'deleted-row': user.deletedAt}">
         <th scope="row">{{ (currentPage - 1) * pageSize + i + 1 }}</th>
         <td>{{ user.member?.prenom }} {{ user.member?.nom }}</td>
         <td>{{ user.livre?.titre }}</td>
         <td>{{ user.livre?.auther?.prenom }} {{ user.livre?.auther?.nom }}</td>
         <td>{{ user.member?.tel }}</td>
-        <td>{{ user.dateReservation || user.dateEmprunt | date:'dd-MM-yyyy' }}</td>
-        <td>{{ user.dateRetour || addDaysToDate(user.dateReservation, 21) | date:'dd-MM-yyyy' }}</td>
+        <!-- Ensure valid date format or fallback -->
+        <td>{{ user.dateReservation ? (user.dateReservation | date:'dd-MM-yyyy') : (user.dateEmprunt | date:'dd-MM-yyyy') }}</td>
+        <td>{{ user.dateRetour ? (user.dateRetour | date:'dd-MM-yyyy') : (addDaysToDate(user.dateReservation, 21) | date:'dd-MM-yyyy') }}</td>
         <td>{{ user.dateRetour ? 'Emprunter' : 'Réserver' }}</td>
         <td>
-          <button
-            (click)="supprimer(user)"
-            class="btn btn-danger"
-            [disabled]="user.deletedAt"> <!-- Disable if deleted -->
-            Supprimer
-          </button>
+          <button (click)="supprimer(user)" class="btn btn-danger" [disabled]="user.deletedAt">Supprimer</button>
         </td>
       </tr>
+
     </tbody>
 
   </table>
