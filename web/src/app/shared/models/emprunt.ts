@@ -1,14 +1,24 @@
+import { Livre } from "./livre";
+import { Member } from "./member";
+
 export class Emprunt {
   private _idEmprunt?: number;
   private _dateEmprunt: Date;
   private _dateRetour: Date;
   private _memberId?: number;
   private _livreId?: number;
+  deletedAt?:Date;
+  member?: Member;  // Add this line
+  livre?: Livre;
 
   constructor(
       memberId?: number,
       livreId?: number,
+      idEmprunt?: number,
+
+
   ) {
+    this._idEmprunt = idEmprunt;
       this._dateEmprunt = new Date(); // Current date
       // Set dateRetour to 10 days from today
       this._dateRetour = new Date(); // Current date

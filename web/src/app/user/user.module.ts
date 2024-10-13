@@ -16,6 +16,7 @@ import { AccepterLivreModule } from './bibliothecaire/accepter-livre/accepter-li
 import { AdminModule } from './admin/admin.module';
 import { ListeBibliothecaireModule } from './admin/liste-bibliothecaire-/liste-bibliothecaire-.module';
 import { HomeAdminModule } from './admin/home-admin/home-admin.module';
+import { ListeReservationModule } from './bibliothecaire/liste-reservation/liste-reservation.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { HomeAdminModule } from './admin/home-admin/home-admin.module';
     AjouterLivreModule,
     AccepterLivreModule,
     AdminModule,
-    ListeBibliothecaireModule
+    ListeBibliothecaireModule,
+    ListeReservationModule
   ]
 })
 export class UserModule { }

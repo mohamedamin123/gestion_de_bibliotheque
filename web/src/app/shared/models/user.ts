@@ -96,4 +96,8 @@ export class User {
   set dateDeNaissance(value: Date | undefined) {
     this._dateDeNaissance = value;
   }
+
+  get name(){
+    return this.prenom+" "+this._nom;
+  }
 }

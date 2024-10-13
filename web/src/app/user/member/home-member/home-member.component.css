@@ -116,13 +116,14 @@ a.active {
 .liste {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 20px;
+  justify-content: space-between; /* Ensures space between cards */
 }
 
 .livre {
-  flex: 1 1 calc(33.333% - 20px); /* Adjust to 3 cards per row */
-  margin: 10px;
+  flex: 1 1 calc(33.333% - 40px); /* Adjusted for larger margins */
+  margin: 20px; /* Increased margin to make items further apart */
+  max-width: calc(33.333% - 40px); /* Adjusted for the larger margin */
+  box-sizing: border-box; /* Ensure padding is included in width */
   display: flex;
   justify-content: center;
 }
@@ -133,12 +134,18 @@ a.active {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.2s;
+  width: 100%; /* Ensure the card takes up full space of parent .livre */
 }
 
 .card:hover {
   transform: scale(1.05);
 }
 
+.card-img-top {
+  width: 500px;
+  height: 200px;
+  object-fit: contain; /* Maintain aspect ratio */
+}
 .card-img-top {
   width: 500px;
   height: 200px;

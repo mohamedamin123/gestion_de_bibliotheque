@@ -1,14 +1,22 @@
+import { Livre } from "./livre";
+import { Member } from "./member";
+
 export class Reservation {
   private _idReservation?: number;
   private _dateReservation: Date;
   private _memberId?: number;
   private _livreId?: number;
+  member?: Member;  // Add this line
+  livre?: Livre;
+  deletedAt?:Date;
 
   constructor(
+      idReservation?: number,
       memberId?: number,
       livreId?: number,
       dateReservation: Date = new Date() // Default to current date if not provided
   ) {
+      this._idReservation = idReservation;
       this._memberId = memberId;
       this._livreId = livreId;
       this._dateReservation = dateReservation;

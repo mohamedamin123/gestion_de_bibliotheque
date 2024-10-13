@@ -28,7 +28,7 @@ export class ListeLivreComponent {
     searchQuery: string = ''; // To hold the search input
     filteredItems: Livre[] = []; // Filtered items
     items: Livre[] = []; // To hold the list of Authers
-    pageSize: number = 10; // Items per page
+    pageSize: number = 9; // Items per page
     currentPage: number = 1; // Current page
     totalItems: number = 0; // Total number of Authers
     etat: any;

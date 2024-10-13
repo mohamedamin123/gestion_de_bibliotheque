@@ -17,6 +17,7 @@ import { AjouterLivreComponent } from './user/auther/ajouter-livre/ajouter-livre
 import { AccepterLivreComponent } from './user/bibliothecaire/accepter-livre/accepter-livre.component';
 import { HomeAdminComponent } from './user/admin/home-admin/home-admin.component';
 import { ListeBibliothecaireComponent } from './user/admin/liste-bibliothecaire/liste-bibliothecaire.component';
+import { ListeReservationComponent } from './user/bibliothecaire/liste-reservation/liste-reservation.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -38,6 +39,8 @@ export const routes: Routes = [
   { path: 'liste-auther', component: ListeAutherComponent },
   { path: 'consulter-user/:role', component: ConsulterUserComponent },
   { path: 'consulter-user', component: ConsulterUserComponent },      // Route without role
+  { path: 'liste-reservation-and-emprunt', component: ListeReservationComponent },      // Route without role
+
 
 
   //AUTHER

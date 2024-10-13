@@ -16,14 +16,14 @@ export class ReservationService {
   constructor(private http: HttpClient,private loginService:LoginService) { }
 
   // Méthode pour obtenir tous les utilisateurs
-  findReservations(): Observable<Reservation[]> {
+  findAll(): Observable<Reservation[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Reservation[]>(this.apiUrl,httpOptions);
+    return this.http.get<Reservation[]>(this.apiUrl+"/find-all",httpOptions);
   }
 
   // Méthode pour obtenir un utilisateur par son ID
@@ -116,7 +116,7 @@ saveReservation(reservation: Reservation): Observable<Reservation> {
 
 
   // Méthode pour supprimer un utilisateur
-  deleteReservation(Reservation: Reservation): Observable<void> {
+  deleteReservation(id: number): Observable<void> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ saveReservation(reservation: Reservation): Observable<Reservation> {
     };
 
 
-    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Reservation.idReservation}`,httpOptions);
+    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${id}`,httpOptions);
   }
 
 }

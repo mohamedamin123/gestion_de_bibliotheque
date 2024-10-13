@@ -1,9 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 
 
 /* Style du conteneur principal */
@@ -69,16 +63,54 @@
 }
 
 /* Style pour le lien de déconnexion au clic */
-.admin-icon:last-child:active {
-  animation: logoutRotate 0.5s linear;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Style du conteneur principal */
+.admin-icon-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  justify-content: space-between; /* Distribute space evenly */
+  align-items: center;
+  margin: 50px;
+  padding: 20px;
+}
+
+/* Style des icônes */
+.admin-icon {
+  width: 200px; /* Fixed width for each icon */
+  height: 200px; /* Fixed height for each icon */
+  margin: 10px; /* Adjust margin to fit more icons */
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 4px solid transparent;
+}
+
+.admin-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style des images dans les icônes */
+.admin-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Style des labels */
 b {
-  margin-left: 220px ;
+  display: block; /* Ensure the label appears below the icon */
+  margin-top: 10px; /* Space between icon and label */
+  text-align: center; /* Center the text */
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px; /* Slightly smaller font size */
 }
-a {
-  text-decoration: none;
-}
-

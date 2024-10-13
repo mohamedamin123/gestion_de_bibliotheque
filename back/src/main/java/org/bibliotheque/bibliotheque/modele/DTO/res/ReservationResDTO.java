@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -14,10 +15,15 @@ import java.util.Date;
 
 public class ReservationResDTO {
 
+    private Integer idReservation;
+
     private Date dateReservation;
 
     private Integer memberId;
 
     private Integer livreId;
+
+    private LocalDateTime deletedAt;
+
 
 }

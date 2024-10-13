@@ -1,0 +1,81 @@
+<app-header></app-header>
+
+<div class="mt-2 text-center">
+  <h1 class="text-align-center mt-2">Liste de Reservation et Emprunt</h1>
+</div>
+
+<div class="container p-2">
+  <div class="input-group">
+    <div class="form-outline search">
+      <input
+        id="search-input"
+        type="search"
+        class="form-control"
+        placeholder="Recherche"
+        [(ngModel)]="searchQuery"
+        (input)="filterItems()"
+      />
+    </div>
+  </div>
+
+  <table class="table table-bordered" style="margin-top: 10px;">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nom de membre</th>
+        <th scope="col">Nom du livre</th>
+        <th scope="col">Auteur du livre</th>
+        <th scope="col">Téléphone du membre</th>
+        <th scope="col">Date de réservation ou emprunt</th>
+        <th scope="col">Date de retour</th>
+        <th scope="col">État</th>
+        <th scope="col">Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredItems; let i = index"
+          [ngClass]="{'deleted-row': user.deletedAt}">
+        <th scope="row">{{ (currentPage - 1) * pageSize + i + 1 }}</th>
+        <td>{{ user.member?.prenom }} {{ user.member?.nom }}</td>
+        <td>{{ user.livre?.titre }}</td>
+        <td>{{ user.livre?.auther?.prenom }} {{ user.livre?.auther?.nom }}</td>
+        <td>{{ user.member?.tel }}</td>
+        <td>{{ user.dateReservation || user.dateEmprunt | date:'dd-MM-yyyy' }}</td>
+        <td>{{ user.dateRetour || addDaysToDate(user.dateReservation, 21) | date:'dd-MM-yyyy' }}</td>
+        <td>{{ user.dateRetour ? 'Emprunter' : 'Réserver' }}</td>
+        <td>
+          <button
+            (click)="supprimer(user)"
+            class="btn btn-danger"
+            [disabled]="user.deletedAt"> <!-- Disable if deleted -->
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Précédent</a>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(totalPages()); let i = index"
+        [class.active]="currentPage === i + 1"
+      >
+        <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages()">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Suivant</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="text-center">
+  <button (click)="retour()" type="button" class="btn btn-danger">Retour</button>
+</div>

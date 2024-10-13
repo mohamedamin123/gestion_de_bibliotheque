@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -13,6 +14,7 @@ import java.util.Date;
 @SuperBuilder
 public class EmpruntResDTO {
 
+    private Integer idEmprunt;
 
     private Date dateEmprunt;
 
@@ -21,5 +23,8 @@ public class EmpruntResDTO {
     private Integer memberId;
 
     private Integer livreId;
+
+    private LocalDateTime deletedAt;
+
 
 }

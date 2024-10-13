@@ -1,4 +1,5 @@
 import { stat } from "fs";
+import { Auther } from "./auther";
 
 export class Livre {
   private _idLivre?: number;
@@ -15,6 +16,9 @@ export class Livre {
 
   private _idAuther?: number;
   private _hidden?: boolean; // Make it optional, as it's not a required field from the database.
+
+  auther?: Auther;
+
 
   constructor(
     titre: string,

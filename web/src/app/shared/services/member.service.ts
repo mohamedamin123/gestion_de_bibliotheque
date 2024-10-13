@@ -26,14 +26,14 @@ export class MemberService {
   }
 
   // Méthode pour obtenir un utilisateur par son ID
-  findMemberById(member: Member): Observable<Member> {
+  findMemberById(id: number): Observable<Member> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Member>(`${this.apiUrl}/find-by-id/${member.idMember}`,httpOptions);
+    return this.http.get<Member>(`${this.apiUrl}/find-by-id/${id}`,httpOptions);
   }
 
   findMemberByEmail(email: String): Observable<Member> {

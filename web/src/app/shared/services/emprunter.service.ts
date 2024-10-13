@@ -16,14 +16,14 @@ export class EmpruntService {
   constructor(private http: HttpClient,private loginService:LoginService) { }
 
   // Méthode pour obtenir tous les utilisateurs
-  findEmprunts(): Observable<Emprunt[]> {
+  findAll(): Observable<Emprunt[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(this.loginService.getEmail()+ ':' +this.loginService.getPassword())
       })
     };
-    return this.http.get<Emprunt[]>(this.apiUrl,httpOptions);
+    return this.http.get<Emprunt[]>(this.apiUrl+"/find-all",httpOptions);
   }
 
   // Méthode pour obtenir un utilisateur par son ID
@@ -124,7 +124,7 @@ saveEmprunt(emprunt: Emprunt): Observable<Emprunt> {
 
 
   // Méthode pour supprimer un utilisateur
-  deleteEmprunt(Emprunt: Emprunt): Observable<void> {
+  deleteEmprunt(id: number): Observable<void> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ saveEmprunt(emprunt: Emprunt): Observable<Emprunt> {
     };
 
 
-    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${Emprunt.idEmprunt}`,httpOptions);
+    return this.http.delete<void>(`${this.apiUrl}/delete-by-id/${id}`,httpOptions);
   }
 
 }
