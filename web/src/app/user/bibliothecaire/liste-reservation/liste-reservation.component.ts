@@ -12,6 +12,7 @@ import { Reservation } from '../../../shared/models/reservation';
 import { AutherService } from '../../../shared/services/auther.service';
 import { LivreService } from '../../../shared/services/livre.service';
 import { EmpruntService } from '../../../shared/services/emprunter.service';
+import { Livre } from '../../../shared/models/livre';
 
 @Component({
   selector: 'app-liste-reservation',
@@ -158,54 +159,119 @@ export class ListeReservationComponent {
     return `${day}-${month}-${year}`;
   }
 
-
-
-
   supprimer(member: any): void {
-
-    if(member.deletedAt) {
-
-    }
-    // Show confirmation dialog
-    const isConfirmed = window.confirm(`Êtes-vous sûr de vouloir supprimer cet élément ?`);
-    console.log(member);
-    if (isConfirmed) {
-      // Logic for deleting the member goes here
-      if (member.dateRetour) {
-        // Deleting an "emprunt"
-        this.empruntService.deleteEmprunt(member.idEmprunt).subscribe(
-          () => {
-            // Successful deletion
-            alert('L\'emprunt a été supprimé avec succès.');
-            console.log(`Emprunt ${member.name} deleted.`);
-          },
-          (error) => {
-            // Handle error here
-            alert('Une erreur s\'est produite lors de la suppression de l\'emprunt.');
-            console.error('Error deleting emprunt:', error);
-          }
-        );
-      } else {
-        // Deleting a "reservation"
-        this.reservationService.deleteReservation(member.idReservation).subscribe(
-          () => {
-            // Successful deletion
-            alert('La réservation a été supprimée avec succès.');
-            console.log(`Reservation ${member.name} deleted.`);
-          },
-          (error) => {
-            // Handle error here
-            alert('Une erreur s\'est produite lors de la suppression de la réservation.');
-            console.error('Error deleting reservation:', error);
-          }
-        );
-      }
-    } else {
-      // If not confirmed, log that deletion was cancelled
+    const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');
+    if (!isConfirmed) {
       console.log('Suppression annulée.');
+      return;
+    }
+
+    if (member.dateRetour) {
+      this.supprimerEmprunt(member);
+    } else {
+      this.supprimerReservation(member);
     }
   }
 
+  private supprimerEmprunt(member: any): void {
+    this.empruntService.deleteEmprunt(member.idEmprunt).subscribe(
+      () => {
+        this.reservationService.findByLivreId(member.livreId!).subscribe(
+          (reservations: Reservation[]) => {
+            if (reservations.length > 0) {
+              this.transformerReservationEnEmprunt(member, reservations[0]);
+            } else {
+              this.rendreLivreDisponible(member.livreId!);
+            }
+          },
+          (error) => console.error('Erreur lors de la recherche des réservations:', error)
+        );
+      },
+      (error) => {
+        console.error('Erreur lors de la suppression de l\'emprunt:', error);
+        alert('Une erreur s\'est produite lors de la suppression de l\'emprunt.');
+      }
+    );
+  }
+
+  private supprimerReservation(member: any): void {
+    this.reservationService.deleteReservation(member.idReservation).subscribe(
+      () => {
+        this.reservationService.findByLivreId(member.livreId!).subscribe(
+          (reservations: Reservation[]) => {
+            if (reservations.length === 0) {
+              this.verifierSiLivreDoitEtreDisponible(member.livreId!);
+            }
+          },
+          (error) => console.error('Erreur lors de la recherche des réservations:', error)
+        );
+      },
+      (error) => {
+        console.error('Erreur lors de la suppression de la réservation:', error);
+        alert('Une erreur s\'est produite lors de la suppression de la réservation.');
+      }
+    );
+  }
+  private transformerReservationEnEmprunt(member: any, firstReservation: Reservation): void {
+    if (firstReservation.idReservation) {
+      // Créer une instance d'Emprunt
+      const nouvelEmprunt = new Emprunt(
+        firstReservation.memberId, // Set memberId
+        member.livreId,
+      );
+
+      // Préserver les dates de la réservation
+      nouvelEmprunt.dateEmprunt = firstReservation.dateReservation;
+      this.empruntService.saveEmprunt(nouvelEmprunt).subscribe(
+        () => {
+          this.reservationService.deleteReservation(firstReservation.idReservation!).subscribe(
+            () => {
+              alert('Réservation transformée en emprunt avec succès.');
+            },
+            (error) => {
+              console.error('Erreur lors de la suppression de la réservation:', error);
+              alert('Erreur lors de la suppression de la réservation.');
+            }
+          );
+        },
+        (error) => {
+          console.error('Erreur lors de la création de l\'emprunt:', error);
+          alert('Erreur lors de la transformation de la réservation en emprunt.');
+        }
+      );
+    } else {
+      console.error('ID de la réservation invalide.');
+      alert('L\'ID de la réservation est invalide.');
+    }
+  }
+
+  private rendreLivreDisponible(livreId: number): void {
+    this.livreService.findLivreById(livreId).subscribe(
+      (livre: Livre) => {
+        livre.etat = 'DISPONIBLE';
+        this.livreService.updateLivre(livre).subscribe(
+          () => console.log('Livre rendu disponible.'),
+          (error) => console.error('Erreur lors de la mise à jour du livre:', error)
+        );
+      },
+      (error) => console.error('Erreur lors de la récupération du livre:', error)
+    );
+  }
+
+  private verifierSiLivreDoitEtreDisponible(livreId: number): void {
+    this.livreService.findLivreById(livreId).subscribe(
+      (livre: Livre) => {
+        if (livre.etat !== 'EMPRUNTÉ') {
+          livre.etat = 'DISPONIBLE';
+          this.livreService.updateLivre(livre).subscribe(
+            () => console.log('Livre marqué comme disponible.'),
+            (error) => console.error('Erreur lors de la mise à jour du livre:', error)
+          );
+        }
+      },
+      (error) => console.error('Erreur lors de la récupération du livre:', error)
+    );
+  }
 
 
   addDaysToDate(date: string | null | undefined, days: number): string | null {

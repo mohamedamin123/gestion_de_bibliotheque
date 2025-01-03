@@ -33,9 +33,13 @@ public class EmpruntServiceImpl implements EmpruntService{
     public EmpruntResDTO save(EmpruntReqDTO req) {
         // Définit la date d'emprunt à aujourd'hui
         Date today = new Date();
+        if(req.getDateEmprunt()!=null) {
+            today=req.getDateEmprunt();
+        }
         req.setDateEmprunt(today);
 
         // Calcule la date de retour en ajoutant 21 jours
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
         cal.add(Calendar.DAY_OF_YEAR, 21);
@@ -131,14 +135,16 @@ public class EmpruntServiceImpl implements EmpruntService{
     @Override
     public void delete(EmpruntReqDTO req) {
             Emprunt emp = this.repository.findById(req.getIdEmprunt()).get();
-            emp.setDeletedAt(LocalDateTime.now());
-            repository.save(emp);
+//            emp.setDeletedAt(LocalDateTime.now());
+//            repository.save(emp);
+        repository.delete(emp);
     }
 
     @Override
     public void deleteById(int id) {
-            Emprunt emp = this.repository.findById(id).get();
-            emp.setDeletedAt(LocalDateTime.now());
-            repository.save(emp);
+//            Emprunt emp = this.repository.findById(id).get();
+//            emp.setDeletedAt(LocalDateTime.now());
+//            repository.save(emp);
+        repository.deleteById(id);
     }
 }

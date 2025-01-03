@@ -56,6 +56,7 @@ public class ReservationServiceImpl implements ReservationService{
             }
         }
         Reservation emp = mapper.toEntity(req);
+        System.out.println(emp);
         repository.save(emp);
         return mapper.toRespDTO(emp);  
     }
@@ -129,14 +130,16 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public void delete(ReservationReqDTO req) {
             Reservation emp = this.repository.findById(req.getIdReservation()).get();
-            emp.setDeletedAt(LocalDateTime.now());
-            repository.save(emp);
+//            emp.setDeletedAt(LocalDateTime.now());
+//            repository.save(emp);
+        repository.delete(emp);
     }
 
     @Override
     public void deleteById(int id) {
             Reservation emp = this.repository.findById(id).get();
-            emp.setDeletedAt(LocalDateTime.now());
-            repository.save(emp);
+//            emp.setDeletedAt(LocalDateTime.now());
+//            repository.save(emp);
+        repository.deleteById(id);
     }
 }

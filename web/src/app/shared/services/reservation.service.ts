@@ -93,8 +93,7 @@ saveReservation(reservation: Reservation): Observable<Reservation> {
     livreId: reservation.livreId,
     memberId: reservation.memberId,
   };
-  console.log( reservation.memberId);
-  console.log( reservation.livreId);
+
 
   return this.http.post<Reservation>(`${this.apiUrl}/save`, body,httpOptions);
 }

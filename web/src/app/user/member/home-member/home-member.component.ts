@@ -258,8 +258,17 @@ export class HomeMemberComponent implements OnInit {
 
   onReserverConfirmed(livre: Livre) {
     if (livre && livre.idLivre!=undefined) {
-      const emp = new Reservation(this.loginService.getMember()?.idMember, livre.idLivre);
-      console.log("id "+livre.idLivre);
+      console.log("Livre object: ", livre);
+      const emp = new Reservation(
+        undefined, // idReservation (optional)
+        this.loginService.getMember()?.idMember, // memberId
+        livre.idLivre, // livreId
+        new Date() // dateReservation (defaults to current date)
+    );
+          console.log("id livre "+emp.livreId);
+      console.log("id member "+emp.memberId);
+
+
       this.reserverService.saveReservation(emp).subscribe(
         response => {
           livre.etat = "RESERVER"; // Update the book state
